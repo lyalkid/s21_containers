@@ -1,9 +1,9 @@
 CC = gcc
-SOURCE = array.cpp
+SOURCE = array.tpp
 STATIC_LIB = array.a
 
-OBJECTS = $(patsubst %.cpp,%.o, $(SOURCE))
-CFLAGS = -std=c++17 -pedantic -Wall -Werror -Wextra -pthread -lstdc++
+OBJECTS = $(patsubst %.tpp,%.o, $(SOURCE))
+CFLAGS = -std=c++17 -pedantic -Wall -Werror -Wextra -pthread -lstdc++ -lm
 
 TEST_OUT = test
 TEST_FILE = test_array.cpp
@@ -12,12 +12,12 @@ TESTFLAG = -lgtest -lgtest_main
 OS := $(shell uname -s)
 
 ifeq ($(OS), Linux)
-    TESTFLAG = -L/usr/local/lib -lgtest -lgtest_main -lsubunit -pthread -lstdc++
+    TESTFLAG = -L/usr/local/lib -pedantic  -Wall -Werror -Wextra -lgtest -lgtest_main -lsubunit -pthread -lstdc++ -lm
 else
-    TESTFLAG = -L/usr/local/lib -lgtest -lgtest_main -pthread -lstdc++
+    TESTFLAG = -L/usr/local/lib -lgtest -lgtest_main -pthread -lstdc++ -lm
 endif
 
-all: clean $(STATIC_LIB) test gcov_report
+all: clean test valgrind
 
 $(STATIC_LIB): $(OBJECTS)
 	@ar rcs $(STATIC_LIB) $^
@@ -25,17 +25,17 @@ $(STATIC_LIB): $(OBJECTS)
 	@echo "$@ created successfully."
 	@rm -rf *.o
 
-%.o: %.cpp
+%.o: %.tpp
 	@( $(CC) $(CFLAGS) -c $< -o $@ )
 
-test: clean $(STATIC_LIB)
-	@( $(CC) $(TESTFLAG) $(TEST_FILE) $(STATIC_LIB) -o $(TEST_OUT) )
+test: clean 
+	@( $(CC)  $(TEST_FILE) $(TESTFLAG) -o $(TEST_OUT) )
 	@( ./$(TEST_OUT) )
 	@echo "Test executed 10/10."
 
 clang:
-	@cp ../materials/linters/.clang-format .clang-format
-	@clang-format -i *.cpp *.h */*.cpp
+	@cp ../../materials/linters/.clang-format .clang-format
+	@clang-format -i *.tpp *.h */*.tpp
 	@rm -rf .clang-format
 	@echo "Don't panic! Clang is fine :)"
 
@@ -44,9 +44,9 @@ gcov_report: clean test
 	@( chmod +x ./gtest_test )
 	@( ./gtest_test )
 	@  mkdir -p coverage_info
-	@( lcov --capture --branch-coverage --directory . --output-file coverage_info/coverage.info --no-external --ignore-errors inconsistent,inconsistent)
+	@( lcov --capture --directory . --output-file coverage_info/coverage.info )
 	@( lcov --list coverage_info/coverage.info )
-	@( genhtml coverage_info/coverage.info --output-directory coverage_report )
+	@( genhtml coverage_info/coverage.info --output-directory coverage_report)
 	@( open coverage_report/index.html )
 	
 clean:
@@ -54,5 +54,5 @@ clean:
 	@echo "Old version deleted!"
 
 valgrind: test
-	@( valgrind --tool=memcheck --leak-check=yes ./test )
+	@( valgrind --tool=memcheck --leak-check=yes ./$(TEST_OUT) )
 	@echo "Valgrind completed."

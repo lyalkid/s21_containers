@@ -2,7 +2,7 @@ CC = gcc
 SOURCE = template.cpp
 
 OBJECTS = $(patsubst %.cpp,%.o, $(SOURCE))
-CFLAGS = -std=c++17 -pedantic -Wall -Werror -Wextra -pthread -lstdc++
+CFLAGS = -std=c++17 -lstdc++
 
 TEST_OUT = a.out
 
