@@ -35,7 +35,7 @@ test: clean
 
 clang:
 	@cp ../../materials/linters/.clang-format .clang-format
-	@clang-format -i *.tpp *.h */*.tpp
+	@clang-format -i *.tpp *.h *.cpp
 	@rm -rf .clang-format
 	@echo "Don't panic! Clang is fine :)"
 
