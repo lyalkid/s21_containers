@@ -10,7 +10,10 @@
 
 
 int main() {
-  std::array<int, 2094099> arr;
+  std::array<int, 3> arr = {1, 2, 3};
+  std::array<int, 3> arr1(arr);
+
   PRINT(arr[0]);
+  PRINT(arr1[0]);
   return 0;
 }
