@@ -1,6 +1,11 @@
 #include <gtest/gtest.h>
 
+#include <array>
+
 #include "array.h"
+
+#define PRINT(Expression) \
+  std::cout << "{" #Expression "}: " << (Expression) << std::endl;
 
 TEST(Array, EmptyArrayConstructor) {
   // s21::array<int, 0> zero; -невозможно при применении -pedantic(ISO)
@@ -107,6 +112,19 @@ TEST(Array, MoveConstructor) {
   EXPECT_EQ(sameCharMoved.size(), 5);
 }
 
+TEST(Array, IsMoveEmpty) {
+  std::array<int, 3> ClassicArr = {1, 2, 3};
+  std::array<int, 3> ClassicMove(std::move(ClassicArr));
+
+  s21::array<int, 3> S21Arr = {1, 2, 3};
+  s21::array<int, 3> S21Move(std::move(S21Arr));
+
+  EXPECT_EQ(ClassicArr[0], S21Arr[0]);
+  EXPECT_EQ(ClassicMove[0], S21Move[0]);
+  EXPECT_EQ(ClassicArr.size(), S21Arr.size());
+  EXPECT_EQ(ClassicMove.size(), S21Move.size());
+}
+
 TEST(Array, Begin) {
   int ptrArr[] = {1, 2, 3};
   s21::array<int, 3> arr = {1, 2, 3};
@@ -146,8 +164,7 @@ TEST(Array, End) {
   s21::array<int, 3> arr = {1, 2, 3};
   s21::array<int, 3> octArr = {010, 020, 030};
   s21::array<char, 3> chrArr = {'a', 'b', 'c'};
-  s21::array<unsigned int, 3> hexArr = {0x1, 0x2,
-                                        0x3};  // Исправлено от unsigned
+  s21::array<unsigned, 3> hexArr = {0x1, 0x2, 0x3};  // Исправлено от unsigned
   s21::array<double, 3> doubleArr = {1.0, 2.0, 3.0};
   s21::array<std::string, 2> strArr = {"Hey,", " you!"};
 
@@ -170,9 +187,9 @@ TEST(Array, End) {
   char* endChr = chrArr.end();
   EXPECT_EQ(endChr, chrArr.begin() + chrArr.size());
 
-  unsigned int* hexNum = hexArr.begin();
+  unsigned* hexNum = hexArr.begin();
   EXPECT_EQ(*hexNum, 0x1);
-  unsigned int* endHex = hexArr.end();
+  unsigned* endHex = hexArr.end();
   EXPECT_EQ(endHex, hexNum + hexArr.size());
 
   double* dbl = doubleArr.begin();
@@ -191,12 +208,18 @@ TEST(Array, Throw) {
   EXPECT_THROW(arr[10], std::out_of_range);
   const s21::array<int, 10>& constArr = arr;
   EXPECT_THROW(constArr[10], std::out_of_range);
+  const s21::array<int, 5> arr1 = {1, 2, 3, 4, 5};
+  EXPECT_THROW(arr1.at(10), std::out_of_range);
+  std::array<int, 5> arr2 = {1, 2, 3, 4, 5};
+  s21::array<int, 5> s21_arr = {1, 2, 3, 4, 5};
+  EXPECT_THROW(arr2.at(10), std::out_of_range);
+  EXPECT_THROW(s21_arr.at(10), std::out_of_range);
 }
 
 TEST(Array, Empty) {
   s21::array<int, 5> arr = {1, 2, 3, 4, 5};
   s21::array<int, 5> const arr1 =
-      {};  // в ориге важны ячуйки а не содержимое -__-
+      {};  // в ориге важны ячейки а не содержимое -__-
   // s21::array<int, 0> zero;
   EXPECT_FALSE(arr.empty());
   EXPECT_FALSE(arr1.empty());
@@ -212,9 +235,10 @@ TEST(Array, Size) {
 
 TEST(Array, MaxSize) {
   s21::array<int, 5> arr;
-  // The max size of an array with a specified size is the same as its declared
-  // size
+  s21::array<int, 5> const ConstArr;
+
   EXPECT_EQ(arr.max_size(), 5);
+  EXPECT_EQ(ConstArr.max_size(), 5);
 }
 
 TEST(Array, CopyAssignmentOperator) {
@@ -233,11 +257,48 @@ TEST(Array, MoveAssignmentOperator) {
   s21::array<int, 5> arr2 = {6, 7, 8, 9, 10};
 
   arr1 = std::move(arr2);
-  // TODO: EXPECT_EQ(arr2[0], 0); мне надо стирать?
 
   for (size_t i = 0; i < arr1.size(); i++) {
     EXPECT_EQ(arr1[i], static_cast<int>(i) + 6);
   }
+}
+
+TEST(Array, At) {
+  s21::array<int, 5> arr = {1, 2, 3, 4, 5};
+  const s21::array<int, 5> ConsrArr = {1, 2, 3, 4, 5};
+  EXPECT_EQ(arr.at(2), 3);
+  EXPECT_EQ(ConsrArr.at(2), 3);
+  EXPECT_EQ(ConsrArr.at(0), 1);
+  EXPECT_EQ(ConsrArr.at(4), 5);
+}
+
+TEST(Array, Data) {
+  s21::array<int, 3> Arr = {1, 2, 3};
+  std::array<int, 3> ClassicArr = {1, 2, 3};
+  const s21::array<int, 3> ConstArr = {1, 2, 3};
+  const std::array<int, 3> ConstClassicArr = {1, 2, 3};
+
+  int* Num = Arr.data();
+  int* ClassicNum = ClassicArr.data();
+  const int* ConstNum = ConstArr.data();
+  const int* ConstClassicNum = ConstClassicArr.data();
+
+  EXPECT_EQ(*Num, *ClassicNum);
+  EXPECT_EQ(*ConstNum, *ConstClassicNum);
+}
+
+TEST(Array, Front) {
+  s21::array<int, 5> arr = {1, 2, 3, 4, 5};
+  const s21::array<int, 5> ConstArr = {1, 2, 3, 4, 5};
+  EXPECT_EQ(arr.front(), 1);
+  EXPECT_EQ(ConstArr.front(), 1);
+}
+
+TEST(Array, Back) {
+  s21::array<int, 5> arr = {1, 2, 3, 4, 5};
+  const s21::array<int, 5> ConstArray = {1, 2, 3, 4, 5};
+  EXPECT_EQ(arr.back(), 5);
+  EXPECT_EQ(ConstArray.back(), 5);
 }
 
 TEST(Array, Swap) {
