@@ -113,16 +113,16 @@ TEST(Array, MoveConstructor) {
 }
 
 TEST(Array, IsMoveEmpty) {
-  std::array<int, 3> ClassicArr = {1, 2, 3};
-  std::array<int, 3> ClassicMove(std::move(ClassicArr));
+  std::array<int, 3> classicArr = {1, 2, 3};
+  std::array<int, 3> classicMove(std::move(classicArr));
 
-  s21::array<int, 3> S21Arr = {1, 2, 3};
-  s21::array<int, 3> S21Move(std::move(S21Arr));
+  s21::array<int, 3> s21Arr = {1, 2, 3};
+  s21::array<int, 3> s21Move(std::move(s21Arr));
 
-  EXPECT_EQ(ClassicArr[0], S21Arr[0]);
-  EXPECT_EQ(ClassicMove[0], S21Move[0]);
-  EXPECT_EQ(ClassicArr.size(), S21Arr.size());
-  EXPECT_EQ(ClassicMove.size(), S21Move.size());
+  EXPECT_EQ(classicArr[0], s21Arr[0]);
+  EXPECT_EQ(classicMove[0], s21Move[0]);
+  EXPECT_EQ(classicArr.size(), s21Arr.size());
+  EXPECT_EQ(classicMove.size(), s21Move.size());
 }
 
 TEST(Array, Begin) {
@@ -203,19 +203,6 @@ TEST(Array, End) {
   EXPECT_EQ(endStr, strArr.begin() + strArr.size());
 }
 
-TEST(Array, Throw) {
-  s21::array<int, 10> arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-  EXPECT_THROW(arr[10], std::out_of_range);
-  const s21::array<int, 10>& constArr = arr;
-  EXPECT_THROW(constArr[10], std::out_of_range);
-  const s21::array<int, 5> arr1 = {1, 2, 3, 4, 5};
-  EXPECT_THROW(arr1.at(10), std::out_of_range);
-  std::array<int, 5> arr2 = {1, 2, 3, 4, 5};
-  s21::array<int, 5> s21_arr = {1, 2, 3, 4, 5};
-  EXPECT_THROW(arr2.at(10), std::out_of_range);
-  EXPECT_THROW(s21_arr.at(10), std::out_of_range);
-}
-
 TEST(Array, Empty) {
   s21::array<int, 5> arr = {1, 2, 3, 4, 5};
   s21::array<int, 5> const arr1 =
@@ -235,70 +222,74 @@ TEST(Array, Size) {
 
 TEST(Array, MaxSize) {
   s21::array<int, 5> arr;
-  s21::array<int, 5> const ConstArr;
+  s21::array<int, 5> const constArr;
 
   EXPECT_EQ(arr.max_size(), 5);
-  EXPECT_EQ(ConstArr.max_size(), 5);
+  EXPECT_EQ(constArr.max_size(), 5);
 }
 
-TEST(Array, CopyAssignmentOperator) {
+TEST(Array, AssignmentOperator) {
   s21::array<int, 5> arr1 = {1, 2, 3, 4, 5};
   s21::array<int, 5> arr2 = {6, 7, 8, 9, 10};
+  s21::array<int, 5> arr3 = {1, 2, 3, 4, 5};
+  s21::array<int, 5> arr4 = {6, 7, 8, 9, 10};
 
   arr1 = arr2;
 
   for (size_t i = 0; i < arr1.size(); i++) {
     EXPECT_EQ(arr1[i], arr2[i]);
   }
-}
 
-TEST(Array, MoveAssignmentOperator) {
-  s21::array<int, 5> arr1 = {1, 2, 3, 4, 5};
-  s21::array<int, 5> arr2 = {6, 7, 8, 9, 10};
-
-  arr1 = std::move(arr2);
+  arr3 = std::move(arr4);
 
   for (size_t i = 0; i < arr1.size(); i++) {
-    EXPECT_EQ(arr1[i], static_cast<int>(i) + 6);
+    EXPECT_EQ(arr3[i], arr4[i]);
   }
 }
 
 TEST(Array, At) {
   s21::array<int, 5> arr = {1, 2, 3, 4, 5};
-  const s21::array<int, 5> ConsrArr = {1, 2, 3, 4, 5};
+  const s21::array<int, 5> constArr = {1, 2, 3, 4, 5};
+  arr.at(0) = 9;
+  EXPECT_EQ(arr.at(0), 9);
   EXPECT_EQ(arr.at(2), 3);
-  EXPECT_EQ(ConsrArr.at(2), 3);
-  EXPECT_EQ(ConsrArr.at(0), 1);
-  EXPECT_EQ(ConsrArr.at(4), 5);
+  EXPECT_EQ(constArr.at(2), 3);
+  EXPECT_EQ(constArr.at(0), 1);
+  EXPECT_EQ(constArr.at(4), 5);
 }
 
 TEST(Array, Data) {
-  s21::array<int, 3> Arr = {1, 2, 3};
-  std::array<int, 3> ClassicArr = {1, 2, 3};
-  const s21::array<int, 3> ConstArr = {1, 2, 3};
-  const std::array<int, 3> ConstClassicArr = {1, 2, 3};
+  s21::array<int, 3> arr = {1, 2, 3};
+  std::array<int, 3> classicArr = {1, 2, 3};
+  const s21::array<int, 3> constArr = {1, 2, 3};
+  const std::array<int, 3> constClassicArr = {1, 2, 3};
 
-  int* Num = Arr.data();
-  int* ClassicNum = ClassicArr.data();
-  const int* ConstNum = ConstArr.data();
-  const int* ConstClassicNum = ConstClassicArr.data();
+  int* num = arr.data();
+  int* classicNum = classicArr.data();
+  const int* constNum = constArr.data();
+  const int* constClassicNum = constClassicArr.data();
+  // change value with iterator
+  s21::array<int, 3> arrChange = {1, 2, 3};
+  int* numChange = arrChange.data();
+  *numChange = 10;
+  EXPECT_EQ(arrChange[0], 10);
 
-  EXPECT_EQ(*Num, *ClassicNum);
-  EXPECT_EQ(*ConstNum, *ConstClassicNum);
+  EXPECT_EQ(*num, *classicNum);
+  EXPECT_EQ(*constNum, *constClassicNum);
 }
 
 TEST(Array, Front) {
   s21::array<int, 5> arr = {1, 2, 3, 4, 5};
-  const s21::array<int, 5> ConstArr = {1, 2, 3, 4, 5};
+  const s21::array<int, 5> constArr = {1, 2, 3, 4, 5};
   EXPECT_EQ(arr.front(), 1);
-  EXPECT_EQ(ConstArr.front(), 1);
+  EXPECT_EQ(constArr.front(), 1);
 }
 
 TEST(Array, Back) {
   s21::array<int, 5> arr = {1, 2, 3, 4, 5};
-  const s21::array<int, 5> ConstArray = {1, 2, 3, 4, 5};
+  const s21::array<int, 5> constArray = {1, 2, 3, 4, 5};
   EXPECT_EQ(arr.back(), 5);
-  EXPECT_EQ(ConstArray.back(), 5);
+  EXPECT_EQ(constArray.back(), 5);
 }
 
 TEST(Array, Swap) {
@@ -323,4 +314,23 @@ TEST(Array, Fill) {
   for (size_t i = 0; i < arr.size(); i++) {
     EXPECT_EQ(arr[i], 10);
   }
+}
+
+TEST(Array, Throw) {
+  // operator[]
+  s21::array<int, 10> arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  EXPECT_THROW(arr[10], std::out_of_range);
+  const s21::array<int, 10>& constArr = arr;
+  EXPECT_THROW(constArr[10], std::out_of_range);
+  // at()
+  const s21::array<int, 5> arr1 = {1, 2, 3, 4, 5};
+  EXPECT_THROW(arr1.at(10), std::out_of_range);
+  EXPECT_THROW(arr1.at(11), std::out_of_range);
+
+  s21::array<int, 5> s21Arr = {1, 2, 3, 4, 5};
+  EXPECT_THROW(s21Arr.at(10), std::out_of_range);
+  EXPECT_THROW(s21Arr.at(11), std::out_of_range);
+  // check original
+  std::array<int, 5> arr2 = {1, 2, 3, 4, 5};
+  EXPECT_THROW(arr2.at(10), std::out_of_range);
 }

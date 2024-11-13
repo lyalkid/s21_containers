@@ -3,7 +3,7 @@ SOURCE = array.tpp
 STATIC_LIB = array.a
 
 OBJECTS = $(patsubst %.tpp,%.o, $(SOURCE))
-CFLAGS = -std=c++17 -pedantic -Wall -Werror -Wextra -pthread -lstdc++ -lm
+CFLAGS = -std=c++17 -O2 -pedantic -Wall -Werror -Wextra -pthread -lstdc++ -lm
 
 TEST_OUT = test
 TEST_FILE = test_array.cpp
@@ -40,13 +40,13 @@ clang:
 	@echo "Don't panic! Clang is fine :)"
 
 gcov_report: clean test
-	@( $(CC) $(CFLAGS) --coverage -o gtest_test  $(TEST_FILE) $(SOURCE) $(TESTFLAG))
+	@( $(CC) $(CFLAGS) $(TEST_FILE) --coverage -o gtest_test  $(TESTFLAG))
 	@( chmod +x ./gtest_test )
 	@( ./gtest_test )
 	@  mkdir -p coverage_info
-	@( lcov --capture --directory . --output-file coverage_info/coverage.info )
+	@( lcov --capture --directory . --rc lcov_branch_coverage=1 --output-file coverage_info/coverage.info )
 	@( lcov --list coverage_info/coverage.info )
-	@( genhtml coverage_info/coverage.info --output-directory coverage_report)
+	@( genhtml coverage_info/coverage.info --output-directory --rc lcov_branch_coverage=1 coverage_report)
 	@( open coverage_report/index.html )
 	
 clean:

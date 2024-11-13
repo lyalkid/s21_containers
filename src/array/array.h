@@ -18,37 +18,35 @@ class array {
   array(const array &a);
   array(array &&a);
   ~array();
-  array &operator=(const array &other);
-  array &operator=(array &&other);
+  array &operator=(const array &a) noexcept;
+  array &operator=(array &&a) noexcept;
   // Array Element access
   reference at(size_type pos);
   const_reference at(size_type pos) const;
   reference operator[](size_type pos);
   const_reference operator[](size_type pos) const;
-  const_reference front();
-  const_reference front() const;
-  const_reference back();
-  const_reference back() const;
-  iterator data();
-  const_iterator data() const;
+  const_reference front() noexcept;
+  const_reference front() const noexcept;
+  const_reference back() noexcept;
+  const_reference back() const noexcept;
+  iterator data() noexcept;
+  const_iterator data() const noexcept;
   // Array Iterators
   iterator begin() noexcept;
   iterator end() noexcept;
   // Array Capacity
-  bool empty();
-  bool empty() const;
-  size_type size() noexcept;
+  bool empty() const noexcept;
   size_type size() const noexcept;
-  size_type max_size();
-  size_type max_size() const;
+  size_type max_size() const noexcept;
   // Array Modifiers
-  void swap(array &other);
-  void fill(const_reference value);
+  void swap(array &other) noexcept;
+  void fill(const_reference value) noexcept;
 
  private:
-  T arr_[N];
-  std::size_t size_ = N;
+  value_type arr_[N];
+  size_type size_ = N;
 };
 }  // namespace s21
+
 #include "array.tpp"
 #endif  // CPP2_S21_CONTAINERS_1_SRC_ARRAY_ARRAY_H_
