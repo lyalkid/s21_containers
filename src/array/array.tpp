@@ -75,18 +75,8 @@ const T &array<T, N>::operator[](size_type pos) const {
 }
 
 template <class T, std::size_t N>
-const T &array<T, N>::front() noexcept {
-  return arr_[0];
-}
-
-template <class T, std::size_t N>
 const T &array<T, N>::front() const noexcept {
   return arr_[0];
-}
-
-template <class T, std::size_t N>
-const T &array<T, N>::back() noexcept {
-  return arr_[N - 1];
 }
 
 template <class T, std::size_t N>

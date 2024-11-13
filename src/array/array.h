@@ -25,9 +25,7 @@ class array {
   const_reference at(size_type pos) const;
   reference operator[](size_type pos);
   const_reference operator[](size_type pos) const;
-  const_reference front() noexcept;
   const_reference front() const noexcept;
-  const_reference back() noexcept;
   const_reference back() const noexcept;
   iterator data() noexcept;
   const_iterator data() const noexcept;
