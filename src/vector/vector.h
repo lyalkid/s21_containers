@@ -20,15 +20,14 @@ class vector {
   explicit vector(size_type n);
   ~vector() = default;
   vector(std::initializer_list<value_type> const &items);
-  vector(const vector &v);
-  vector(vector &&v);
-
-  operator=(const vector &v);
-  operator=(vector &&v);  //	assignment operator overload for moving
+  explicit vector(const vector &v);
+  explicit vector(vector &&v);
+  vector &operator=(const vector &v) noexcept;
+  vector &operator=(
+      vector &&v) noexcept;  //	assignment operator overload for moving
   // Vector Element access
-  /*
-  reference at(size_type pos)	access specified element with bounds checking
-  */
+  reference at(size_type pos);
+  const_reference at(size_type pos) const;
   reference operator[](size_type pos);
   const_reference operator[](size_type pos) const;
   /*
@@ -39,8 +38,6 @@ class vector {
   // Vector Iterators
   iterator begin() noexcept;  // returns an iterator to the beginning
   iterator end() noexcept;    // returns an iterator to the end
-  /*
-   */
   // Vector Capacity
   bool empty() const noexcept;
   size_type size() const noexcept;
@@ -53,12 +50,13 @@ class vector {
   */
   // Vector Modifiers
   /*
-  void clear()	clears the contents
-  iterator insert(iterator pos, const_reference value)	inserts elements into
-  concrete pos and returns the iterator that points to the new element void
-  erase(iterator pos)	erases element at pos void push_back(const_reference
-  value)	adds an element to the end void pop_back()	removes the last
-  element void swap(vector& other)	swaps the contents
+  void clear() clears the contents
+  noexplicit iterator insert(iterator pos, const_reference value)	inserts
+  elements into concrete pos and returns the iterator that points to the new
+  element void erase(iterator pos)erases element at pos void
+  push_back(const_reference value)	adds an element to the end void
+  pop_back()	removes the last element void swap(vector& other)	swaps
+  the contents
   */
  private:
   unique_ptr arr_;
@@ -103,7 +101,52 @@ s21::vector<T>::vector(s21::vector<T> &&v)
   }
 }
 
+template <class T>
+s21::vector<T> &s21::vector<T>::operator=(const s21::vector<T> &v) noexcept {
+  if (this != &v) {
+    arr_.reset();
+    arr_ = std::make_unique<T[]>(v.size());
+    std::copy(v.arr_.get(), v.arr_.get() + v.size_, arr_.get());
+    size_ = v.size_;
+    capacity_ = v.capacity_;
+  }
+  return *this;
+}
+
+template <class T>
+s21::vector<T> &s21::vector<T>::operator=(s21::vector<T> &&v) noexcept {
+  if (this != &v) {
+    // Не очищаем целевой вектор
+    arr_.reset();
+    arr_ = std::make_unique<T[]>(v.size());
+    // Перемещаем элементы
+    std::move(v.arr_.get(), v.arr_.get() + v.size_, arr_.get());
+    size_ = v.size_;
+    capacity_ = v.capacity_;
+    v.arr_.reset();
+    v.size_ = v.capacity_ = 0;
+  }
+
+  return *this;
+}
+
 // Vector Element access
+template <class T>
+T &s21::vector<T>::at(size_type pos) {
+  if (pos >= size_ || !size_) {
+    throw std::out_of_range("Vector out of bound(at)");
+  }
+  return arr_[pos];
+}
+
+template <class T>
+const T &s21::vector<T>::at(size_type pos) const {
+  if (pos >= size_ || !size_) {
+    throw std::out_of_range("Vector out of bound(at)");
+  }
+  return arr_[pos];
+}
+
 template <class T>
 T &s21::vector<T>::operator[](size_type pos) {
   if (pos >= size_) {
@@ -113,7 +156,7 @@ T &s21::vector<T>::operator[](size_type pos) {
 }
 
 template <class T>
-const T &s21::vector<T>::operator[](std::size_t pos) const {
+const T &s21::vector<T>::operator[](size_type pos) const {
   if (pos >= size_) {
     throw std::out_of_range("Index out of range (operator[])");
   }

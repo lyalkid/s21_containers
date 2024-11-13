@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
-
 #include <array>
-
 #include "array.h"
 
 #define PRINT(Expression) \

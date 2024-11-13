@@ -6,6 +6,7 @@ namespace s21 {
 template <typename T, std::size_t N>
 class array {
  public:
+  // Array Member type
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
@@ -15,8 +16,8 @@ class array {
   // Array Member functions
   array();
   array(std::initializer_list<value_type> const &items);
-  array(const array &a);
-  array(array &&a);
+  explicit array(const array &a);
+  explicit array(array &&a);
   ~array();
   array &operator=(const array &a) noexcept;
   array &operator=(array &&a) noexcept;
