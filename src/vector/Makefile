@@ -3,7 +3,7 @@ SOURCE = vector.tpp
 STATIC_LIB = vector.a
 
 OBJECTS = $(patsubst %.tpp,%.o, $(SOURCE))
-CFLAGS = -std=c++17 -O2 -pedantic -Wall -Werror -Wextra -pthread -lstdc++ -lm
+CFLAGS = -std=c++17 -O2 -pedantic -Wall -Werror -Wextra -pthread -lstdc++
 
 TEST_OUT = test
 TEST_FILE = test_vector.cpp
@@ -29,7 +29,7 @@ $(STATIC_LIB): $(OBJECTS)
 	@( $(CC) $(CFLAGS) -c $< -o $@ )
 
 test: clean 
-	@( $(CC)  $(TEST_FILE) $(TESTFLAG) -o $(TEST_OUT) )
+	@( $(CC)  $(TEST_FILE) $(TESTFLAG) -g -o $(TEST_OUT) )
 	@( ./$(TEST_OUT) )
 	@echo "Test executed 10/10."
 

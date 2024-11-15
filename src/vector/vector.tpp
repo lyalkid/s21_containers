@@ -3,9 +3,14 @@
 #include "vector.h"
 
 namespace s21 {
-// Vector Member functions
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-->>    Vector Member functions                                              >>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 template <class T>
 s21::vector<T>::vector() : arr_(nullptr), size_(0), capacity_(0) {}
+
+template <class T>
+inline s21::vector<T>::~vector() {}
 
 template <class T>
 s21::vector<T>::vector(size_type n)
@@ -42,8 +47,7 @@ s21::vector<T>::vector(s21::vector<T> &&v)
 template <class T>
 s21::vector<T> &s21::vector<T>::operator=(const s21::vector<T> &v) noexcept {
   if (this != &v) {
-    arr_.reset();
-    arr_ = nullptr;
+    clear();
     arr_ = std::make_unique<T[]>(v.size());
     std::copy(v.arr_.get(), v.arr_.get() + v.size_, arr_.get());
     size_ = v.size_;
@@ -55,20 +59,20 @@ s21::vector<T> &s21::vector<T>::operator=(const s21::vector<T> &v) noexcept {
 template <class T>
 s21::vector<T> &s21::vector<T>::operator=(s21::vector<T> &&v) noexcept {
   if (this != &v) {
-    arr_.reset();
-    arr_ = nullptr;
+    clear();
     arr_ = std::make_unique<T[]>(v.size());
     std::move(v.arr_.get(), v.arr_.get() + v.size_, arr_.get());
     size_ = v.size_;
     capacity_ = v.capacity_;
-    v.arr_.reset();
-    v.size_ = v.capacity_ = 0;
+    v.clear();
   }
 
   return *this;
 }
 
-// Vector Element access
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-->>    Vector Element access                                                >>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 template <class T>
 T &s21::vector<T>::at(size_type pos) {
   if (pos >= size_ || !size_) {
@@ -115,22 +119,22 @@ const T *s21::vector<T>::data() const noexcept {
   return arr_.get();
 }
 
-// Vector Iterators
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-->>    Vector Iterators                                                     >>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 template <class T>
-T *s21::vector<T>::begin() noexcept {
+T *s21::vector<T>::begin() const noexcept {
   return arr_.get();
 }
 
 template <class T>
 T *s21::vector<T>::end() const noexcept {
-  // if (size_ == 0) {
-  //   return arr_.get();
-  // } else {
   return arr_.get() + size_;
-  // }
-  // TODO: проверить на маке
 }
-// Vector Capacity
+
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-->>    Vector Capacity                                                      >>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 template <class T>
 bool s21::vector<T>::empty() const noexcept {
   return size_ > 0 ? false : true;
@@ -155,8 +159,7 @@ void s21::vector<T>::reserve(size_type size) {
   }
   std::unique_ptr<T[]> new_arr = std::make_unique<T[]>(size);
   std::copy(arr_.get(), arr_.get() + std::min(size, capacity_), new_arr.get());
-  arr_.reset();
-  arr_ = nullptr;
+  clear();
   arr_ = std::move(new_arr);
   size_ = std::exchange(capacity_, size);
 }
@@ -171,13 +174,15 @@ void s21::vector<T>::shrink_to_fit() noexcept {
   if (size_ < capacity_) {
     std::unique_ptr<T[]> new_arr = std::make_unique<T[]>(size_);
     std::copy(arr_.get(), arr_.get() + size_, new_arr.get());
-    arr_.reset();
-    arr_ = nullptr;
+    clear();
     arr_ = std::move(new_arr);
     capacity_ = size_;
   }
 }
-// Vector Modifiers
+
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-->>    Vector Modifiers                                                     >>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 template <class T>
 void s21::vector<T>::clear() noexcept {
   arr_.reset();
@@ -188,12 +193,24 @@ void s21::vector<T>::clear() noexcept {
 template <class T>
 T *s21::vector<T>::insert(iterator pos, const_reference value) noexcept {
   size_type index = pos - begin();
+  vector<value_type> tmp(size_ + 1);
 
-  if (size_ == capacity_) {
-    reserve(capacity_ + 1);
-    size_++;
+  for (size_type i = 0; i < tmp.size_; ++i) {
+    if (i < index) {
+      tmp.arr_[i] = arr_[i];
+    }
+    if (i == index) {
+      if (i != 0) {
+        tmp.arr_[i] = arr_[i - 1];
+      }
+      tmp.arr_[i] = value;
+    }
+    if (i > index && i != 0) {
+      tmp.arr_[i] = arr_[i - 1];
+    }
   }
-  arr_[index] = value;
+  *this = std::move(tmp);
+  tmp.clear();
   return arr_.get() + index;
 }
 
@@ -213,7 +230,6 @@ void s21::vector<T>::push_back(const_reference value) noexcept {
     reserve(capacity_ ? capacity_ + 1 : 1);
   }
   arr_[size_++] = value;
-  // TODO:пока непонятно что делать с nullptr
 }
 
 template <class T>
@@ -229,5 +245,28 @@ void s21::vector<T>::swap(s21::vector<T> &other) noexcept {
   std::swap(size_, other.size_);
   std::swap(capacity_, other.capacity_);
 }
+
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-->>    Insert Many                                                          >>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+template <class T>
+template <class... Args>
+T *s21::vector<T>::insert_many(const_iterator pos, Args &&...args) noexcept {
+  vector<value_type> tmpVector{args...};
+  iterator index = (iterator)pos;
+  for (size_type i = 0; i < tmpVector.size(); i++) {
+    index = insert(index, tmpVector[i]);
+    index++;
+  }
+  return index;
+}
+
+template <class T>
+template <class... Args>
+void s21::vector<T>::insert_many_back(Args &&...args) noexcept {
+  const_iterator index = const_iterator(end());
+  insert_many(index, args...);
+}
 }  // namespace s21
+
 #endif  // CPP2_S21_CONTAINERS_1_SRC_VECTOR_VECTOR_TPP_

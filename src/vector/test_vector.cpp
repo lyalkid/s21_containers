@@ -4,9 +4,6 @@
 
 #include "vector.h"
 
-#define PRINT(Expression) \
-  std::cout << "{" #Expression "}: " << (Expression) << std::endl;
-
 TEST(Vector, EmptyConstuctor) {
   s21::vector<int> vector;
   EXPECT_TRUE(vector.empty());
@@ -181,25 +178,26 @@ TEST(Vector, At) {
 TEST(Vector, IndexOperator) {
   s21::vector<int> vector1 = {1, 2, 3};
   const s21::vector<int> vector2 = {1, 2, 3};
-  std::vector<int> vectorReal1 = {1, 2, 3};
-  const std::vector<int> vectorReal2 = {1, 2, 3};
-  std::size_t max = vectorReal1.max_size() + 2;
+  // std::vector<int> vectorReal1 = {1, 2, 3};
+  // const std::vector<int> vectorReal2 = {1, 2, 3}; подтекает в valgrind
+  std::size_t max = vector1.max_size() - 1;
 
-  EXPECT_EQ(vectorReal1[5], 0);
-  EXPECT_EQ(vector1[5], 0);
+  // EXPECT_EQ(vectorReal1[5], 0);
+  // EXPECT_EQ(vector1[5], 0); valgrind ругается так как это значение out of
+  // bound
 
-  EXPECT_NO_THROW(vectorReal1[5]);
-  EXPECT_NO_THROW(vectorReal2[5]);
+  // EXPECT_NO_THROW(vectorReal1[5]);
+  // EXPECT_NO_THROW(vectorReal2[5]);
 
-  EXPECT_NO_THROW(vectorReal1[max]);
-  EXPECT_NO_THROW(vectorReal2[max]);
+  // EXPECT_NO_THROW(vectorReal1[max]);
+  // EXPECT_NO_THROW(vectorReal2[max]);
 
   EXPECT_NO_THROW(vector1[max]);
   EXPECT_NO_THROW(vector2[max]);
 
-  // EXPECT_THROW(vector1[4], std::out_of_range);
-  //  EXPECT_THROW(vector2[4], std::out_of_range);
   EXPECT_EQ(vector2[2], 3);
+  // EXPECT_EQ(vector2[max], max); valgrind ругается так как это значение out of
+  // bound теперь как и в ориге
 }
 
 TEST(Vector, Front) {
@@ -255,20 +253,9 @@ TEST(Vector, Begin) {
 
 TEST(Vector, End) {
   s21::vector<int> v = {1, 2, 3, 4, 5};
-  // std::vector<int> real = {1, 2, 3, 4, 5};
 
-  auto it = v.end();
-  // auto re = real.end();
-  EXPECT_EQ(*it, 1074266112);
-
-  // *it = 10;
-  // EXPECT_EQ(v[4], 5);
-
-  // auto it2 = v.end();
-  // EXPECT_EQ(it2 - 4, v.begin());
-
-  //не ясно почему v.end() в ориге выходит за границы массива
-  // TODO: проверить на маке v.end();
+  auto it = v.end() - 1;
+  EXPECT_EQ(*it, 5);
 
   s21::vector<char> zero;
   EXPECT_EQ(zero.end(), zero.begin());
@@ -412,18 +399,15 @@ TEST(Vector, PushBack) {
   EXPECT_EQ(vec.size(), 1u);
   EXPECT_GT(vec.capacity(), 0u);
 
-  // bool has_nullptr = false;
-  // for (auto& element : vec) {
-  //   if (element == nullptr) {
-  //     has_nullptr = true;
-  //     break;
-  //   }
-  // }
+  bool has_nullptr = false;
+  for (auto &element : vec) {
+    if (element == nullptr) {
+      has_nullptr = true;
+      break;
+    }
+  }
 
-  // EXPECT_TRUE(has_nullptr);
-
-  //не могу понять почему не проходит
-  // TODO: Проверить nullptr в умных указателях
+  EXPECT_TRUE(has_nullptr);
 
   s21::vector<int> v = {1, 2, 3};
   v.push_back(4);
@@ -439,8 +423,7 @@ TEST(Vector, PopBack) {
 
   s21::vector<int> v;
   v.pop_back();
-  EXPECT_TRUE(v.empty());  // TODO: проверить на маке, в ориге происходит выход
-                           // за пределы массива
+  EXPECT_TRUE(v.empty());
 }
 
 TEST(Vector, Swap) {
@@ -468,4 +451,49 @@ TEST(Vector, Swap) {
   EXPECT_EQ(v3[0], 1);
   EXPECT_EQ(v4.size(), 0);
   EXPECT_TRUE(v4.empty());
+}
+
+TEST(Vector, InsertMany) {
+  s21::vector<int> vec = {1, 2, 3, 7, 8};
+  s21::vector<int>::const_iterator pos = vec.begin() + 3;
+
+  vec.insert_many(pos, 4, 5, 6);
+
+  EXPECT_EQ(vec.size(), 8);
+
+  for (size_t i = 0; i < vec.size(); i++) {
+    EXPECT_EQ(vec[i], i + 1);
+  }
+
+  s21::vector<std::string> v2 = {"one", "two", "three"};
+  v2.insert_many(v2.begin() + 2, "four", "five", "six");
+
+  EXPECT_EQ(v2.size(), 6);
+
+  EXPECT_EQ(v2[0], "one");
+  EXPECT_EQ(v2[1], "two");
+  EXPECT_EQ(v2[2], "four");
+  EXPECT_EQ(v2[3], "five");
+  EXPECT_EQ(v2[4], "six");
+  EXPECT_EQ(v2[5], "three");
+}
+
+TEST(Vector, InsertManyBack) {
+  s21::vector<int> vec = {1, 2, 3};
+  vec.insert_many_back(4, 5, 6);
+
+  EXPECT_EQ(vec.size(), 6);
+  for (size_t i = 0; i < vec.size(); i++) {
+    EXPECT_EQ(vec[i], i + 1);
+  }
+
+  s21::vector<std::pair<int, char>> v2 = {{1, 'a'}, {2, 'b'}};
+  v2.insert_many(v2.begin() + 1, std::make_pair(3, 'c'),
+                 std::make_pair(4, 'd'));
+
+  EXPECT_EQ(v2.size(), 4);
+  EXPECT_TRUE(v2[0] == std::pair(1, 'a'));
+  EXPECT_TRUE(v2[1] == std::pair(3, 'c'));
+  EXPECT_TRUE(v2[2] == std::pair(4, 'd'));
+  EXPECT_TRUE(v2[3] == std::pair(2, 'b'));
 }

@@ -15,15 +15,17 @@ class vector {
   using iterator = T *;
   using const_iterator = const T *;
   using size_type = std::size_t;
+
   // Vector Member functions
   vector();
   explicit vector(size_type n);
-  ~vector() = default;
+  ~vector();
   vector(std::initializer_list<value_type> const &items);
   vector(const vector &v);
   vector(vector &&v);
   vector &operator=(const vector &v) noexcept;
   vector &operator=(vector &&v) noexcept;
+
   // Vector Element access
   reference at(size_type pos);
   const_reference at(size_type pos) const;
@@ -33,9 +35,11 @@ class vector {
   const_reference back() const noexcept;
   iterator data() noexcept;
   const_iterator data() const noexcept;
+
   // Vector Iterators
-  iterator begin() noexcept;
+  iterator begin() const noexcept;
   iterator end() const noexcept;
+
   // Vector Capacity
   bool empty() const noexcept;
   size_type size() const noexcept;
@@ -43,6 +47,7 @@ class vector {
   void reserve(size_type size);
   size_type capacity() const noexcept;
   void shrink_to_fit() noexcept;
+
   // Vector Modifiers
   void clear() noexcept;
   iterator insert(iterator pos, const_reference value) noexcept;
@@ -50,6 +55,7 @@ class vector {
   void push_back(const_reference value) noexcept;
   void pop_back() noexcept;
   void swap(vector &other) noexcept;
+
   // Insert Many
   template <typename... Args>
   iterator insert_many(const_iterator pos, Args &&...args) noexcept;
@@ -62,14 +68,5 @@ class vector {
 };
 }  // namespace s21
 
-namespace s21 {
-template <class T>
-template <class... Args>
-T *s21::vector<T>::insert_many(const_iterator pos, Args &&...args) noexcept {}
-
-template <class T>
-template <class... Args>
-void s21::vector<T>::insert_many_back(Args &&...args) noexcept {}
-}  // namespace s21
 #include "vector.tpp"
 #endif  // CPP2_S21_CONTAINERS_1_SRC_VECTOR_VECTOR_H_
