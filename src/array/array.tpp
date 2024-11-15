@@ -3,7 +3,9 @@
 #include "array.h"
 
 namespace s21 {
-// Array Member functions
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-->>    Array Member functions                                               >>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 template <class T, std::size_t N>
 array<T, N>::array() : size_(N) {}
 
@@ -41,7 +43,9 @@ array<T, N> &array<T, N>::operator=(array<T, N> &&a) noexcept {
   return *this;
 }
 
-// Array Element access
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-->>    Array Element access                                                 >>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 template <class T, std::size_t N>
 T &array<T, N>::at(size_type pos) {
   if (pos >= size_) {
@@ -60,17 +64,11 @@ const T &array<T, N>::at(size_type pos) const {
 
 template <class T, std::size_t N>
 T &array<T, N>::operator[](size_type pos) {
-  if (pos >= size_) {
-    throw std::out_of_range("Array is out of bound (operator[])");
-  }
   return arr_[pos];
 }
 
 template <class T, std::size_t N>
 const T &array<T, N>::operator[](size_type pos) const {
-  if (pos >= size_) {
-    throw std::out_of_range("Array is out of bound operator[]");
-  }
   return arr_[pos];
 }
 
@@ -94,7 +92,9 @@ const T *array<T, N>::data() const noexcept {
   return arr_;
 }
 
-// Array Iterators
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-->>    Array Iterators                                                      >>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 template <class T, std::size_t N>
 T *array<T, N>::begin() noexcept {
   return arr_;
@@ -105,7 +105,9 @@ T *array<T, N>::end() noexcept {
   return arr_ + size_;
 }
 
-// Array Capacity
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+-->>    Array Capacity                                                       >>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 template <class T, std::size_t N>
 bool array<T, N>::empty() const noexcept {
   return size_ == 0 ? true : false;

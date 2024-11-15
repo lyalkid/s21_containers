@@ -1,9 +1,8 @@
 #include <gtest/gtest.h>
-#include <array>
-#include "array.h"
 
-#define PRINT(Expression) \
-  std::cout << "{" #Expression "}: " << (Expression) << std::endl;
+#include <array>
+
+#include "array.h"
 
 TEST(Array, EmptyArrayConstructor) {
   // s21::array<int, 0> zero; -невозможно при применении -pedantic(ISO)
@@ -100,10 +99,6 @@ TEST(Array, MoveConstructor) {
   s21::array<std::string, 3> strMoved(std::move(strArr));
   EXPECT_EQ(strMoved.size(), 3);
   EXPECT_EQ(strMoved[0], "Hello");
-
-  // s21::array<int, 0> emptyArr;
-  // s21::array<int, 0> emptyMoved(std::move(emptyArr));
-  // EXPECT_EQ(emptyMoved.size(), 0);
 
   s21::array<char, 5> sameCharArr = {'a', 'a', 'a', 'a', 'a'};
   s21::array<char, 5> sameCharMoved(std::move(sameCharArr));
@@ -315,11 +310,7 @@ TEST(Array, Fill) {
 }
 
 TEST(Array, Throw) {
-  // operator[]
-  s21::array<int, 10> arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-  EXPECT_THROW(arr[10], std::out_of_range);
-  const s21::array<int, 10>& constArr = arr;
-  EXPECT_THROW(constArr[10], std::out_of_range);
+  // operator[] throw nothing in orig
   // at()
   const s21::array<int, 5> arr1 = {1, 2, 3, 4, 5};
   EXPECT_THROW(arr1.at(10), std::out_of_range);
