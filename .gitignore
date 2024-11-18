@@ -14,6 +14,9 @@ cmake-build-debug
 *.map
 *.exp
 
+.vscode
+.idea
+
 # Precompiled Headers
 *.gch
 *.pch
