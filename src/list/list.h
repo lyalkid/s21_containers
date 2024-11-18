@@ -45,7 +45,7 @@ public:
 //    void erase(iterator pos);
     void push_back(const_reference value);
     void pop_back();
-    void push_front(const_reference);
+    void push_front(const_reference value);
     void pop_front();
     void swap(list& other);
     void merge(list& other);
@@ -55,6 +55,7 @@ public:
     void sort();
 
 private:
+    value_type list_;
     size_type size_;
     class Node{
     public:
