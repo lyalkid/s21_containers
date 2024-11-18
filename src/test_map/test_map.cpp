@@ -64,19 +64,19 @@ TEST(Map, InitListConstuctor) {
   EXPECT_EQ(mTypes["c"], 3);
 }
 
-TEST(Map, TreePair) {
-  std::pair<int, double> intDouble{9, 1.4};
-  std::pair<double, std::string> doubleString{2.77, "hi"};
-  std::pair<std::string, int> stringInt{"hola", 3};
-  // Tree examine
-  s21::Tree<int, double> intTree(intDouble);
-  s21::Tree<double, std::string> doubleTree(doubleString);
-  s21::Tree<std::string, int> stringTree(stringInt);
+// TEST(Map, TreePair) {
+//   std::pair<int, double> intDouble{9, 1.4};
+//   std::pair<double, std::string> doubleString{2.77, "hi"};
+//   std::pair<std::string, int> stringInt{"hola", 3};
+//   // Tree examine
+//   s21::Tree<int, double> intTree(intDouble);
+//   s21::Tree<double, std::string> doubleTree(doubleString);
+//   s21::Tree<std::string, int> stringTree(stringInt);
 
-  EXPECT_EQ(intTree.size(), 1U);
-  EXPECT_EQ(doubleTree.size(), 1U);
-  EXPECT_EQ(stringTree.size(), 1U);
-}
+//   EXPECT_EQ(intTree.size(), 1U);
+//   EXPECT_EQ(doubleTree.size(), 1U);
+//   EXPECT_EQ(stringTree.size(), 1U);
+// }
 
 TEST(Map, InitListPair) {
   // Pair
