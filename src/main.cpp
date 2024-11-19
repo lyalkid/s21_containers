@@ -1,13 +1,15 @@
+#include "map/bst.h"
+#include "map/bst.cpp"
 #include "map/node.h"
+#include "map"
 #include <iostream>
 
 
 
-int main(){
+int main()
+{
 
-    Node<int> bst=Node<int>();
-    bst.set_value(9);
-    
+    bst<int> bst(5);
 
 }
 
