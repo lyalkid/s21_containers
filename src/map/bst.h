@@ -15,6 +15,7 @@ class bst {
   ~bst();
 
 };
+#include "bst.tpp"
 
 
 #endif // BST_H

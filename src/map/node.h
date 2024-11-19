@@ -21,4 +21,6 @@ class Node {
 
   ~Node();
 };
+
+#include "node.tpp"
 #endif
