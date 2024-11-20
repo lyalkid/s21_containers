@@ -16,6 +16,8 @@
 - operator=(map &&m)
     +
 - T& operator[](const Key& key) - !!! для проверки значений !!!
+    +
+- size()
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
 TEST(Map, EmptyConstructor) {
@@ -298,9 +300,160 @@ TEST(Map, AccessElement) {
 }
 
 /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
--->>   Map Iterators                                                         >>
+-->>   Map Iterators  
+- iterator begin()
+- iterator end()                                                       
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
+TEST(Map, Begin) {
+  std::pair<int, double> intDouble1{9, 1.4};
+  std::pair<int, double> intDouble2{15, 1.456};
+  std::pair<int, double> intDouble3{7, 151.4};
+  std::pair<int, double> intDouble4{23, 2.77};
+  std::pair<int, double> intDouble5{2, 3.9};
+
+  s21::map<int, double> intDoubleMap = {intDouble1, intDouble2, intDouble3, intDouble4, intDouble5};
+
+  auto minValue1 = intDoubleMap.begin();
+
+  EXPECT_EQ(minValue1->first, 2);
+
+  std::pair<double, std::string> doubleString1{11.4, "hello"};
+  std::pair<double, std::string> doubleString2{2.770001, "hee"};
+  std::pair<double, std::string> doubleString3{3.901, "hola"};
+  std::pair<double, std::string> doubleString4{2.77, "hi"};
+  std::pair<double, std::string> doubleString5{3.9, "hee-hee"};
+
+  s21::map<double, std::string> doubleString = {doubleString1, doubleString2, doubleString3, doubleString4, doubleString5};
+
+  auto minValue2 = doubleString.begin();
+
+  EXPECT_EQ(minValue2->first, 2.77);
+
+  std::pair<std::string, int> stringInt1{"hello", 1};
+  std::pair<std::string, int> stringInt2{"hi", 2};
+  std::pair<std::string, int> stringInt3{"hi-hi", 2};
+  std::pair<std::string, int> stringInt4{"hola", 3};
+  std::pair<std::string, int> stringInt5{"hello, there", 1};
+
+  s21::map<std::string, int> stringIntMap = {stringInt1, stringInt2, stringInt3, stringInt4, stringInt5};
+
+  auto minValue3 = stringIntMap.begin();
+
+  EXPECT_EQ(minValue3->first, "hello");
+
+  s21::map<int, double> s21Map;
+  EXPECT_THROW(s21Map.begin(), std::out_of_range);
+
+  std::pair<double, std::string> pair1{1.4, "hello"};
+  s21::map<double, std::string> doubleStringMap2 = {pair1, pair1};
+
+  auto minValue4 = doubleStringMap2.begin();
+
+  EXPECT_EQ(minValue4->first, 1.4);
+  EXPECT_EQ(minValue4->second, "hello");
+
+  std::pair<std::string, int> stringIntSame1{"hello", 1};
+  std::pair<std::string, int> stringIntSame2{"hello", 2};
+  std::pair<std::string, int> stringIntSame3{"hello", 45};
+
+  s21::map<std::string, int> stringIntMap2 = {stringIntSame1, stringIntSame2, stringIntSame3};
+
+  auto minValue5 = stringIntMap2.begin();
+
+  EXPECT_EQ(minValue5->first, "hello");
+  EXPECT_EQ(minValue5->second, 1);
+}
+
+TEST(Map, End) {
+  std::pair<int, double> intDouble1{9, 1.4};
+  std::pair<int, double> intDouble2{15, 1.456};
+  std::pair<int, double> intDouble3{7, 151.4};
+  std::pair<int, double> intDouble4{23, 2.77};
+  std::pair<int, double> intDouble5{2, 3.9};
+
+  s21::map<int, double> intDoubleMap = {intDouble1, intDouble2, intDouble3, intDouble4, intDouble5};
+
+  auto maxValue = intDoubleMap.end();
+
+  EXPECT_EQ(maxValue->first, 23);
+
+  std::pair<double, std::string> doubleString1{11.4, "hello"};
+  std::pair<double, std::string> doubleString2{2.770001, "hee"};
+  std::pair<double, std::string> doubleString3{3.901, "hola"};
+  std::pair<double, std::string> doubleString4{233.77, "hi"};
+  std::pair<double, std::string> doubleString5{3.9, "hee-hee"};
+
+  s21::map<double, std::string> doubleString = {doubleString1, doubleString2, doubleString3, doubleString4, doubleString5};
+
+  auto maxValue2 = doubleString.end();
+
+  EXPECT_EQ(maxValue2->first, 233.77);
+
+  std::pair<std::string, int> stringInt1{"hello", 1};
+  std::pair<std::string, int> stringInt2{"hi", 2};
+  std::pair<std::string, int> stringInt3{"hehehehehehe", 2};
+  std::pair<std::string, int> stringInt4{"hola", 3};
+  std::pair<std::string, int> stringInt5{"hello, there", 1};
+
+  s21::map<std::string, int> stringIntMap = {stringInt1, stringInt2, stringInt3, stringInt4, stringInt5};
+  //в ориге возникает сега
+  auto maxValue3 = stringIntMap.end();
+
+  EXPECT_EQ(maxValue3->first, "hola");//неверное значение
+  //TODO: Проверить что происходит в оргине и как правильно записать значения
+
+  s21::map<int, double> s21Map;
+
+  EXPECT_THROW(s21Map.end(), std::out_of_range);
+
+  std::pair<double, std::string> pair1{1.4, "hello"};
+  s21::map<double, std::string> doubleStringMap2 = {pair1, pair1};
+
+  auto maxValue4 = doubleStringMap2.end();
+
+  EXPECT_EQ(maxValue4->first, 1.4);
+  EXPECT_EQ(maxValue4->second, "hello");
+  
+  std::pair<int, double> intDoublePair1{1, 1.4};
+  std::pair<int, double> intDoublePair2{15, 1.456};
+  std::pair<int, double> intDoublePair3{5, 151.4};
+
+  s21::map<int, double> s21MapIntDouble = {intDoublePair1, intDoublePair2, intDoublePair3};
+
+  auto maxValue1 = s21MapIntDouble.end();
+
+  EXPECT_EQ(maxValue1->first, 15);
+  EXPECT_EQ(s21MapIntDouble.size(), 3U);
+
+  std::pair<double, std::string> MapPair1{11.4, "hello"};
+  std::pair<double, std::string> MapPair2{2.770001, "hi"};
+  std::pair<double, std::string> MapPair3{3.901, "hola"};
+
+  s21::map<double, std::string> Map1 = {MapPair1, MapPair2, MapPair3};
+
+  auto maxValue22 = Map1.end();
+
+  EXPECT_EQ(maxValue22->first, 11.4);
+  EXPECT_EQ(Map1.size(), 3U);
+
+  std::pair<int, int> pair0{30, 30};
+  std::pair<int, int> pair2{5, 5};
+  std::pair<int, int> pair3{43, 43};
+  std::pair<int, int> pair4{1, 1};
+  std::pair<int, int> pair5{20, 20};
+  std::pair<int, int> pair6{40, 60};
+  std::pair<int, int> pair7{60, 60};
+  std::pair<int, int> pair8{35, 35};
+  std::pair<int, int> pair9{32, 32};
+
+  s21::map<int, int> s21MapIntInt = {pair0, pair2, pair3, pair4, pair5,
+                                pair6, pair7, pair8, pair9};
+
+  EXPECT_EQ(s21MapIntInt.end()->first, 60);
+  EXPECT_EQ(s21MapIntInt.begin()->first, 1);
+  EXPECT_EQ(s21MapIntInt.size(), 9U);
+}
 /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -->>   Map Capacity                                                          >>
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
