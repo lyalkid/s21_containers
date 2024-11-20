@@ -13,8 +13,8 @@ list.a: $(OBJECTS)
 %.o: %.tpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
-testim:
-	$(CC) $(CFLAGS) main.cpp - o testim
+testim: clean
+	$(CC) $(CFLAGS) main.cpp -o testim
 	./testim
 
 clean:

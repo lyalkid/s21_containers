@@ -7,14 +7,14 @@ namespace s21 {
     template <typename T>
 class list{
 public:
+    class LisIterator;
+    //class ListConstIterator;
     //List Member type
-//    class LisIterator;
-//    class ListConstIterator;
     using value_type = T;
     using reference = T&;
     using const_reference = const T&;
-//    using iterator = LisIterator <T>;
-//    using const_iterator = ListConstIterator <T>;
+    using iterator = LisIterator;
+    //using const_iterator = ListConstIterator;
     using size_type = std::size_t;
 
     //List Functions
@@ -31,8 +31,8 @@ public:
     const_reference back();
 
     //List Iterators
-//    iterator begin();
-//    iterator end();
+    iterator begin();
+    iterator end();
 
     //List Capacity
     bool empty();
@@ -68,6 +68,23 @@ private:
     Node *head_;
     Node *tail_;
 
+public:
+    class LisIterator{
+    public:
+        LisIterator(Node* node = nullptr) : current(node) {};
+
+    LisIterator& operator++(){
+        if(current) current = current->pNext;
+        return *this;
+    }
+
+    LisIterator& operator--(){
+        if(current) current = current->pPrev;
+        return *this;
+    }
+    private:
+        Node* current;
+    };
 };
 }
 

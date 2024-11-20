@@ -42,12 +42,23 @@ namespace s21{
     //List Element access
     template <class T>
     const T &s21::list<T>::front(){
-    return  head_;
+    return  head_->data;
     }
 
     template <class T>
     const T &s21::list<T>::back() {
-    return tail_;
+    return tail_->data;
+    }
+
+    //List Iterator
+    template <class T>
+    s21::list<T>::iterator s21::list<T>::begin() {
+    return iterator(head_);
+    }
+
+    template <class T>
+    s21::list<T>::iterator s21::list<T>::end(){
+    return iterator(nullptr);
     }
 
     //List Capacity
@@ -146,8 +157,13 @@ namespace s21{
     }
 
     template <class T>
-    void s21::list<T>::merge(list<T> &other) noexcept {
+    void s21::list<T>::sort(){
+    for(iterator it = this->begin(); it != this->end(); ++it){
+       for(iterator it_2 = this->begin(); it_2 != this->end(); ++it_2){
 
+       }
+
+    }
     }
 
 
