@@ -1,18 +1,19 @@
 #ifndef BINARY_TREE_H
 #define BINARY_TREE_H
+
 #include <stddef.h>
 
+#include <iostream>
+#include <string>
 //#include "node.h"
 
-/// @brief 
+/// @brief
 namespace s21 {
-
-
 
 template <typename K, typename V>
 class Node;
 
-//BinaryTree
+// BinaryTree
 template <typename K, typename V>
 class BinaryTree {
  private:
@@ -29,28 +30,27 @@ class BinaryTree {
 
   ~BinaryTree();
 
+  // обход дерева
+  void in_order_tree_walk(Node<K, V> *node);
+
   // methods
   Node<K, V> *insert(K key, V value);
 
   void remove(K key);
 
-  // Node*<K, V> find(K key);/
-
-  void print_tree();
+  Node<K, V> *find(Node<K, V> *root, K key);
 
   bool isEmpty();
 
   size_t size();
 
+  Node<K, V> *get_root();
   // overload operators
 };
 
-
-// class Node
-
-/// @brief 
-/// @tparam K 
-/// @tparam V 
+/*
+ class Node
+*/
 template <typename K, typename V>
 class Node {
  private:
@@ -59,12 +59,15 @@ class Node {
   Node *parrent;
   Node *right;
   Node *left;
+  size_t lvl;
   // bool red;
   // bool isLeftChild;
 
  public:
   Node(K key, V Value);
+
   ~Node();
+
   Node &operator=(const Node &other);
 
   friend class BinaryTree<K, V>;

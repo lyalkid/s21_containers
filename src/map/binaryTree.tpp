@@ -2,7 +2,6 @@
 
 namespace s21 {
 
-
 template <typename K, typename V>
 BinaryTree<K, V>::BinaryTree(/* args */) {
   root = nullptr;
@@ -28,6 +27,7 @@ Node<K, V> *BinaryTree<K, V>::insert(K key, V value) {
   Node<K, V> *temp = new Node(key, value);
   if (root == nullptr) {
     root = temp;
+    count++;
     return root;
   }
 
@@ -35,19 +35,44 @@ Node<K, V> *BinaryTree<K, V>::insert(K key, V value) {
   Node<K, V> *current = root;
   while (current != nullptr) {
     parent = current;
+
+    // вот здесь можно чекать добавляем ли мы уже существующий ключ
     if (current->key >= key) {
       current = current->left;
-    } else if (current->key <= key) {
+    } else if (current->key < key) {
       current = current->right;
-    } else {
-      return root;
     }
   }
   if (parent->key > key)
     parent->left = temp;
   else
     parent->right = temp;
+  temp->lvl = (parent->lvl) + 2;
+  count++;
   return root;
+}
+
+template <typename K, typename V>
+Node<K, V> *BinaryTree<K, V>::find(Node<K, V> *root, K key) {
+  if (root == nullptr || root->key == key) {
+    return root;
+  }
+  // TODO : когда уберу дубликаты, сделать строгое неравенство
+  if (key <= root->key) {
+    find(root->left, key);
+  } else {
+    find(root->right, key);
+  }
+}
+
+// обход дерева
+template <typename K, typename V>
+void BinaryTree<K, V>::in_order_tree_walk(Node<K, V> *node) {
+  if (node != nullptr) {
+    in_order_tree_walk(node->right);
+    std::cout << std::string(node->lvl, ' ') << node->key << std::endl;
+    in_order_tree_walk(node->left);
+  }
 }
 
 // get size
@@ -58,7 +83,12 @@ size_t BinaryTree<K, V>::size() {
 
 template <typename K, typename V>
 bool BinaryTree<K, V>::isEmpty() {
-  return this->size() == 0;
+  return count == 0;
+}
+
+template <typename K, typename V>
+Node<K, V> *BinaryTree<K, V>::get_root() {
+  return root;
 }
 
 }  // namespace s21
