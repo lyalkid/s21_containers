@@ -35,10 +35,10 @@ class BinaryTree {
 
   // methods
   Node<K, V> *insert(K key, V value);
+  Node<K, V> *find(Node<K, V> *root, K key);
+  Node<K, V> *iterrative_find(Node<K, V> *root, K key);
 
   void remove(K key);
-
-  Node<K, V> *find(Node<K, V> *root, K key);
 
   bool isEmpty();
 

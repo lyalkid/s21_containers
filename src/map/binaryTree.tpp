@@ -54,15 +54,31 @@ Node<K, V> *BinaryTree<K, V>::insert(K key, V value) {
 
 template <typename K, typename V>
 Node<K, V> *BinaryTree<K, V>::find(Node<K, V> *root, K key) {
+  Node<K, V> *res = nullptr;
   if (root == nullptr || root->key == key) {
-    return root;
+    res = root;
   }
   // TODO : когда уберу дубликаты, сделать строгое неравенство
-  if (key <= root->key) {
-    find(root->left, key);
-  } else {
-    find(root->right, key);
+  else {
+    if (key <= root->key) {
+      find(root->left, key);
+    } else {
+      find(root->right, key);
+    }
   }
+  return res;
+}
+
+template <typename K, typename V>
+Node<K, V> *BinaryTree<K, V>::iterrative_find(Node<K, V> *node, K key) {
+  while (node != nullptr && node->key != key) {
+    if (key <= node->key) {
+      node = node->left;
+    } else {
+      node = node->right;
+    }
+  }
+  return node;
 }
 
 // обход дерева

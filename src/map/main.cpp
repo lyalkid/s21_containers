@@ -33,6 +33,9 @@ int main() {
   // std::cout << std::string(1, ' ') << 1 << std::endl;
 
   Node<int, char> finded = *(BinaryTree.find(BinaryTree.get_root(), 5));
+  Node<int, char> findd =
+      *(BinaryTree.iterrative_find(BinaryTree.get_root(), 5));
+
   BinaryTree.in_order_tree_walk(BinaryTree.get_root());
   map<int, string> map1;
   map1.insert(std::pair<int, string>{1, "fdf"});
