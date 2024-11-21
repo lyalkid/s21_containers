@@ -17,6 +17,10 @@ testim: clean
 	$(CC) $(CFLAGS) main.cpp -o testim
 	./testim
 
+testim_mylist: clean
+	$(CC) main.cpp list.tpp -o tst
+	./tst
+
 clean:
 	rm -rf testim
 

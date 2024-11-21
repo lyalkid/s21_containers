@@ -1,6 +1,6 @@
 #include "list.h"
 
-namespace s21{
+namespace s21 {
     template <class T>
 //List Functions
     s21::list<T>::list() : size_(0), head_(nullptr), tail_(nullptr){}
@@ -21,7 +21,7 @@ namespace s21{
     }else{
             Node *current = l.head_;
             while(current != nullptr){
-                push_back(current->data);
+                push_back(current->data_);
                 current = current->pNext;
             }
     }
@@ -42,22 +42,22 @@ namespace s21{
     //List Element access
     template <class T>
     const T &s21::list<T>::front(){
-    return  head_->data;
+    return  head_->data_;
     }
 
     template <class T>
     const T &s21::list<T>::back() {
-    return tail_->data;
+    return tail_->data_;
     }
 
     //List Iterator
     template <class T>
-    s21::list<T>::iterator s21::list<T>::begin() {
+    typename s21::list<T>::iterator s21::list<T>::begin() {
     return iterator(head_);
     }
 
     template <class T>
-    s21::list<T>::iterator s21::list<T>::end(){
+    typename s21::list<T>::iterator s21::list<T>::end(){
     return iterator(nullptr);
     }
 
@@ -157,9 +157,42 @@ namespace s21{
     }
 
     template <class T>
+    void s21::list<T>::merge(list<T> &other) noexcept {
+    if(this == &other) return;
+    if(other.head_ == nullptr) return;
+
+    if(head_ == nullptr){
+       head_ = other.head_;
+       tail_ = other.tail_;
+       size_ = other.size_;
+    }else{
+       tail_->pNext = other.head_;
+       other.head_->pPrev = tail_;
+       tail_ = other.tail_;
+
+    }
+    size_ += other.size_;
+
+    other.head_ = nullptr;
+    other.tail_ = nullptr;
+    other.size_ = 0;
+
+    this->sort();
+    }
+
+
+    template <class T>
     void s21::list<T>::sort(){
+    if(size_ < 2) return;
+
     for(iterator it = this->begin(); it != this->end(); ++it){
        for(iterator it_2 = this->begin(); it_2 != this->end(); ++it_2){
+                iterator next = it_2;
+                ++next;
+
+                if(next != this->end() && *next < *it_2){
+                    std::swap(*it_2, *next);
+                }
 
        }
 

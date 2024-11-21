@@ -1,27 +1,18 @@
 #include <iostream>
 #include <list>
 
+//#include "list.h"
+
 int main(){
-//    std::list<int> mylist = {10, 11, 12, 13};
-//
-//    std::list<int>::iterator it = mylist.begin();
-//    ++it;
-//    ++it;
-//    ++it;
-//    ++it;
-//    ++it;
-//    std::cout << *it << std::endl;
+    std::list<int> mylist_ = {1, 6, 10, 12};
+    std::list<int> mylist_2 = {2, 4, 12, 38};
 
-    std::list<int> mylist_2 = {3, 4, 5, 6};
-    std::list<int>::iterator it = mylist_2.end();
-    --it;
-    --it;
-    --it;
-    --it;
-    --it;
-    --it;
+    mylist_2.merge(mylist_);
 
-    std::cout << *it << std::endl;
+    for(std::list<int>::iterator it = mylist_.begin(); it != mylist_.end(); ++it){
+        std::cout << *it << " ";
+    }
+
     return 0;
 }
 

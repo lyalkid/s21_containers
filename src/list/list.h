@@ -7,14 +7,13 @@ namespace s21 {
     template <typename T>
 class list{
 public:
-    class LisIterator;
-    //class ListConstIterator;
+    class ListIterator;
     //List Member type
     using value_type = T;
     using reference = T&;
     using const_reference = const T&;
-    using iterator = LisIterator;
-    //using const_iterator = ListConstIterator;
+    using iterator = list<T>::ListIterator;
+    using const_iterator = const list<T>::ListIterator;
     using size_type = std::size_t;
 
     //List Functions
@@ -61,27 +60,33 @@ private:
     public:
         Node *pNext;
         Node *pPrev;
-        T data;
+        T data_;
         Node(const T& data = T(), Node *pNext = nullptr, Node *pPrev = nullptr)
-            : data(data), pNext(pNext), pPrev(pPrev){}
+            : data_(data), pNext(pNext), pPrev(pPrev){}
     };
     Node *head_;
     Node *tail_;
 
 public:
-    class LisIterator{
+    class ListIterator {
     public:
-        LisIterator(Node* node = nullptr) : current(node) {};
+        ListIterator(Node* node = nullptr) : current(node) {};
 
-    LisIterator& operator++(){
+        reference operator *() const {return current->data_;}
+
+        ListIterator & operator++(){
         if(current) current = current->pNext;
         return *this;
     }
 
-    LisIterator& operator--(){
+    ListIterator & operator--(){
         if(current) current = current->pPrev;
         return *this;
     }
+
+    bool operator==(const iterator& other) const {return current == other.current;}
+    bool operator!=(const iterator& other) const {return current != other.current;}
+
     private:
         Node* current;
     };
