@@ -1,29 +1,37 @@
-#include "node.h"
+#include "binaryTree.h"
 
 // Constructors
-template <typename T>
-Node<T>::Node() {
-  value = 0;
-  right = nullptr;
-  left = nullptr;
-}
 
-template <typename T>
-Node<T>::Node(T value) {
+namespace s21 {
+
+template <typename K, typename V>
+Node<K, V>::Node(K key, V value) {
+  this->key = key;
   this->value = value;
+//  red = false;
+  parrent = nullptr;
   right = nullptr;
   left = nullptr;
 }
 
 // Destructor
-template <typename T>
-Node<T>::~Node() {}
-
-
-// Getter, setters
-template <typename T>
-T Node<T>::get_value() {
-  return value;
+template <typename K, typename V>
+Node<K, V>::~Node() {
+  // TODO: реализовать деструктор
 }
 
+// overload operators
+template <typename K, typename V>
+Node<K, V>& Node<K, V>::operator=(const Node<K, V>& other) {
+  if (this == &other) {
+    return *this;
+  }
 
+  this->~Node();
+  value = other.value;
+  right = other.right;
+  left = other.left;
+  return *this;
+}
+
+}  // namespace s21
