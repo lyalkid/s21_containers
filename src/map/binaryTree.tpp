@@ -28,6 +28,7 @@ Node<K, V> *BinaryTree<K, V>::insert(K key, V value) {
   if (root == nullptr) {
     root = temp;
     count++;
+    root->parrent = nullptr;
     return root;
   }
 
@@ -43,6 +44,7 @@ Node<K, V> *BinaryTree<K, V>::insert(K key, V value) {
       current = current->right;
     }
   }
+  temp->parrent = parent;
   if (parent->key > key)
     parent->left = temp;
   else
@@ -91,6 +93,39 @@ void BinaryTree<K, V>::in_order_tree_walk(Node<K, V> *node) {
   }
 }
 
+
+template <typename K , typename V>
+void BinaryTree<K, V>::remove(Node<K, V>* node,  K key){
+    Node<K, V>* delete_node =iterrative_find(node, key);
+    Node<K, V>* parrent = delete_node->parrent;
+    if(delete_node->left== nullptr && delete_node->right == nullptr){
+      if(parrent->left == delete_node){
+        parrent->left->~Node();
+        parrent->left= nullptr;
+      }
+      else{
+        parrent->right->~Node();
+        parrent->right= nullptr;
+      }
+      count--;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // get size
 template <typename K, typename V>
 size_t BinaryTree<K, V>::size() {
@@ -106,5 +141,4 @@ template <typename K, typename V>
 Node<K, V> *BinaryTree<K, V>::get_root() {
   return root;
 }
-
 }  // namespace s21

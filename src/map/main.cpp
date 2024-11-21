@@ -37,6 +37,9 @@ int main() {
       *(BinaryTree.iterrative_find(BinaryTree.get_root(), 5));
 
   BinaryTree.in_order_tree_walk(BinaryTree.get_root());
+  BinaryTree.remove(BinaryTree.get_root(), 48);
+    BinaryTree.in_order_tree_walk(BinaryTree.get_root());
+
   map<int, string> map1;
   map1.insert(std::pair<int, string>{1, "fdf"});
   int s = 0;

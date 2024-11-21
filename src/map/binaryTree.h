@@ -38,7 +38,7 @@ class BinaryTree {
   Node<K, V> *find(Node<K, V> *root, K key);
   Node<K, V> *iterrative_find(Node<K, V> *root, K key);
 
-  void remove(K key);
+  void remove(Node<K,V>* node, K key);
 
   bool isEmpty();
 
@@ -66,7 +66,7 @@ class Node {
  public:
   Node(K key, V Value);
 
-  ~Node();
+  ~Node() ;
 
   Node &operator=(const Node &other);
 

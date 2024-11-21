@@ -18,7 +18,10 @@ Node<K, V>::Node(K key, V value) {
 // Destructor
 template <typename K, typename V>
 Node<K, V>::~Node() {
-  // TODO: реализовать деструктор
+        delete right; // Рекурсивное удаление правого поддерева
+        delete left;  // Рекурсивное удаление левого поддерева
+
+        // TODO: реализовать деструктор
 }
 
 // overload operators
