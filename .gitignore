@@ -6,7 +6,7 @@
 *.ko
 *.obj
 *.elf
-
+src/map/s21*
 .idea
 cmake-build-debug
 # Linker output
