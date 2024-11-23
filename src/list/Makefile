@@ -14,14 +14,17 @@ list.a: $(OBJECTS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 testim: clean
-	$(CC) $(CFLAGS) main.cpp -o testim
+	$(CC)  main.cpp -o testim
 	./testim
 
-testim_mylist: clean
-	$(CC) main.cpp list.tpp -o tst
+testim_list:
+	rm -rf tst
+	$(CC) main_org.cpp -o tst
 	./tst
 
 clean:
 	rm -rf testim
 
 style_correct:
+	cp ../../materials/linters/.clang-format .
+	clang-format -i *.cpp

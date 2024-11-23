@@ -41,7 +41,7 @@ public:
     //List Modifiers
     void clear();
 //    iterator insert(iterator pos, const_reference value);
-//    void erase(iterator pos);
+    void erase(iterator pos);
     void push_back(const_reference value);
     void pop_back();
     void push_front(const_reference value);
@@ -49,7 +49,7 @@ public:
     void swap(list& other) noexcept;
     void merge(list& other) noexcept;
 //    void splice(const_iterator pos, list& other);
-    void reverse();
+    void reverse() noexcept;
     void unique();
     void sort();
 
@@ -84,6 +84,10 @@ public:
         return *this;
     }
 
+    ListIterator node_(){
+        current;
+    }
+
     bool operator==(const iterator& other) const {return current == other.current;}
     bool operator!=(const iterator& other) const {return current != other.current;}
 
@@ -93,5 +97,6 @@ public:
 };
 }
 
-#include "list.cpp"
+//#include "list.cpp"
+//#include "main.cpp"
 #endif
