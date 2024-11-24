@@ -4,19 +4,60 @@
 #include "list.h"
 
 int main() {
-  s21::list<int> mylist_ = {4, 1, 1, 2, 4, 3, 3, 4, 4};
-  s21::list<int> mylist_2 = {2, 4, 12, 38};
+  s21::list<int> mylist_ = {};
+  //s21::list<int> mylist_3 = {1, 77, 21, 9};
+
+  s21::list<int> mylist_2 = {11, 8, 63, 1};
 
   s21::list<int>::iterator it = mylist_.begin();
   ++it;
-  mylist_.erase(it);
+  ++it;
+  mylist_.splice(it, mylist_2);
+  //mylist_.push_front(66);
 
   for (s21::list<int>::iterator it = mylist_.begin(); it != mylist_.end();
        ++it) {
     std::cout << *it << " ";
   }
 
+//  if(mylist_ != mylist_3) {std::cout << "cool" << std::endl;} else {std::cout << "its okey";}
+
+
   return 0;
+}
+
+template <class T>
+bool s21::list<T>::operator==(const list<T> &l){
+  if(size_ != l.size_) return false;
+
+  Node *current = head_;
+  Node *current_second = l.head_;
+
+  while (current != nullptr){
+    if(current->data_ != current_second->data_){
+        return false;
+    }
+    current = current->pNext;
+    current_second = current_second->pNext;
+  }
+  return true;
+}
+
+template <class T>
+bool s21::list<T>::operator!=(const list<T> &l) {
+  if(size_ != l.size_) return true;
+
+  Node *current = head_;
+  Node *current_second = l.head_;
+
+  while (current != nullptr){
+      if(current->data_ != current_second->data_){
+          return true;
+      }
+      current = current->pNext;
+      current_second = current_second->pNext;
+  }
+  return false;
 }
 
 template <class T>
@@ -128,9 +169,13 @@ void s21::list<T>::reverse() noexcept {
 template <class T>
 void s21::list<T>::push_front(const_reference value) {
   Node *new_node = new Node(value, head_, nullptr);
-  head_->pPrev = new_node;
-  head_ = new_node;
-  ++size_;
+  if(head_ == nullptr){
+    head_ = new_node;
+  }else {
+    head_->pPrev = new_node;
+    head_ = new_node;
+    ++size_;
+  }
 }
 
 template <class T>
@@ -149,12 +194,93 @@ void s21::list<T>::unique() {
 }
 
 template <class T>
-void s21::list<T>::erase(s21::list<T>::iterator pos) {
-  Node current = pos.node_();
-  Node prev = current.pPrev;
-
-  if(current != nullptr){
-    prev.pNext = current.pNext;
-    delete current;
+void s21::list<T>::erase(iterator pos) {
+  Node *delete_node = pos.getCurrent();
+  if(delete_node == nullptr){
+    throw std::out_of_range ("Iterator out of ange");
   }
+  Node *prev_node = delete_node->pPrev;
+  Node *next_node = delete_node->pNext;
+
+  if(next_node != nullptr){
+    prev_node->pNext = delete_node->pNext;
+    next_node->pPrev = delete_node->pPrev;
+
+    delete delete_node;
+    --size_;
+  }
+}
+
+template <class T>
+typename s21::list<T>::iterator s21::list<T>::insert(iterator pos, const_reference value) {
+  Node *current = pos.getCurrent();
+  if (current == head_ || current == nullptr){
+    push_front(value);
+  }else{
+    Node *prev_node = current->pPrev;
+    Node *new_node = new Node(value, nullptr, nullptr);
+
+    prev_node->pNext = new_node;
+    new_node->pNext = current;
+
+    current->pPrev = new_node;
+    new_node->pPrev = prev_node;
+
+    size_++;
+  }
+  return pos;
+}
+
+template <class T>
+void s21::list<T>::splice(const_iterator pos, list<T> &other) {
+  Node *current = pos.getCurrent();
+  Node *prev_node = current->pPrev;
+  Node *second_list = other.head_;
+
+  if(head_ == nullptr){
+      this = other;
+  }
+
+  while(second_list != nullptr){
+    Node *new_node = new Node(second_list->data_, current, prev_node);
+    prev_node->pNext = new_node;
+    current->pPrev = new_node;
+
+    prev_node = new_node;
+    second_list = second_list->pNext;
+  }
+
+  other.head_ = nullptr;
+  other.tail_ = nullptr;
+  size_ = 0;
+}
+
+template <class T>
+s21::list<T> &s21::list<T>::operator=(list &&l){
+  if(this != l){
+    this->clear();
+
+    this->head_ = l.head_;
+    this->tail_ = l.tail_;
+    this->size_ = l.size_;
+
+    l.head_ = nullptr;
+    l.tail_ = nullptr;
+    l.size_ = 0;
+  }
+  return *this;
+}
+
+template <class T>
+s21::list<T> &s21::list<T>::operator=(const list &l){
+  if(this != l){
+    this->clear();
+
+    Node *current = l.head_;
+    while (current != nullptr){
+      this->push_back(current->data_);
+      current = current->pNext;
+    }
+  }
+  return  *this;
 }

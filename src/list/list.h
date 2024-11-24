@@ -23,7 +23,12 @@ public:
     list(const list &l) noexcept;
     list(list &&l) noexcept;
     ~list();
-//    operator=(list &&l);
+
+    list &operator=(list &&l);
+    list &operator=(const list &l);
+    bool operator==(list const &l);
+    bool operator!=(list const &l);
+
 
     //List Element access
     const_reference front();
@@ -40,7 +45,7 @@ public:
 
     //List Modifiers
     void clear();
-//    iterator insert(iterator pos, const_reference value);
+    iterator insert(iterator pos, const_reference value);
     void erase(iterator pos);
     void push_back(const_reference value);
     void pop_back();
@@ -48,7 +53,7 @@ public:
     void pop_front();
     void swap(list& other) noexcept;
     void merge(list& other) noexcept;
-//    void splice(const_iterator pos, list& other);
+    void splice(const_iterator pos, list& other);
     void reverse() noexcept;
     void unique();
     void sort();
@@ -84,14 +89,12 @@ public:
         return *this;
     }
 
-    ListIterator node_(){
-        current;
-    }
+    Node* getCurrent() const { return current;}
 
     bool operator==(const iterator& other) const {return current == other.current;}
     bool operator!=(const iterator& other) const {return current != other.current;}
 
-    private:
+private:
         Node* current;
     };
 };
