@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include "s21_Map.h"
 
 #include "binaryTree.h"
 using std::map;
@@ -7,7 +8,7 @@ using std::string;
 using namespace s21;
 
 int main() {
-  s21::BinaryTree<int, char> BinaryTree;
+  s21::map<int, char> BinaryTree;
   BinaryTree.insert(5, 's');
   (BinaryTree.insert(3, 'd'));
   (BinaryTree.insert(7, 'a'));
@@ -40,8 +41,8 @@ int main() {
 //  BinaryTree.remove(BinaryTree.get_root(), 48);
 //    BinaryTree.in_order_tree_walk(BinaryTree.get_root());
 
-  map<int, string> map1;
-  map1.insert(std::pair<int, string>{1, "fdf"});
+//  map<int, string> map1;
+//  map1.insert(std::pair<int, string>{1, "fdf"});
   int s = 0;
   int b = 0;
 }
