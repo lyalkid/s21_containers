@@ -3,41 +3,35 @@
 // Constructors
 
 namespace s21 {
+//    template<typename K, typename V>
+//    using value = std::pair<K, V>;
+template <typename K, typename V>
+Node<K, V>::Node()
+    : data(nullptr), parent(nullptr), right(nullptr), left(nullptr), lvl(0) {}
 
 template <typename K, typename V>
-Node<K, V>::Node(K key, V value) {
-  this->key = key;
-  this->value = value;
-  //  red = false;
-  lvl = 0;
-  parrent = nullptr;
-  right = nullptr;
-  left = nullptr;
+Node<K, V>::Node(K key, V value)
+    : parent(nullptr), right(nullptr), left(nullptr), lvl(0) {
+  data = std::make_pair(key, value);
 }
 
-// Destructor
 template <typename K, typename V>
-Node<K, V>::~Node() {
 
-}
+Node<K, V>::~Node() {}
 
-// overload operators
-// TODO: переопределить операторы
 template <typename K, typename V>
-Node<K, V>& Node<K, V>::operator=(const Node<K, V>& other) {
+Node<K, V> &Node<K, V>::operator=(const Node<K, V> &other) {
   if (this == &other) {
     return *this;
   }
   // TODO: сделать конструктор присваивания, тут не хватает всех полей, которые
   // есть в Node
   this->~Node();
-  parrent=other.parrent;
-  key=other.key;
-  lvl=other.lvl;
-  value = other.value;
+  data = std::make_pair(other.data.first, other.data.second);
+  parent = other.parent;
+  lvl = other.lvl;
   right = other.right;
   left = other.left;
   return *this;
 }
-
 }  // namespace s21
