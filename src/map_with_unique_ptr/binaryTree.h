@@ -11,85 +11,121 @@
 /// @brief
 namespace s21 {
 
-template <typename K, typename V>
-class Node;
 
-template <typename K, typename V>
-class BinaryTree {
- private:
-  // using data = std::pair<const K, V>;
-  std::shared_ptr<Node<K, V>> root;
-  size_t count;
+    template<typename K, typename V>
+    class TreeNode;
 
- public:
-  using key_type = K;
-  using mapped_type = V;
-  using value_type = std::pair<const key_type, mapped_type>;
-  using reference = value_type &;
-  using const_reference = const value_type &;
-  using size_type = size_t;
+    template<typename K, typename V>
+    class TreeIterator;
 
-  BinaryTree();
 
-  BinaryTree(K key, V value);
+    template<typename K, typename V>
+    class BinaryTree {
+    private:
+        //TreeIterator<K, V>* it;
+        TreeIterator<K, V> it;
+        // using data = std::pair<const K, V>;
+        std::shared_ptr<TreeNode<K, V>> root;
+        size_t count;
 
-  ~BinaryTree();
+    public:
+        using key_type = K;
+        using mapped_type = V;
+        using value_type = std::pair<const key_type, mapped_type>;
+        using reference = value_type &;
+        using const_reference = const value_type &;
+        using size_type = size_t;
+        using sh_ptr_iterator = std::shared_ptr<TreeIterator<K, V>>;
+        using iterator = TreeIterator<K, V> ;
+        //TreeIterator<K, V>;
 
-  Node<K, V> *insert(K key, V value);
+        BinaryTree();
 
-  //
-  void destroyRecursive(Node<K, V> *node);
-  //
-  //
-  //
-  //        // methods
-  //
-  //        std::unique_ptr<Node<K,  V>> find(std::unique_ptr<Node<K,  V>> root,
-  //        K key);
-  //
-  //        std::unique_ptr<Node<K,  V>> iterrative_find(std::unique_ptr<Node<K,
-  //        V>> root, K key);
-  //        // обход дерева
-  //        void in_order_tree_walk(std::unique_ptr<Node<K,  V>> node);
-  //
-  //        void remove(std::unique_ptr<Node<K,  V>> , K key);
-  //
-  //        bool isEmpty();
-  //
-  //        size_t size();
-  //
-  //        std::unique_ptr<Node<K,  V>> get_root();
-  //        // overload operators
+        BinaryTree(K key, V value);
 
-  /*
-   class Node
-  */
-};
+        ~BinaryTree();
 
-template <typename K, typename V>
-class Node {
- private:
-  std::pair<K, V> data;
-  std::shared_ptr<Node> parent;
-  std::shared_ptr<Node> right;
-  std::shared_ptr<Node> left;
-  size_t lvl;
-  // bool red;
-  // bool isLeftChild;
+        std::pair<iterator, bool> insert(K key, V value);
 
- public:
-  //        using value = std::pair<K, V>;
-  Node();
+        //
+        void destroyRecursive(TreeNode<K, V> *node);
+        //
+        //
+        //
+        //        // methods
+        //
+        //        std::unique_ptr<TreeNode<K,  V>> find(std::unique_ptr<TreeNode<K,  V>> root,
+        //        K key);
+        //
+        //        std::unique_ptr<TreeNode<K,  V>> iterrative_find(std::unique_ptr<TreeNode<K,
+        //        V>> root, K key);
+        //        // обход дерева
+        //        void in_order_tree_walk(std::unique_ptr<TreeNode<K,  V>> node);
+        //
+        //        void remove(std::unique_ptr<TreeNode<K,  V>> , K key);
+        //
+        //        bool isEmpty();
+        //
+        //        size_t size();
+        //
+        //        std::unique_ptr<TreeNode<K,  V>> get_root();
+        //        // overload operators
 
-  Node(K, V);
+        /*
+         class TreeNode
+        */
+    };
 
-  ~Node();
+    template<typename K, typename V>
+    class TreeIterator {
+    public:
+        using Node = TreeNode<K, V>;
+        using value_type = std::pair<const K, V>;
+        using reference = value_type &;
+        using pointer = value_type *;
 
-  Node &operator=(const Node &other);
 
-  //        template<template K, template  V>
-  friend class BinaryTree<K, V>;  //<K, V>;
-};
+        TreeIterator() : currentNode(nullptr) {};
+
+        TreeIterator(TreeNode<K, V> *node);
+
+        TreeIterator(K key, V value);
+
+        ~TreeIterator();
+
+        TreeIterator &operator=(const TreeIterator &other);
+
+        friend class BinaryTree<K, V>;  //<K, V>;
+    private:
+        Node *currentNode;
+
+    };
+
+    template<typename K, typename V>
+    class TreeNode {
+    private:
+        std::pair<K, V> data;
+        std::shared_ptr<TreeNode> parent;
+        std::shared_ptr<TreeNode> right;
+        std::shared_ptr<TreeNode> left;
+        size_t lvl;
+        // bool red;
+        // bool isLeftChild;
+
+    public:
+        //        using value = std::pair<K, V>;
+        TreeNode();
+
+        TreeNode(K, V);
+
+        ~TreeNode();
+
+        TreeNode &operator=(const TreeNode &other);
+
+        //        template<template K, template  V>
+        friend class BinaryTree<K, V>;  //<K, V>;
+        friend class TreeIterator<K, V>;
+    };
 
 //    template<typename K, typename V>
 //    template<typename T>
@@ -97,9 +133,13 @@ class Node {
 //
 //    template<typename K, typename V>
 //    template<typename T>
+
+
+
 
 }  // namespace s21
 #include "binaryTree.tpp"
 #include "node.tpp"
+#include "treeIterator.tpp"
 
 #endif  // BINARY_TREE_H_
