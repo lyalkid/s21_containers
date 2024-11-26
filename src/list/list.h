@@ -2,6 +2,7 @@
 #define CPP_S21_CONTAINERS_1_SRC_LIST_LIST_H_
 
 #include <iostream>
+#include <limits>
 
 namespace s21 {
     template <typename T>
@@ -78,7 +79,7 @@ public:
         ListIterator(Node* node = nullptr) : current(node) {};
 
         reference operator *() const {return current->data_;}
-
+//TODO:: добавить обработку на итерацию с последнего/первого элемента
         ListIterator & operator++(){
         if(current) current = current->pNext;
         return *this;

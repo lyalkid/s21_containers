@@ -4,26 +4,31 @@
 #include "list.h"
 
 int main() {
-  s21::list<int> mylist_ = {};
+  s21::list<int> mylist_ = {1, 77, 21, 9};
   //s21::list<int> mylist_3 = {1, 77, 21, 9};
+  int value = mylist_.size();
+  std::cout << value;
 
-  s21::list<int> mylist_2 = {11, 8, 63, 1};
+//  for (s21::list<int>::iterator it = mylist_.begin(); it != mylist_.end();
+//       ++it) {
+//    std::cout << *it << " ";
+//  }
 
-  s21::list<int>::iterator it = mylist_.begin();
-  ++it;
-  ++it;
-  mylist_.splice(it, mylist_2);
-  //mylist_.push_front(66);
-
-  for (s21::list<int>::iterator it = mylist_.begin(); it != mylist_.end();
-       ++it) {
-    std::cout << *it << " ";
-  }
-
-//  if(mylist_ != mylist_3) {std::cout << "cool" << std::endl;} else {std::cout << "its okey";}
+//  if(mylist_ != mylist_2) {std::cout << "cool" << std::endl;} else {std::cout << "its okey";}
 
 
   return 0;
+}
+
+template <class T>
+std::size_t s21::list<T>::size() {
+  return size_;
+}
+
+template <class T>
+std::size_t s21::list<T>::max_size() {
+  //constexpr auto max_size = std::numeric_limits<std::size_t>::max();
+  return std::numeric_limits<std::size_t>::max();
 }
 
 template <class T>
@@ -106,11 +111,14 @@ s21::list<T>::~list() {
 template <class T>
 void s21::list<T>::clear() {
   Node *current = head_;
-  while (current) {
+  while (current != nullptr) {
     Node *next = current->pNext;
     delete current;
     current = next;
   }
+  head_ = nullptr;
+  tail_ = nullptr;
+  size_ = 0;
 }
 
 template <class T>
@@ -273,7 +281,7 @@ s21::list<T> &s21::list<T>::operator=(list &&l){
 
 template <class T>
 s21::list<T> &s21::list<T>::operator=(const list &l){
-  if(this != l){
+  if(this != &l){
     this->clear();
 
     Node *current = l.head_;

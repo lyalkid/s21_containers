@@ -59,7 +59,7 @@ s21::list<T> &s21::list<T>::operator=(list &&l){
 
 template <class T>
 s21::list<T> &s21::list<T>::operator=(const list &l){
-  if(this != l){
+  if(this != &l){
     this->clear();
 
     Node *current = l.head_;
@@ -138,20 +138,25 @@ std::size_t s21::list<T>::size() {
   return size_;
 }
 
+// TODO: уточнить что должно выводиться
 template <class T>
 std::size_t s21::list<T>::max_size() {
-  return size_;
+  constexpr auto max_size = std::numeric_limits<std::size_t>::max();
+  return max_size;
 }
 
 // List Modifiers
 template <class T>
 void s21::list<T>::clear() {
   Node *current = head_;
-  while (current) {
+  while (current != nullptr) {
     Node *next = current->pNext;
     delete current;
     current = next;
   }
+  head_ = nullptr;
+  tail_ = nullptr;
+  size_ = 0;
 }
 
 template <class T>
