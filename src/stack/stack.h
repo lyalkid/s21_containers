@@ -18,7 +18,7 @@ class stack{
         stack(stack &&s);
         ~stack();
         stack &operator=(stack &&s);
-        stack &&operator=(const stack &&s);
+        stack &operator=(const stack &s);
 
         const_reference top();
 
@@ -28,6 +28,7 @@ class stack{
         void push(const_reference value);
         void pop();
         void swap(stack& other);
+        void clear();
 
     private:
         size_type size_;

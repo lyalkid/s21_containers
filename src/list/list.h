@@ -101,6 +101,6 @@ private:
 };
 }
 
-//#include "list.cpp"
+#include "list.tpp"
 //#include "main.cpp"
 #endif

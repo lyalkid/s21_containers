@@ -28,22 +28,34 @@ s21::stack<T>::stack(stack &&s): size_(s.size_), head_(s.head_) {
 
 template <class T>
 s21::stack<T>::~stack(){
- Node *current = head_;
- while (head_){
-     Node next_node = current->pNext;
-     delete current;
-     current = next_node;
- }
- head_ = nullptr;
- size_ = 0;
+    clear();
 }
 
-//template <class T>
-//s21::stack<T> s21::stack<T>::operator=(stack<T> &&s) {
-//    if(this != s){
-//
-//    }
-//}
+template <class T>
+s21::stack<T> &s21::stack<T>::operator=(stack &&s) {
+    if(this != s){
+     this->head_ = s.head_;
+     this->size_ = s.size_;
+
+     s.head_ = nullptr;
+     s.size_ = 0;
+    }
+    return  *this;
+}
+
+template <class T>
+s21::stack<T> &s21::stack<T>::operator=(const stack &s) {
+    if(this != &s){
+     this->clear();
+
+     Node *current = s.head_;
+     while (current != nullptr){
+         this->push(current->data_);
+         current = current->pNext;
+     }
+    }
+    return *this;
+}
 
 template <class T>
 const T &s21::stack<T>::top(){
@@ -64,9 +76,10 @@ template <class T>
 void s21::stack<T>::push(const_reference value){
     Node *new_node = new Node(value, head_);
     if(head_ == nullptr){
-        head_ = new_node;
+     head_ = new_node;
     }else{
-        head_ = new_node;
+     new_node->pNext = head_;
+     head_ = new_node;
     }
     ++size_;
 }
@@ -83,4 +96,16 @@ template <class T>
 void s21::stack<T>::swap(stack& other){
     std::swap(head_, other.head_);
     std::swap(size_, other.size_);
+}
+
+template <class T>
+void s21::stack<T>::clear(){
+    Node *current = head_;
+    while (current != nullptr){
+        Node *next_node = current->pNext;
+        delete current;
+        current = next_node;
+    }
+    head_ = nullptr;
+    size_ = 0;
 }

@@ -10,4 +10,4 @@ testim_stack:
 	./test
 
 clean:
-	rm testim test
+	rm testim

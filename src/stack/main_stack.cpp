@@ -2,17 +2,28 @@
 #include <iostream>
 
 
-int main(){
-
-    s21::stack<int> mystack_;
-    mystack_.push(5);
-
-    int val = mystack_.top();
-
-    std::cout << val;
-
-    return 0;
-}
+//int main(){
+//
+//    s21::stack<int> mystack_;
+//    mystack_.push(5);
+//    mystack_.push(7);
+//    mystack_.push(3);
+//
+//    s21::stack<int> mystack_2;
+//    mystack_2.push(6);
+//    mystack_2.push(8);
+//    mystack_2.push(9);
+//
+//    mystack_ = mystack_2;
+//
+//        std::cout << mystack_.top() << '\n';
+//        mystack_.pop();
+//        std::cout << mystack_.top() << '\n';
+//        mystack_.pop();
+//        std::cout << mystack_.top() << '\n';
+//
+//    return 0;
+//}
 
 template <class T>
 s21::stack<T>::stack() : size_(0), head_(nullptr){}
@@ -22,7 +33,6 @@ s21::stack<T>::stack(const std::initializer_list<value_type> &items): size_(0), 
 {
     for(const auto &item : items){
         push(item);
-        ++size_;
     }
 }
 
@@ -36,6 +46,32 @@ s21::stack<T>::stack(const stack &s) {
 }
 
 template <class T>
+s21::stack<T> &s21::stack<T>::operator=(stack &&s) {
+    if(this != s){
+        this->head_ = s.head_;
+        this->size_ = s.size_;
+
+        s.head_ = nullptr;
+        s.size_ = 0;
+    }
+    return  *this;
+}
+
+template <class T>
+s21::stack<T> &s21::stack<T>::operator=(const stack &s) {
+    if(this != &s){
+        this->clear();
+
+        Node *current = s.head_;
+        while (current != nullptr){
+            this->push(current->data_);
+            current = current->pNext;
+        }
+    }
+    return *this;
+}
+
+template <class T>
 s21::stack<T>::stack(stack &&s): size_(s.size_), head_(s.head_) {
     s.size_ = 0;
     s.head_ = nullptr;
@@ -43,22 +79,9 @@ s21::stack<T>::stack(stack &&s): size_(s.size_), head_(s.head_) {
 
 template <class T>
 s21::stack<T>::~stack(){
-    Node *current = head_;
-    while (current != nullptr){
-        Node *next_node = current->pNext;
-        delete current;
-        current = next_node;
-    }
-    head_ = nullptr;
-    size_ = 0;
+    clear();
 }
 
-//template <class T>
-//s21::stack<T> s21::stack<T>::operator=(stack<T> &&s) {
-//    if(this != s){
-//
-//    }
-//}
 
 template <class T>
 const T &s21::stack<T>::top(){
@@ -99,4 +122,16 @@ template <class T>
 void s21::stack<T>::swap(stack& other){
     std::swap(head_, other.head_);
     std::swap(size_, other.size_);
+}
+
+template <class T>
+void s21::stack<T>::clear(){
+    Node *current = head_;
+    while (current){
+        Node *next_node = current->pNext;
+        delete current;
+        current = next_node;
+    }
+    head_ = nullptr;
+    size_ = 0;
 }

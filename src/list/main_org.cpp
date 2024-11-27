@@ -2,12 +2,12 @@
  #include <list>
 #include <limits>
 
- int main(){
-     std::list<int> mylist_ = {1, 77, 21, 9};
-     std::list<int> mylist_2 = {11, 8, 63, 1};
-
-     int msize = mylist_.max_size();
-     std::cout << msize;
+// int main(){
+//     std::list<int> mylist_ = {1, 77, 21, 9};
+//     std::list<int> mylist_2 = {11, 8, 63, 1};
+//
+//     int msize = mylist_.max_size();
+//     std::cout << msize;
 //     auto it = mylist_.begin();
 //     std::advance(it, 2);
 //     ++it;
@@ -18,4 +18,4 @@
 //     for(auto it = mylist_.begin(); it != mylist_.end(); ++it){
 //         std::cout << *it << " ";
 //     }
- }
+// }

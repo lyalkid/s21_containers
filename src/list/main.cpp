@@ -3,22 +3,22 @@
 
 #include "list.h"
 
-int main() {
-  s21::list<int> mylist_ = {1, 77, 21, 9};
-  //s21::list<int> mylist_3 = {1, 77, 21, 9};
-  int value = mylist_.size();
-  std::cout << value;
-
-//  for (s21::list<int>::iterator it = mylist_.begin(); it != mylist_.end();
-//       ++it) {
-//    std::cout << *it << " ";
-//  }
-
-//  if(mylist_ != mylist_2) {std::cout << "cool" << std::endl;} else {std::cout << "its okey";}
-
-
-  return 0;
-}
+//int main() {
+//  s21::list<int> mylist_ = {1, 77, 21, 9};
+//  //s21::list<int> mylist_3 = {1, 77, 21, 9};
+//  int value = mylist_.size();
+//  std::cout << value;
+//
+////  for (s21::list<int>::iterator it = mylist_.begin(); it != mylist_.end();
+////       ++it) {
+////    std::cout << *it << " ";
+////  }
+//
+////  if(mylist_ != mylist_2) {std::cout << "cool" << std::endl;} else {std::cout << "its okey";}
+//
+//
+//  return 0;
+//}
 
 template <class T>
 std::size_t s21::list<T>::size() {
