@@ -3,7 +3,7 @@
 
 #include "example_map_tree.h"
 
-namespace s21 {
+namespace s2 {
 template <typename K, typename V>
 class map : public Tree<K, V> {
  public:
@@ -93,6 +93,6 @@ class map : public Tree<K, V> {
     }
   }
 };
-}  // namespace s21
+}  // namespace s2
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_MAP_S21_MAP_H_

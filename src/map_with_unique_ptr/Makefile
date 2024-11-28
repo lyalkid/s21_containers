@@ -22,9 +22,9 @@ run: style compile
 
 test:
 ifeq ($(OS), Darwin)
-	$(CC) $(CFLAGS) $(TESTS) -o $(TEST_OUT) $(LIBS)
+	$(CC) $(CFLAGS) $(TESTS) -g -o $(TEST_OUT) $(LIBS)
 else
-	$(CC) $(CFLAGS) $(TESTS) -o $(TEST_OUT) $(LIBS) $(LINUX)
+	$(CC) $(CFLAGS) $(TESTS)  $(LIBS) $(LINUX)  -o $(TEST_OUT)
 endif
 	./$(TEST_OUT)
 
@@ -33,7 +33,7 @@ gcov_report:
 ifeq ($(OS), Darwin)
 	$(CC) $(CFLAGS) $(LFLAGS) $(TESTS)  -o $(GCOV_OUT) $(LIBS)
 else
-	$(CC) $(CFLAGS) $(LFLAGS) $(TESTS)  -o $(GCOV_OUT) $(LIBS) $(LINUX)
+	$(CC) $(CFLAGS) $(LFLAGS) $(TESTS)   $(LIBS) $(LINUX) -o $(GCOV_OUT)
 endif
 	./$(GCOV_OUT)
 	mkdir report

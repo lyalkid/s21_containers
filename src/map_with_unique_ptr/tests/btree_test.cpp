@@ -47,3 +47,13 @@ TEST(test_class, insert_map) {
   it = map.insert(5, 3);
   EXPECT_TRUE(it.second == false);
 }
+
+TEST(test_class, contains) {
+  map<int, char> map;
+  auto it = map.insert({1, 1});
+  it = map.insert(5, 1);
+  EXPECT_TRUE(map.contains(5));
+  EXPECT_FALSE(map.contains(2));
+  map.clear();
+  EXPECT_FALSE(map.contains(5));
+}

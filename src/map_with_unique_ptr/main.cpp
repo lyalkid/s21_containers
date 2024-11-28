@@ -2,9 +2,9 @@
 #include <map>
 
 #include "binaryTree.h"
-// #include "s21_map.h"
+#include "s21_map.h"
 
-#include "test_map/example_map.h"
+// #include "test_map/example_map.h"
 
 using std::cout;
 using std::endl;
@@ -54,9 +54,9 @@ int main() {
   //  //  BinaryTree.removeiter = (BinaryTree.get_root(), 48);
   //  //    BinaryTree.in_order_tree_walkiter = (BinaryTree.get_root());
   //
-  //  std::map<int, string> map1;
-  //    auto it = map1.insert({1, "fdf"});
-  //    it = map1.insert(std::pair<int, string>{2, "fd"});
+  std::map<int, string> map1;
+  auto item = map1.insert({1, "fdf"});
+  item = map1.insert(std::pair<int, string>{2, "fd"});
   //    auto item = map1.begin();
   //    item++;
   ////  it = map1.insert(std::pair<int, string>{2, "fd"});
@@ -69,13 +69,45 @@ int main() {
   ////  it = map1.insert(std::pair<int, string>{3, "fd"});
   ////    it = map1.insert(std::pair<int, string>{2, "fd"});
 
-  int x = 0;
-  int& y = x;
-  int z = 7;
-  int* px = &y;
+  BinaryTree<int, int> tree;
+  //    5, 10, 15, 20, 30, 35
+  bool flag = true;
+  BinaryTree<int, int>::iterator it;
+  tree.insert(5, 1, flag, it);
+  tree.insert(2, 1, flag, it);
+  tree.insert(10, 1, flag, it);
+  tree.insert(15, 1, flag, it);
+  tree.insert(20, 1, flag, it);
+  tree.insert(30, 1, flag, it);
+  tree.insert(35, 1, flag, it);
+  (tree.insert(3, 'd', flag, it));
+  (tree.insert(7, 'a', flag, it));
+  (tree.insert(2, 'f', flag, it));
+  (tree.insert(5, 'r', flag, it));
+  (tree.insert(8, 'y', flag, it));
+  (tree.insert(11, 'd', flag, it));
+  (tree.insert(12, 'a', flag, it));
+  (tree.insert(14, 'f', flag, it));
+  (tree.insert(12, 'r', flag, it));
+  (tree.insert(18, 'y', flag, it));
+  (tree.insert(13, 'd', flag, it));
+  (tree.insert(17, 'a', flag, it));
+  (tree.insert(22, 'f', flag, it));
+  (tree.insert(25, 'r', flag, it));
+  (tree.insert(28, 'y', flag, it));
+  (tree.insert(33, 'd', flag, it));
+  (tree.insert(37, 'a', flag, it));
+  (tree.insert(32, 'f', flag, it));
+  (tree.insert(45, '%', flag, it));
+  (tree.insert(48, 'y', flag, it));
 
-  y = ++z;
-  y = z++;
-  int c = x;
-  int& r = y;
+  tree.in_order_tree_walk(tree.get_root());
+  shared_ptr<TreeNode<int, int>> root = tree.get_root();
+
+  s21::map<int, char> map;
+  auto irt = map.insert({1, 1});
+  map1.clear();
+  map.clear();
+  irt = map.insert(5, 1);
+  irt = map.insert(5, 3);
 }

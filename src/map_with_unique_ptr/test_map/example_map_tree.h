@@ -11,7 +11,7 @@
 #include <utility>
 #include <vector>
 
-namespace s21 {
+namespace s2 {
 template <typename K, typename V>
 class Tree {
  public:
@@ -630,6 +630,6 @@ void Tree<K, V>::Contains_(const K &key, bool &contains) const noexcept {
   }
 }
 
-}  // namespace s21
+}  // namespace s2
 
 #endif  // CPP2_S21_CONTAINERS_1_SRC_TREE_S21_TREE_H_
