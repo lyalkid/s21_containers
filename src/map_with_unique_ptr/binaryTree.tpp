@@ -80,23 +80,6 @@ shared_ptr<TreeNode<K, V>> BinaryTree<K, V>::find(
   return find(node->right, key);
 }
 
-template <typename K, typename V>
-TreeNode<K, V> *BinaryTree<K, V>::findMin(
-    std::shared_ptr<TreeNode<K, V>> node) const {
-  if (node->left == nullptr) {
-    return node.get();
-  }
-  return findMin(node->left);
-}
-
-template <typename K, typename V>
-TreeNode<K, V> *BinaryTree<K, V>::findMax(
-    std::shared_ptr<TreeNode<K, V>> node) const {
-  if (node->right == nullptr) {
-    return node.get();
-  }
-  return findMax(node->right);
-}
 
 template <typename K, typename V>
 void BinaryTree<K, V>::in_order_tree_walk(

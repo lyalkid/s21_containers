@@ -22,11 +22,16 @@ class map {
   class const_iterator;
 
   // Constructors
-  map() = default;
+  map(): size_(), tree(){};
 
   map(const Key key, T value) : tree(key, value), size_(1) {}
 
-  map(std::initializer_list<value_type> const &items);
+  map(std::initializer_list<value_type> const &items){
+      auto it = items.begin();
+      while (it != items.end()) {
+          insert(*it++);
+      }
+  }
 
   map(const map &m);
 
@@ -40,15 +45,9 @@ class map {
 
   mapped_type &operator[](const key_type &key);
 
-  iterator begin() {
-    iterator result(tree.findMin(tree.root));
-    return result;
-  }
+  iterator begin();
 
-  iterator end() {
-    iterator result(tree.findMax(tree.root));
-    return result;
-  }
+  iterator end() ;
 
   bool empty() const;
 

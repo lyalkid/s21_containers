@@ -43,7 +43,7 @@ TEST(test_class, successor) {
 TEST(test_class, begin_end) {
   s21::map<int, int> tree;
   //    5, 10, 15, 20, 30, 35
-  bool flag = true;
+  // bool flag = true;
   //    BinaryTree<int, int>::iterator it;
   tree.insert(5, 1);
   tree.insert(2, 1);
@@ -52,8 +52,16 @@ TEST(test_class, begin_end) {
   tree.insert(20, 1);
   tree.insert(30, 1);
   tree.insert(35, 1);
+
+  for(s21::map<int, int> ::iterator it = tree.begin(); it != tree.end(); ++it){
+      std::cout << it->first << " " << it->second << std::endl;
+  }
+
+//    for(s21::map<int, int> ::iterator it = (tree.end())-- ; it != tree.begin(); --it){
+//        std::cout << it->first << " " << it->second << std::endl;
+//    }
   auto begin = tree.begin();
-  auto end = tree.end();
+ auto end = tree.end();
   //    tree.in_order_tree_walk(tree.get_root());
   ////    shared_ptr<TreeNode<int, int>> root = tree.get_root();
   //    EXPECT_EQ(begin->first., );
