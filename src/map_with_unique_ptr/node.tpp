@@ -5,9 +5,9 @@
 namespace s21 {
 //    template<typename K, typename V>
 //    using value = std::pair<K, V>;
-template <typename K, typename V>
-TreeNode<K, V>::TreeNode()
-    : data(nullptr), parent(nullptr), right(nullptr), left(nullptr), lvl(0) {}
+// template <typename K, typename V>
+// TreeNode<K, V>::TreeNode()
+//    : data(nullptr), parent(nullptr), right(nullptr), left(nullptr), lvl(0) {}
 
 template <typename K, typename V>
 TreeNode<K, V>::TreeNode(K key, V value)
@@ -34,4 +34,18 @@ TreeNode<K, V> &TreeNode<K, V>::operator=(const TreeNode<K, V> &other) {
   left = other.left;
   return *this;
 }
+template <typename K, typename V>
+bool TreeNode<K, V>::operator==(const TreeNode &other) const noexcept {
+  return this->equals(other);
+}
+
+template <typename K, typename V>
+bool TreeNode<K, V>::equals(const TreeNode &other) const noexcept {
+  if (this == &other) {
+    return true;
+  }
+  return (data == other.data && parent == other.parent &&
+          right == other.right && left == other.left && lvl == other.lvl);
+}
+
 }  // namespace s21
