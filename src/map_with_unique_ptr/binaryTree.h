@@ -11,6 +11,8 @@
 /// @brief
 namespace s21 {
 using std::shared_ptr;
+template <typename Key, typename T>
+class map;
 template <typename K, typename V>
 class TreeNode;
 
@@ -24,7 +26,7 @@ class BinaryTree {
   //  TreeIterator<K, V> it;
   // using data = std::pair<const K, V>;
   std::shared_ptr<TreeNode<K, V>> root;
-  size_t count;
+  size_t size_;
 
  public:
   using key_type = K;
@@ -37,7 +39,7 @@ class BinaryTree {
   using iterator = TreeIterator<K, V>;
   // TreeIterator<K, V>;
 
-  BinaryTree() : root(nullptr), count() {}
+  BinaryTree() : root(nullptr), size_() {}
 
   BinaryTree(K key, V value);
 
@@ -53,7 +55,8 @@ class BinaryTree {
   TreeNode<K, V> *findMax(std::shared_ptr<TreeNode<K, V>> node) const;
 
   std::shared_ptr<TreeNode<K, V>> get_root();
-
+  size_type size() const { return size_; }
+  bool contains(const K &key) const { return this->find(root, key) != nullptr; }
   //
   void destroyRecursive(TreeNode<K, V> *node);
   //
@@ -82,6 +85,7 @@ class BinaryTree {
    class TreeNode
   */
   friend class TreeIterator<K, V>;
+  friend class map<K, V>;
 };
 
 template <typename K, typename V>
@@ -103,6 +107,8 @@ class TreeIterator {
   TreeIterator &operator=(const TreeIterator &other);
 
   friend class BinaryTree<K, V>;  //<K, V>;
+  friend class map<K, V>;
+
  private:
   Node *currentNode;
 };
@@ -111,11 +117,11 @@ template <typename K, typename V>
 class TreeNode {
  private:
   std::pair<K, V> data;
-  std::shared_ptr<TreeNode> parent;
+  //  std::shared_ptr<TreeNode> parent;
+  TreeNode *parent;
   std::shared_ptr<TreeNode> right;
   std::shared_ptr<TreeNode> left;
 
-  //        TreeNode *parent;
   //        TreeNode *right;
   //        TreeNode *left;
   size_t lvl;
@@ -139,6 +145,7 @@ class TreeNode {
   //        template<template K, template  V>
   friend class BinaryTree<K, V>;  //<K, V>;
   friend class TreeIterator<K, V>;
+  friend class map<K, V>;
 };
 
 //    template<typename K, typename V>

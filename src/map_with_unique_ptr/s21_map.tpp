@@ -12,6 +12,7 @@ pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert(
   }
   pair<typename map<Key, T>::iterator, bool> result =
       make_pair(it, is_inserted);
+  if (is_inserted) size_++;
   return result;
 }
 
@@ -25,7 +26,34 @@ pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert(const Key& key,
   }
   pair<typename map<Key, T>::iterator, bool> result =
       make_pair(it, is_inserted);
+  if (is_inserted) size_++;
   return result;
+}
+template <typename Key, typename T>
+void map<Key, T>::clear() {
+  size_ = 0;
+  clearHelper(tree.root);
+  tree.size_ = 0;
+}
+template <typename Key, typename T>
+void map<Key, T>::clearHelper(std::shared_ptr<TreeNode<Key, T>>& node) {
+  if (node) {
+    clearHelper(node->left);
+    clearHelper(node->right);
+    node.reset();  // Освобождаем узел
+  }
+}
+template <typename Key, typename T>
+bool map<Key, T>::contains(const Key& key) const {
+  return tree.contains(key);
+}
+template <typename Key, typename T>
+bool map<Key, T>::empty() const {
+  return this->size() == 0;
+}
+template <typename Key, typename T>
+size_t map<Key, T>::size() const {
+  return size_;
 }
 
 }  // namespace s21

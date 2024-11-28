@@ -7,6 +7,9 @@ namespace s21 {
 
 template <typename Key, typename T>
 class map {
+ private:
+  size_t size_;
+
  public:
   using key_type = Key;
   using mapped_type = T;
@@ -56,6 +59,7 @@ class map {
  private:
   BinaryTree<key_type, mapped_type> tree;
   iterator it;
+  void clearHelper(std::shared_ptr<TreeNode<Key, T>> &node);
 };
 }  // namespace s21
 
