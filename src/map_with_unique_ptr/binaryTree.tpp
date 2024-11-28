@@ -32,7 +32,8 @@ std::shared_ptr<TreeNode<K, V>> BinaryTree<K, V>::get_root() {
 
 // insert
 template <typename K, typename V>
-void BinaryTree<K, V>::insert(K key, V value, bool &is_inserted, BinaryTree<K, V>::iterator& it) {
+void BinaryTree<K, V>::insert(K key, V value, bool &is_inserted,
+                              BinaryTree<K, V>::iterator &it) {
   if (root == nullptr) {
     root = std::make_shared<TreeNode<K, V>>(key, value);
     // it = TreeIterator<K, V>(root.get());
@@ -58,14 +59,13 @@ void BinaryTree<K, V>::insert(K key, V value, bool &is_inserted, BinaryTree<K, V
     parent->left = temp;
     //            parent->left->parent = parent;
     is_inserted = true;
-it.currentNode = parent->left.get();
+    it.currentNode = parent->left.get();
   } else {
     parent->right = temp;
     //            parent->left->parent = parent;
 
     is_inserted = true;
-      it.currentNode = parent->right.get();
-
+    it.currentNode = parent->right.get();
   }
   if (is_inserted) count++;
 }

@@ -43,7 +43,7 @@ class BinaryTree {
 
   ~BinaryTree();
 
-  void insert(K key, V value, bool &is_inserted, iterator& it);
+  void insert(K key, V value, bool &is_inserted, iterator &it);
 
   shared_ptr<TreeNode<K, V>> find(std::shared_ptr<TreeNode<K, V>> node,
                                   K key) const;
