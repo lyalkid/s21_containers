@@ -7,18 +7,11 @@ using std::make_shared;
 using std::pair;
 using std::shared_ptr;
 
-//    template<typename K, typename V>
-//    BinaryTree<K, V>::BinaryTree() {
-//        root = nullptr;
-//        it = nullptr;
-//        size_ = 0;
-//
-//    }
-
 template <typename K, typename V>
 BinaryTree<K, V>::BinaryTree(K key, V value) {
   root = std::make_shared<TreeNode<K, V>>(key, value);
-  //  it = TreeIterator<K, V>(key, value);
+  it = TreeIterator(root.get());
+  it.set_root(root.get());
   size_ = 0;
 }
 
@@ -32,14 +25,14 @@ std::shared_ptr<TreeNode<K, V>> BinaryTree<K, V>::get_root() {
 
 // insert
 template <typename K, typename V>
-void BinaryTree<K, V>::insert(K key, V value, bool &is_inserted,
-                              BinaryTree<K, V>::iterator &it) {
+void BinaryTree<K, V>::insert(K key, V value, bool &is_inserted) {
   if (root == nullptr) {
     root = std::make_shared<TreeNode<K, V>>(key, value);
     // it = TreeIterator<K, V>(root.get());
     size_++;
     is_inserted = true;
-    it.currentNode = root.get();
+    it.currentNode_ = root.get();
+    it.set_root(root.get());
     return;
   }
 
@@ -63,13 +56,13 @@ void BinaryTree<K, V>::insert(K key, V value, bool &is_inserted,
     parent->left = temp;
     //            parent->left->parent = parent;
     is_inserted = true;
-    it.currentNode = parent->left.get();
+    it.currentNode_ = parent->left.get();
   } else {
     parent->right = temp;
     //            parent->left->parent = parent;
 
     is_inserted = true;
-    it.currentNode = parent->right.get();
+    it.currentNode_ = parent->right.get();
   }
   if (is_inserted) size_++;
 }
@@ -104,21 +97,6 @@ TreeNode<K, V> *BinaryTree<K, V>::findMax(
   }
   return findMax(node->right);
 }
-
-//    template<typename K, typename V>
-//    TreeNode<K, V> * BinaryTree<K,
-//    V>::get_successor(std::shared_ptr<TreeNode<K, V> >node) const {
-//        if (!node) return nullptr;
-//        if (node->right != nullptr) {
-//            return findMin(node->right);
-//        }
-//        TreeNode<K, V> *parent = node->parent.get();
-//        while (parent && node == parent->right) {
-//            node = make_shared<TreeNode<K, V>>(parent->data.first,
-//            parent->data.second); parent = parent->parent;
-//        }
-//        return parent;
-//    }
 
 template <typename K, typename V>
 void BinaryTree<K, V>::in_order_tree_walk(

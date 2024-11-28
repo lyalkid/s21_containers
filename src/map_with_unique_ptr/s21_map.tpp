@@ -8,10 +8,10 @@ pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert(
   bool is_inserted = false;
   if (tree.find(tree.get_root(), value.first) == nullptr) {
     is_inserted = true;
-    tree.insert(value.first, value.second, is_inserted, it);
+    tree.insert(value.first, value.second, is_inserted);
   }
   pair<typename map<Key, T>::iterator, bool> result =
-      make_pair(it, is_inserted);
+      make_pair(tree.it, is_inserted);
   if (is_inserted) size_++;
   return result;
 }
@@ -22,10 +22,10 @@ pair<typename map<Key, T>::iterator, bool> map<Key, T>::insert(const Key& key,
   bool is_inserted = false;
   if (tree.find(tree.get_root(), key) == nullptr) {
     is_inserted = true;
-    tree.insert(key, obj, is_inserted, it);
+    tree.insert(key, obj, is_inserted);
   }
   pair<typename map<Key, T>::iterator, bool> result =
-      make_pair(it, is_inserted);
+      make_pair(tree.it, is_inserted);
   if (is_inserted) size_++;
   return result;
 }

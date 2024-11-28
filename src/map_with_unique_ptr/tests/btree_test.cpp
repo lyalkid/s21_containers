@@ -27,17 +27,37 @@ TEST(test_class, successor) {
   //    5, 10, 15, 20, 30, 35
   bool flag = true;
   BinaryTree<int, int>::iterator it;
-  tree.insert(5, 1, flag, it);
-  tree.insert(2, 1, flag, it);
-  tree.insert(10, 1, flag, it);
-  tree.insert(15, 1, flag, it);
-  tree.insert(20, 1, flag, it);
-  tree.insert(30, 1, flag, it);
-  tree.insert(35, 1, flag, it);
+  tree.insert(5, 1, flag);
+  tree.insert(2, 1, flag);
+  tree.insert(10, 1, flag);
+  tree.insert(15, 1, flag);
+  tree.insert(20, 1, flag);
+  tree.insert(30, 1, flag);
+  tree.insert(35, 1, flag);
   tree.in_order_tree_walk(tree.get_root());
   shared_ptr<TreeNode<int, int>> root = tree.get_root();
   EXPECT_EQ(tree.find(root, 15)->get_data().first, 15);
   EXPECT_EQ(tree.find(root, 20)->get_data().first, 20);
+}
+
+TEST(test_class, begin_end) {
+  s21::map<int, int> tree;
+  //    5, 10, 15, 20, 30, 35
+  bool flag = true;
+  //    BinaryTree<int, int>::iterator it;
+  tree.insert(5, 1);
+  tree.insert(2, 1);
+  tree.insert(10, 1);
+  tree.insert(15, 1);
+  tree.insert(20, 1);
+  tree.insert(30, 1);
+  tree.insert(35, 1);
+  auto begin = tree.begin();
+  auto end = tree.end();
+  //    tree.in_order_tree_walk(tree.get_root());
+  ////    shared_ptr<TreeNode<int, int>> root = tree.get_root();
+  //    EXPECT_EQ(begin->first., );
+  //    EXPECT_EQ(tree.find(root, 20)->get_data().first, 20);
 }
 
 TEST(test_class, insert_map) {

@@ -24,6 +24,8 @@ class map {
   // Constructors
   map() = default;
 
+  map(const Key key, T value) : tree(key, value), size_(1) {}
+
   map(std::initializer_list<value_type> const &items);
 
   map(const map &m);
@@ -38,9 +40,15 @@ class map {
 
   mapped_type &operator[](const key_type &key);
 
-  iterator begin();
+  iterator begin() {
+    iterator result(tree.findMin(tree.root));
+    return result;
+  }
 
-  iterator end();
+  iterator end() {
+    iterator result(tree.findMax(tree.root));
+    return result;
+  }
 
   bool empty() const;
 
@@ -58,7 +66,6 @@ class map {
 
  private:
   BinaryTree<key_type, mapped_type> tree;
-  iterator it;
   void clearHelper(std::shared_ptr<TreeNode<Key, T>> &node);
 };
 }  // namespace s21

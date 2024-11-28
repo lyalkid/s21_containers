@@ -1,13 +1,7 @@
 #include "binaryTree.h"
-
 // Constructors
 
 namespace s21 {
-//    template<typename K, typename V>
-//    using value = std::pair<K, V>;
-// template <typename K, typename V>
-// TreeNode<K, V>::TreeNode()
-//    : data(nullptr), parent(nullptr), right(nullptr), left(nullptr), lvl(0) {}
 
 template <typename K, typename V>
 TreeNode<K, V>::TreeNode(K key, V value)
