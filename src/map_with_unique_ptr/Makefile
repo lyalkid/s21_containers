@@ -7,7 +7,9 @@ LFLAGS = -fprofile-arcs -ftest-coverage
 OS = $(shell uname -s)
 A_OUT=main
 clang_file="---\nBasedOnStyle: Google\nIndentWidth: 4\nColumnLimit: 110\n"
-
+TEST_OUT=unit_tests
+GCOV_OUT=gcov_test
+TESTS=$(wildcard tests/*.cpp)
 compile:
 	@g++ main.cpp -o $(A_OUT)
 
@@ -20,20 +22,20 @@ run: style compile
 
 test:
 ifeq ($(OS), Darwin)
-	$(CC) $(CFLAGS) tests/*.cc -o unit_tests $(LIBS)
+	$(CC) $(CFLAGS) $(TESTS) -o $(TEST_OUT) $(LIBS)
 else
-	$(CC) $(CFLAGS) tests/*.cc -o unit_tests $(LIBS) $(LINUX)
+	$(CC) $(CFLAGS) $(TESTS) -o $(TEST_OUT) $(LIBS) $(LINUX)
 endif
-	./unit_tests
+	./$(TEST_OUT)
 
 
 gcov_report:
 ifeq ($(OS), Darwin)
-	$(CC) $(CFLAGS) $(LFLAGS) tests/*.cc  -o test.out $(LIBS)
+	$(CC) $(CFLAGS) $(LFLAGS) $(TESTS)  -o $(GCOV_OUT) $(LIBS)
 else
-	$(CC) $(CFLAGS) $(LFLAGS) tests/*.cc  -o test.out $(LIBS) $(LINUX)
+	$(CC) $(CFLAGS) $(LFLAGS) $(TESTS)  -o $(GCOV_OUT) $(LIBS) $(LINUX)
 endif
-	./test.out
+	./$(GCOV_OUT)
 	mkdir report
 	gcovr *.gcda
 	gcovr -b
@@ -45,12 +47,17 @@ endif
 cp:
 	cppcheck --enable=all --suppress=missingIncludeSystem *.cpp *.h *.tpp
 
-v: compileg
-	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -s ./main
+v: compileg test
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -s ./$(TEST_OUT)
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -s ./$(A_OUT)
+
+#
+#vt: test
+#	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -s ./$(TEST_OUT)
 
 
 clean:
-	rm -rf .clang-format *.o *.a *.gcda *.gcno *.info *.gcov report gcov_test test.out $(A_OUT)
+	rm -rf .clang-format *.o *.a *.gcda *.gcno *.info *.gcov report $(GCOV_OUT) $(TEST_OUT) $(A_OUT)
 
 style:
 	@clang-format --style=Google -i *.h *.cpp */*.h */*.cpp *.tpp
