@@ -4,23 +4,23 @@
 namespace s21 {
 
 template <typename K, typename V>
-TreeNode<K, V>::TreeNode(K key, V value)
+btree_node<K, V>::btree_node(K key, V value)
     : parent(nullptr), right(nullptr), left(nullptr), lvl(0) {
   data = std::make_pair(key, value);
 }
 
 template <typename K, typename V>
 
-TreeNode<K, V>::~TreeNode() {}
+btree_node<K, V>::~btree_node() {}
 
 template <typename K, typename V>
-TreeNode<K, V> &TreeNode<K, V>::operator=(const TreeNode<K, V> &other) {
+btree_node<K, V> &btree_node<K, V>::operator=(const btree_node<K, V> &other) {
   if (this == &other) {
     return *this;
   }
   // TODO: сделать конструктор присваивания, тут не хватает всех полей, которые
-  // есть в TreeNode
-  this->~TreeNode();
+  // есть в btree_node
+  this->~btree_node();
   data = std::make_pair(other.data.first, other.data.second);
   parent = other.parent;
   lvl = other.lvl;
@@ -29,12 +29,12 @@ TreeNode<K, V> &TreeNode<K, V>::operator=(const TreeNode<K, V> &other) {
   return *this;
 }
 template <typename K, typename V>
-bool TreeNode<K, V>::operator==(const TreeNode &other) const noexcept {
+bool btree_node<K, V>::operator==(const btree_node &other) const noexcept {
   return this->equals(other);
 }
 
 template <typename K, typename V>
-bool TreeNode<K, V>::equals(const TreeNode &other) const noexcept {
+bool btree_node<K, V>::equals(const btree_node &other) const noexcept {
   if (this == &other) {
     return true;
   }

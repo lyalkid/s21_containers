@@ -11,27 +11,27 @@ This table contains in-class type overrides (typical for the standard STL librar
 
 | Done | Member type            | Definition                                                                             |
 |------|------------------------|----------------------------------------------------------------------------------------|
-| [ ]  | key_type               | Key the first template parameter (Key)                                                |
-| [ ]  | value_type             | T the second template parameter (T)                                                   |
-| [ ]  | node_type              | internal class Node that holds a key-value pair and pointers to left and right children |
-| [ ]  | reference              | reference to node_type                                                                  |
-| [ ]  | const_reference        | const reference to node_type                                                           |
+| [x]  | key_type               | Key the first template parameter (Key)                                                |
+| [x]  | value_type             | T the second template parameter (T)                                                   |
+| []   | node_type              | internal class Node that holds a key-value pair and pointers to left and right children |
+| [x]  | reference              | reference to node_type                                                                  |
+| [x]  | const_reference        | const reference to node_type                                                           |
 | [ ]  | iterator               | internal class BinaryTreeIterator<T>                                                  |
 | [ ]  | const_iterator         | internal class BinaryTreeConstIterator<T>                                             |
-| [ ]  | size_type              | size_t defines the type of the container size (standard type is size_t)               |
+| [x]  | size_type              | size_t defines the type of the container size (standard type is size_t)               |
 
 ## Binary Tree Member functions
 
 | Done | Member functions       | Definition                                      |
 |------|------------------------|------------------------------------------------|
-| [ ]  | binary_tree()           | default constructor, creates an empty binary tree|
-| [ ]  | binary_tree(const binary_tree &bt) | copy constructor                              |
+| [x]  | binary_tree()           | default constructor, creates an empty binary tree|
+| [x]  | binary_tree(const binary_tree &bt) | copy constructor                              |
 | [ ]  | binary_tree(binary_tree &&bt) | move constructor                              |
-| [ ]  | ~binary_tree()          | destructor                                     |
+| [x]  | ~binary_tree()          | destructor                                     |
 | [ ]  | operator=(binary_tree &&bt) | assignment operator overload for moving an object |
-| [ ]  | insert(const key_type &key, const value_type &value) | inserts a node into the tree |
+| [x]  | insert(const key_type &key, const value_type &value) | inserts a node into the tree |
 | [ ]  | remove(const key_type &key) | removes a node with a specific key            |
-| [ ]  | search(const key_type &key) | searches for a node by key                   |
+| [x]  | search(const key_type &key) | searches for a node by key                   |
 | [ ]  | clear()                 | clears the tree                               |
 
 ## Binary Tree Element access
@@ -94,8 +94,8 @@ This table contains in-class type overrides (typical for the standard STL librar
 | [ ]  | value_type             | std::pair<const key_type, mapped_type> Key-value pair                                  |
 | [ ]  | reference              | value_type & defines the type of the reference to an element                          |
 | [ ]  | const_reference        | const value_type & defines the type of the constant reference                         |
-| [ ]  | iterator               | internal class MapIterator<K, T> or BinaryTree::iterator                              |
-| [ ]  | const_iterator         | internal class MapConstIterator<K, T> or BinaryTree::const_iterator                   |
+| [ ]  | iterator               | internal class MapIterator<K, T> or binary_tree::iterator                              |
+| [ ]  | const_iterator         | internal class MapConstIterator<K, T> or binary_tree::const_iterator                   |
 | [ ]  | size_type              | size_t defines the type of the container size (standard type is size_t)               |
 
 ## Map Member functions
@@ -232,8 +232,8 @@ This table contains in-class type overrides (typical for the standard STL librar
 | [ ]      | `value_type`             | `Key` value type (the value itself is a key)                                                    |
 | [ ]      | `reference`              | `value_type &` defines the type of the reference to an element                                                             |
 | [ ]      | `const_reference`        | `const value_type &` defines the type of the constant reference                                         |
-| [ ]      | `iterator`               | internal class `MultisetIterator<T>` or `BinaryTree::iterator` as internal iterator of tree subclass; defines the type for iterating through the container                                                 |
-| [ ]      | `const_iterator`         | internal class `MultisetConstIterator<T>` or `BinaryTree::const_iterator` as internal const iterator of tree subclass; defines the constant type for iterating through the container                                           |
+| [ ]      | `iterator`               | internal class `MultisetIterator<T>` or `binary_tree::iterator` as internal iterator of tree subclass; defines the type for iterating through the container                                                 |
+| [ ]      | `const_iterator`         | internal class `MultisetConstIterator<T>` or `binary_tree::const_iterator` as internal const iterator of tree subclass; defines the constant type for iterating through the container                                           |
 | [ ]      | `size_type`              | `size_t` defines the type of the container size (standard type is size_t) |
 
 *Multiset Member functions*

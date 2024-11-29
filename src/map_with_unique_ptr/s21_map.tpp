@@ -4,7 +4,7 @@ namespace s21 {
     using std::make_pair;
     using std::pair;
     template<typename Key, typename T>
-    using iterator = typename BinaryTree<Key, T>::iterator;
+    using iterator = typename binary_tree<Key, T>::iterator;
 
     template <typename Key, typename T>
     map<Key, T>::map(const map &m) : tree(m.tree), size_(m.size_) {
@@ -50,7 +50,7 @@ namespace s21 {
     }
 
     template<typename Key, typename T>
-    void map<Key, T>::clearHelper(std::shared_ptr<TreeNode<Key, T>> &node) {
+    void map<Key, T>::clearHelper(std::shared_ptr<btree_node<Key, T>> &node) {
         if (node) {
             clearHelper(node->left);
             clearHelper(node->right);
@@ -76,7 +76,7 @@ namespace s21 {
 
     template<typename Key, typename T>
     iterator<Key, T> map<Key, T>::begin(){
-        TreeNode<Key, T>* current = tree.root.get();
+        btree_node<Key, T>* current = tree.root.get();
         while(current ->left != nullptr){
             current = current->left.get();
         }
@@ -88,7 +88,7 @@ namespace s21 {
 
     template<typename Key, typename T>
     iterator<Key, T> map<Key, T>::end(){
-        TreeNode<Key, T>* current = tree.root.get();
+        btree_node<Key, T>* current = tree.root.get();
         while(current ->right != nullptr){
             current = current->right.get();
         }

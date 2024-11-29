@@ -3,76 +3,76 @@
 namespace s21 {
 
     template<typename K, typename V>
-    TreeIterator<K, V> &TreeIterator<K, V>::operator=(
-            const TreeIterator<K, V> &other) {
+    btree_iterator<K, V> &btree_iterator<K, V>::operator=(
+            const btree_iterator<K, V> &other) {
         if (this == &other) {
             return *this;
         }
-        this->~TreeIterator();
+        this->~btree_iterator();
         currentNode_ = other.currentNode_;
         return *this;
     }
 
     template<typename K, typename V>
-    TreeIterator<K, V> &TreeIterator<K, V>::operator++() {
+    btree_iterator<K, V> &btree_iterator<K, V>::operator++() {
         currentNode_ = next(currentNode_); // Переходим к следующему узлу
         return *this;
     }
 
     template<typename K, typename V>
-    TreeIterator<K, V>::TreeIterator(const TreeIterator<K, V>& other)
+    btree_iterator<K, V>::btree_iterator(const btree_iterator<K, V>& other)
             : currentNode_(other.currentNode_) , treeRoot_(other.treeRoot_){}
 
     template<typename K, typename V>
-    TreeIterator<K, V> &TreeIterator<K, V>::operator--() {
+    btree_iterator<K, V> &btree_iterator<K, V>::operator--() {
         currentNode_ = prev(currentNode_); // Переходим к следующему узлу
         return *this;
     }
     template<typename K, typename V>
-    TreeIterator<K, V> TreeIterator<K, V>::operator++(int) {
-        TreeIterator temp = *this;
+    btree_iterator<K, V> btree_iterator<K, V>::operator++(int) {
+        btree_iterator temp = *this;
         ++(*this);
         return temp;
     }
     template<typename K, typename V>
-    TreeIterator<K, V> TreeIterator<K, V>::operator--(int) {
-        TreeIterator temp = *this;
+    btree_iterator<K, V> btree_iterator<K, V>::operator--(int) {
+        btree_iterator temp = *this;
         --(*this);
         return temp;
     }
 
     template<typename K, typename V>
-    bool TreeIterator<K, V>::operator==(const TreeIterator &other) const {
+    bool btree_iterator<K, V>::operator==(const btree_iterator &other) const {
         return currentNode_ == other.currentNode_;
     }
 
     template<typename K, typename V>
-    bool TreeIterator<K, V>::operator!=(const TreeIterator &other) const {
+    bool btree_iterator<K, V>::operator!=(const btree_iterator &other) const {
         return currentNode_ != other.currentNode_;
     }
 
     template<typename K, typename V>
-    TreeIterator<K, V>::~TreeIterator() {}
+    btree_iterator<K, V>::~btree_iterator() {}
 
     template<typename K, typename V>
-    TreeIterator<K, V>::TreeIterator(TreeNode<K, V> *node) {
+    btree_iterator<K, V>::btree_iterator(btree_node<K, V> *node) {
         currentNode_ = node;
     }
 
     template<typename K, typename V>
-    TreeIterator<K, V>::TreeIterator(K key, V value) {
-        currentNode_ = TreeNode(key, value);
+    btree_iterator<K, V>::btree_iterator(K key, V value) {
+        currentNode_ = btree_node(key, value);
     }
 
     template<typename K, typename V>
-    void TreeIterator<K, V>::set_root(TreeNode<K, V> *root) {
+    void btree_iterator<K, V>::set_root(btree_node<K, V> *root) {
         treeRoot_ = root;
     }
 
 
     template<typename K, typename V>
-    TreeNode<K, V> *TreeIterator<K, V>::findMin(
-            TreeNode<K, V> *node) const {
+    btree_node<K, V> *btree_iterator<K, V>::findMin(
+            btree_node<K, V> *node) const {
         if (node->left == nullptr) {
             return node;
         }
@@ -80,8 +80,8 @@ namespace s21 {
     }
 
     template<typename K, typename V>
-    TreeNode<K, V> *TreeIterator<K, V>::findMax(
-            TreeNode<K, V> *node) const {
+    btree_node<K, V> *btree_iterator<K, V>::findMax(
+            btree_node<K, V> *node) const {
         if (node->right == nullptr) {
             return node;
         }
@@ -89,12 +89,12 @@ namespace s21 {
     }
 
     template<typename K, typename V>
-    TreeNode<K, V> *TreeIterator<K, V>::next(TreeNode<K, V> *node) const {
+    btree_node<K, V> *btree_iterator<K, V>::next(btree_node<K, V> *node) const {
 
         if(node->right!= nullptr){
             return findMin(node->right.get());
         }
-        TreeNode<K, V>* parent = node->parent;
+        btree_node<K, V>* parent = node->parent;
         while(parent && node == parent->right.get()){
             node = parent;
             parent = parent->parent;
@@ -104,13 +104,13 @@ namespace s21 {
 
 
     template<typename K, typename V>
-    TreeNode<K, V> *TreeIterator<K, V>::prev    (TreeNode<K, V> *node) const {
+    btree_node<K, V> *btree_iterator<K, V>::prev    (btree_node<K, V> *node) const {
 
 
         if(node->left!= nullptr){
             return findMax(node->left.get());
         }
-        TreeNode<K, V>* parent = node->parent;
+        btree_node<K, V>* parent = node->parent;
         while(parent && node == parent->left.get()){
             node = parent;
             parent = parent->parent;

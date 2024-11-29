@@ -16,145 +16,160 @@ namespace s21 {
     class map;
 
     template<typename K, typename V>
-    class TreeNode;
+    class btree_node;
 
     template<typename K, typename V>
-    class TreeIterator;
+    class btree_iterator;
+
 
     template<typename K, typename V>
-    class BinaryTree {
+    class base_iterator ;
+
+    template<typename K, typename V>
+    class btree_const_iterator ;
+
+    template<typename K, typename V>
+    class binary_tree {
     public:
         using key_type = K;
         using mapped_type = V;
         using value_type = std::pair<const key_type, mapped_type>;
+        using node_type = btree_node<K, V>;
         using reference = value_type &;
         using const_reference = const value_type &;
+        using iterator = btree_iterator<K, V>;
+        using const_iterator = btree_const_iterator<K, V>;
         using size_type = size_t;
-        using sh_ptr_iterator = std::shared_ptr<TreeIterator<K, V>>;
-        using iterator = TreeIterator<K, V>;
+        using sh_ptr_iterator = std::shared_ptr<btree_iterator<K, V>>;
 
-        BinaryTree() : root(nullptr), it(), size_() {}
 
-        BinaryTree(K key, V value);
+        binary_tree() : root(nullptr), it(), size_() {}
 
-        BinaryTree(const BinaryTree &other): root(other.root), it(other.it), size_(other.size_){}
+        binary_tree(K key, V value);
 
-        ~BinaryTree();
+        binary_tree(const binary_tree &other): root(other.root), it(other.it), size_(other.size_){}
+
+        ~binary_tree();
 
         void insert(K key, V value, bool &is_inserted);
 
-        shared_ptr<TreeNode<K, V>> find(std::shared_ptr<TreeNode<K, V>> node,
-                                        K key) const;
+        shared_ptr<btree_node<K, V>> find(std::shared_ptr<btree_node<K, V>> node,
+                                          K key) const;
 
 
-        std::shared_ptr<TreeNode<K, V>> get_root();
+        std::shared_ptr<btree_node<K, V>> get_root();
 
         size_type size() const { return size_; }
 
         bool contains(const K &key) const { return this->find(root, key) != nullptr; }
 
-        void destroyRecursive(TreeNode<K, V> *node);
+        void destroyRecursive(btree_node<K, V> *node);
 
-        void in_order_tree_walk(std::shared_ptr<TreeNode<K, V>> node);
+        void in_order_tree_walk(std::shared_ptr<btree_node<K, V>> node);
 
-        friend class TreeIterator<K, V>;
+        friend class btree_iterator<K, V>;
 
         friend class map<K, V>;
 
     private:
-        std::shared_ptr<TreeNode<K, V>> root;
+        std::shared_ptr<btree_node<K, V>> root;
         iterator it;
         size_t size_;
     };
 
     template<typename K, typename V>
-    class TreeIterator {
+    class btree_const_iterator {
+
+    };
+
+    template<typename K, typename V>
+    class btree_iterator {
     public:
-        using Node = TreeNode<K, V>;
+        using node = btree_node<K, V>;
         using value_type = std::pair<const K, V>;
         using reference = value_type &;
         using pointer = value_type *;
         using difference_type = std::ptrdiff_t;
         using iterator_category = std::bidirectional_iterator_tag;
 
-        TreeIterator() = default;
+        btree_iterator() = default;
 
-        TreeIterator(TreeNode<K, V> *node);
+        btree_iterator(btree_node<K, V> *node);
 
-        TreeIterator(const TreeIterator<K, V>& other);
+        btree_iterator(const btree_iterator<K, V>& other);
 
-        TreeIterator(K key, V value);
+        btree_iterator(K key, V value);
 
-        ~TreeIterator();
+        ~btree_iterator();
 
-        void set_root(TreeNode<K, V> *root);
+        void set_root(btree_node<K, V> *root);
 
-        TreeIterator &operator=(const TreeIterator &other);
+        btree_iterator &operator=(const btree_iterator &other);
 
-        TreeIterator &operator++();
+        btree_iterator &operator++();
 
-        TreeIterator &operator--();
+        btree_iterator &operator--();
 
-        TreeIterator operator++(int);
-        TreeIterator operator--(int);
+        btree_iterator operator++(int);
+        btree_iterator operator--(int);
 
 
-        bool operator==(const TreeIterator &other) const;
+        bool operator==(const btree_iterator &other) const;
 
-        bool operator!=(const TreeIterator &other) const;
+        bool operator!=(const btree_iterator &other) const;
 
         reference operator*() const { return currentNode_->data; }
 
         std::pair<K, V>* operator->() const { return &(currentNode_->data); }
 
-        TreeNode<K, V>  *findMin(TreeNode<K, V>  *node) const;
+        btree_node<K, V>  *findMin(btree_node<K, V>  *node) const;
 
-        TreeNode<K, V>  *findMax(TreeNode<K, V>  *node) const;
+        btree_node<K, V>  *findMax(btree_node<K, V>  *node) const;
 
-        TreeNode<K, V>  *next(TreeNode<K, V>  *node) const;
+        btree_node<K, V>  *next(btree_node<K, V>  *node) const;
 
-        TreeNode<K, V>  *prev(TreeNode<K, V>  *node) const;
+        btree_node<K, V>  *prev(btree_node<K, V>  *node) const;
 
 
-        friend class BinaryTree<K, V>;  //<K, V>;
+        friend class binary_tree<K, V>;  //<K, V>;
         friend class map<K, V>;
 
     private:
-        Node *treeRoot_;
-        Node *currentNode_;
+        node *treeRoot_;
+        node *currentNode_;
     };
 
     template<typename K, typename V>
-    class TreeNode {
+    class btree_node {
     private:
         std::pair<K, V> data;
-        TreeNode *parent;
-        std::shared_ptr<TreeNode> right;
-        std::shared_ptr<TreeNode> left;
+        btree_node *parent;
+        std::shared_ptr<btree_node> right;
+        std::shared_ptr<btree_node> left;
 
         size_t lvl;
 
     public:
         //        using value = std::pair<K, V>;
-        TreeNode() = default;
+        btree_node() = default;
 
-        TreeNode(K, V);
+        btree_node(K, V);
 
-        ~TreeNode();
+        ~btree_node();
 
         std::pair<K, V> get_data() { return data; }
 
-        bool equals(const TreeNode &other) const noexcept;
+        bool equals(const btree_node &other) const noexcept;
 
-        TreeNode &operator=(const TreeNode &other);
+        btree_node &operator=(const btree_node &other);
 
-        bool operator==(const TreeNode &other) const noexcept;
+        bool operator==(const btree_node &other) const noexcept;
 
 
 
         //        template<template K, template  V>
-        friend class BinaryTree<K, V>;  //<K, V>;
-        friend class TreeIterator<K, V>;
+        friend class binary_tree<K, V>;  //<K, V>;
+        friend class btree_iterator<K, V>;
 
         friend class map<K, V>;
     };

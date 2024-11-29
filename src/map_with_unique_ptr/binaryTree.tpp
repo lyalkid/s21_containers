@@ -8,27 +8,27 @@ using std::pair;
 using std::shared_ptr;
 
 template <typename K, typename V>
-BinaryTree<K, V>::BinaryTree(K key, V value) {
-  root = std::make_shared<TreeNode<K, V>>(key, value);
-  it = TreeIterator(root.get());
+binary_tree<K, V>::binary_tree(K key, V value) {
+  root = std::make_shared<btree_node<K, V>>(key, value);
+  it = btree_iterator(root.get());
   it.set_root(root.get());
   size_ = 0;
 }
 
 template <typename K, typename V>
-BinaryTree<K, V>::~BinaryTree() = default;
+binary_tree<K, V>::~binary_tree() = default;
 
 template <typename K, typename V>
-std::shared_ptr<TreeNode<K, V>> BinaryTree<K, V>::get_root() {
+std::shared_ptr<btree_node<K, V>> binary_tree<K, V>::get_root() {
   return root;
 }
 
 // insert
 template <typename K, typename V>
-void BinaryTree<K, V>::insert(K key, V value, bool &is_inserted) {
+void binary_tree<K, V>::insert(K key, V value, bool &is_inserted) {
   if (root == nullptr) {
-    root = std::make_shared<TreeNode<K, V>>(key, value);
-    // it = TreeIterator<K, V>(root.get());
+    root = std::make_shared<btree_node<K, V>>(key, value);
+    // it = btree_iterator<K, V>(root.get());
     size_++;
     is_inserted = true;
     it.currentNode_ = root.get();
@@ -37,9 +37,9 @@ void BinaryTree<K, V>::insert(K key, V value, bool &is_inserted) {
   }
 
   is_inserted = false;
-  TreeNode<K, V> *parent = nullptr;
-  shared_ptr<TreeNode<K, V>> current = root;
-  shared_ptr<TreeNode<K, V>> temp = make_shared<TreeNode<K, V>>(key, value);
+  btree_node<K, V> *parent = nullptr;
+  shared_ptr<btree_node<K, V>> current = root;
+  shared_ptr<btree_node<K, V>> temp = make_shared<btree_node<K, V>>(key, value);
   //  if(this->find(root, key) != nullptr){
   //      return;
   //  }
@@ -68,8 +68,8 @@ void BinaryTree<K, V>::insert(K key, V value, bool &is_inserted) {
 }
 
 template <typename K, typename V>
-shared_ptr<TreeNode<K, V>> BinaryTree<K, V>::find(
-    std::shared_ptr<TreeNode<K, V>> node, K key) const {
+shared_ptr<btree_node<K, V>> binary_tree<K, V>::find(
+        std::shared_ptr<btree_node<K, V>> node, K key) const {
   if (node == nullptr || node->data.first == key) {
     return node;
   }
@@ -82,8 +82,8 @@ shared_ptr<TreeNode<K, V>> BinaryTree<K, V>::find(
 
 
 template <typename K, typename V>
-void BinaryTree<K, V>::in_order_tree_walk(
-    std::shared_ptr<TreeNode<K, V>> node) {
+void binary_tree<K, V>::in_order_tree_walk(
+    std::shared_ptr<btree_node<K, V>> node) {
   if (node != nullptr) {
     in_order_tree_walk(node->right);
     std::cout << std::string(node->lvl, ' ') << node->data.first << std::endl;
