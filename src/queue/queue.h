@@ -23,24 +23,17 @@ class queue : public list<T>{
         queue &operator=(queue &&q);
         queue &operator=(const queue &q);
 
+        using list<T>::front;
+        using list<T>::back;
+
+        using list<T>::empty;
+        using list<T>::size;
+
         void push(const_reference value);
         void pop();
-
-
-    private:
-        size_type size_;
-        class Node{
-        public:
-            Node *pNext;
-            Node *pPrev;
-            T data_;
-            Node(const T& data = T(), Node *pNext = nullptr, Node *pPrev = nullptr):
-            data_(data), pNext(pNext), pPrev(pPrev) {}
-        };
-        Node *head_;
-        Node *tail_;
+        using list<T>::swap;
     };
 }
 
-
+#include "queue.tpp"
 #endif

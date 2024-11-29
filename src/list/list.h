@@ -59,7 +59,7 @@ public:
     void unique();
     void sort();
 
-private:
+protected:
     value_type list_;
     size_type size_;
     class Node{
@@ -102,5 +102,4 @@ private:
 }
 
 #include "list.tpp"
-//#include "main.cpp"
 #endif

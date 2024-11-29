@@ -43,4 +43,6 @@ class stack{
     };
 }
 
+
+#include "stack.tpp"
 #endif

@@ -142,7 +142,7 @@ std::size_t s21::list<T>::size() {
 template <class T>
 std::size_t s21::list<T>::max_size() {
   constexpr auto max_size = std::numeric_limits<std::size_t>::max();
-  return max_size;
+  return max_size/ sizeof(T)/2;
 }
 
 // List Modifiers

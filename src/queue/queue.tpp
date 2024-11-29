@@ -1,21 +1,7 @@
 #include "queue.h"
-#include <iostream>
-
-int main(){
-    s21::queue<int> q_ = {1, 2, 3};
-    s21::queue<int> q_2;
-
-    q_.push(5);
-    std::cout << q_.front() << '\n';
-    std::cout << q_.back() << '\n';
-
-
-    return 0;
-}
-
 
 template <class T>
-s21::queue<T>::queue() : size_(0), head_(nullptr), tail_(nullptr){}
+s21::queue<T>::queue() : list<T>() {}
 
 template <class T>
 s21::queue<T>::queue(const std::initializer_list<value_type> &items) : list<T>(items){}
@@ -32,7 +18,13 @@ s21::queue<T>::~queue(){
 }
 
 template <class T>
-s21::queue<T> s21::queue<T>::operator=(queue &&q) {
+s21::queue<T> &s21::queue<T>::operator=(queue&& q) {
+    list<T>::operator=(std::move(q));
+    return *this;
+}
+
+template<class T>
+s21::queue<T> &s21::queue<T>::operator=(const queue &q){
     list<T>::operator=(std::move(q));
     return *this;
 }
@@ -46,3 +38,4 @@ template <class T>
 void s21::queue<T>::pop() {
     list<T>::pop_front();
 }
+
