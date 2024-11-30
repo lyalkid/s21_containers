@@ -12,7 +12,7 @@ s21::stack<T>::stack(const std::initializer_list<value_type> &items): size_(0), 
 }
 
 template <class T>
-s21::stack<T>::stack(const stack &s) {
+s21::stack<T>::stack(const stack &s) : size_(0), head_(nullptr){
  Node *current = s.head_;
  while (current){
      push(current->data_);
@@ -33,7 +33,7 @@ s21::stack<T>::~stack(){
 
 template <class T>
 s21::stack<T> &s21::stack<T>::operator=(stack &&s) {
-    if(this != s){
+    if(this != &s){
      this->head_ = s.head_;
      this->size_ = s.size_;
 
@@ -48,10 +48,16 @@ s21::stack<T> &s21::stack<T>::operator=(const stack &s) {
     if(this != &s){
      this->clear();
 
+     s21::stack<T> tmp_stack;
      Node *current = s.head_;
      while (current != nullptr){
-         this->push(current->data_);
+         tmp_stack.push(current->data_);
          current = current->pNext;
+     }
+
+     while(!tmp_stack.empty()){
+         this->push(tmp_stack.top());
+         tmp_stack.pop();
      }
     }
     return *this;
@@ -86,9 +92,11 @@ void s21::stack<T>::push(const_reference value){
 
 template <class T>
 void s21::stack<T>::pop(){
+    if(head_ == nullptr) return;
     Node *next_node = head_->pNext;
     delete head_;
     head_ = next_node;
+    --size_;
 }
 
 

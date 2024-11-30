@@ -34,8 +34,8 @@ class stack{
         size_type size_;
         class Node{
         public:
-         Node *pNext;
          T data_;
+         Node *pNext;
          Node(const T& data = T(), Node *pNext = nullptr):
          data_(data), pNext(pNext){}
         };
