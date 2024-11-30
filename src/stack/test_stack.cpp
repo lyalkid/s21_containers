@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <iostream>
+
 #include <stack>
 #include "stack.h"
 
@@ -22,6 +22,12 @@ TEST(Stack, CopyConstructor){
 
     EXPECT_FALSE(stack_2_.empty());
     EXPECT_EQ(stack_2_.size(), 3);
+
+    EXPECT_EQ(stack_2_.top(), 3);
+    stack_2_.pop();
+    EXPECT_EQ(stack_2_.top(), 2);
+    stack_2_.pop();
+    EXPECT_EQ(stack_2_.top(), 1);
 }
 
 TEST(Stack, CopyAssigment){

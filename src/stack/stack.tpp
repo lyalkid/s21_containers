@@ -13,10 +13,15 @@ s21::stack<T>::stack(const std::initializer_list<value_type> &items): size_(0), 
 
 template <class T>
 s21::stack<T>::stack(const stack &s) : size_(0), head_(nullptr){
+ s21::stack<int> tmp_stack;
  Node *current = s.head_;
  while (current){
-     push(current->data_);
+     tmp_stack.push(current->data_);
      current = current->pNext;
+ }
+ while(!tmp_stack.empty()){
+     this->push(tmp_stack.top());
+     tmp_stack.pop();
  }
 }
 
