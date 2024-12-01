@@ -64,9 +64,9 @@ protected:
     size_type size_;
     class Node{
     public:
+        T data_;
         Node *pNext;
         Node *pPrev;
-        T data_;
         Node(const T& data = T(), Node *pNext = nullptr, Node *pPrev = nullptr)
             : data_(data), pNext(pNext), pPrev(pPrev){}
     };

@@ -14,19 +14,13 @@ s21::list<T>::list(const std::initializer_list<value_type> &items)
 }
 
 template <class T>
-s21::list<T>::list(const list &l) noexcept {
-  if (l.head_ == nullptr) {
-    head_ = nullptr;
-    tail_ = nullptr;
-    size_ = 0;
-  } else {
+s21::list<T>::list(const list &l) noexcept :  size_(0), head_(nullptr), tail_(nullptr){
     Node *current = l.head_;
     while (current != nullptr) {
       push_back(current->data_);
       current = current->pNext;
     }
   }
-}
 
 template <class T>
 s21::list<T>::list(list &&l) noexcept
@@ -43,7 +37,7 @@ s21::list<T>::~list() {
 
 template <class T>
 s21::list<T> &s21::list<T>::operator=(list &&l){
-  if(this != l){
+  if(this != &l){
     this->clear();
 
     this->head_ = l.head_;
