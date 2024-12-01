@@ -9,10 +9,10 @@
 //  int value = mylist_.size();
 //  std::cout << value;
 //
-////  for (s21::list<int>::iterator it = mylist_.begin(); it != mylist_.end();
-////       ++it) {
-////    std::cout << *it << " ";
-////  }
+  for (s21::list<int>::iterator it = mylist_.begin(); it != mylist_.end();
+       ++it) {
+    std::cout << *it << " ";
+  }
 //
 ////  if(mylist_ != mylist_2) {std::cout << "cool" << std::endl;} else {std::cout << "its okey";}
 //

@@ -13,7 +13,12 @@ TEST(Stack, InitList){
     s21::stack<int> stack_ = {1, 2, 3};
     EXPECT_FALSE(stack_.empty());
     EXPECT_EQ(stack_.size(), 3);
+
     EXPECT_EQ(stack_.top(), 3);
+    stack_.pop();
+    EXPECT_EQ(stack_.top(), 2);
+    stack_.pop();
+    EXPECT_EQ(stack_.top(), 1);
 }
 
 TEST(Stack, CopyConstructor){
