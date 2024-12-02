@@ -4,7 +4,7 @@ namespace s21 {
     using std::make_pair;
     using std::pair;
     template<typename Key, typename T>
-    using iterator = typename binary_tree<Key, T>::iterator;
+    using iterator = typename btree<Key, T>::iterator;
 
     template <typename Key, typename T>
     map<Key, T>::map(const map &m) : tree(m.tree), size_(m.size_) {

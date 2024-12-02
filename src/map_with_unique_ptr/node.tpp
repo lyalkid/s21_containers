@@ -9,9 +9,6 @@ btree_node<K, V>::btree_node(K key, V value)
   data = std::make_pair(key, value);
 }
 
-template <typename K, typename V>
-
-btree_node<K, V>::~btree_node() {}
 
 template <typename K, typename V>
 btree_node<K, V> &btree_node<K, V>::operator=(const btree_node<K, V> &other) {

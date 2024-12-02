@@ -106,8 +106,8 @@ This table contains in-class type overrides (typical for the standard STL librar
 | `value_type`             | `Key` value type (the value itself is a key)                                                    |
 | `reference`              | `value_type &` defines the type of the reference to an element                                                             |
 | `const_reference`        | `const value_type &` defines the type of the constant reference                                         |
-| `iterator`               | internal class `MultisetIterator<T>` or `BinaryTree::iterator` as internal iterator of tree subclass; defines the type for iterating through the container                                                 |
-| `const_iterator`         | internal class `MultisetConstIterator<T>` or `BinaryTree::const_iterator` as internal const iterator of tree subclass; defines the constant type for iterating through the container                                           |
+| `iterator`               | internal class `MultisetIterator<T>` or `binary_tree::iterator` as internal iterator of tree subclass; defines the type for iterating through the container                                                 |
+| `const_iterator`         | internal class `MultisetConstIterator<T>` or `binary_tree::const_iterator` as internal const iterator of tree subclass; defines the constant type for iterating through the container                                           |
 | `size_type`              | `size_t` defines the type of the container size (standard type is size_t) |
 
 *Multiset Member functions*

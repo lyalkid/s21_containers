@@ -13,11 +13,11 @@ This table contains in-class type overrides (typical for the standard STL librar
 |------|------------------------|----------------------------------------------------------------------------------------|
 | [x]  | key_type               | Key the first template parameter (Key)                                                |
 | [x]  | value_type             | T the second template parameter (T)                                                   |
-| []   | node_type              | internal class Node that holds a key-value pair and pointers to left and right children |
+| [x]  | node_type              | internal class Node that holds a key-value pair and pointers to left and right children |
 | [x]  | reference              | reference to node_type                                                                  |
 | [x]  | const_reference        | const reference to node_type                                                           |
-| [ ]  | iterator               | internal class BinaryTreeIterator<T>                                                  |
-| [ ]  | const_iterator         | internal class BinaryTreeConstIterator<T>                                             |
+| [x]  | iterator               | internal class BinaryTreeIterator<T>                                                  |
+| [x]  | const_iterator         | internal class BinaryTreeConstIterator<T>                                             |
 | [x]  | size_type              | size_t defines the type of the container size (standard type is size_t)               |
 
 ## Binary Tree Member functions
@@ -26,9 +26,9 @@ This table contains in-class type overrides (typical for the standard STL librar
 |------|------------------------|------------------------------------------------|
 | [x]  | binary_tree()           | default constructor, creates an empty binary tree|
 | [x]  | binary_tree(const binary_tree &bt) | copy constructor                              |
-| [ ]  | binary_tree(binary_tree &&bt) | move constructor                              |
+| [x]  | binary_tree(binary_tree &&bt) | move constructor                              |
 | [x]  | ~binary_tree()          | destructor                                     |
-| [ ]  | operator=(binary_tree &&bt) | assignment operator overload for moving an object |
+| [x]  | operator=(binary_tree &&bt) | assignment operator overload for moving an object |
 | [x]  | insert(const key_type &key, const value_type &value) | inserts a node into the tree |
 | [ ]  | remove(const key_type &key) | removes a node with a specific key            |
 | [x]  | search(const key_type &key) | searches for a node by key                   |

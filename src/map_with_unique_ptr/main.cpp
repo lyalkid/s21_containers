@@ -117,6 +117,15 @@ using namespace s21;
 
 
 int main (){
-    std::queue<int> q_{};
+//    std::queue<int> q_{};
 
+s21::btree<int, int> btree1;
+bool v = true;
+btree1.insert(1, 2,v);
+
+    s21::btree<int, int> btree2 = btree1;
+    btree1.insert(2, 1, v)
+;
+    btree2 = btree1;
+    int c = 1;
 }

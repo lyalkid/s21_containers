@@ -52,7 +52,7 @@ namespace s21 {
     }
 
     template<typename K, typename V>
-    btree_iterator<K, V>::~btree_iterator() {}
+    btree_iterator<K, V>::~btree_iterator() = default;
 
     template<typename K, typename V>
     btree_iterator<K, V>::btree_iterator(btree_node<K, V> *node) {

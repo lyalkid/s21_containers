@@ -17,7 +17,7 @@ class map {
   using reference = value_type &;
   using const_reference = const value_type &;
   using size_type = size_t;
-  using iterator = typename binary_tree<key_type, mapped_type>::iterator;
+  using iterator = typename btree<key_type, mapped_type>::iterator;
 
   class const_iterator;
 
@@ -64,7 +64,7 @@ class map {
   bool contains(const key_type &key) const;
 
  private:
-  binary_tree<key_type, mapped_type> tree;
+  btree<key_type, mapped_type> tree;
   void clearHelper(std::shared_ptr<btree_node<Key, T>> &node);
 };
 }  // namespace s21

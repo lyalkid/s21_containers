@@ -21,15 +21,11 @@ namespace s21 {
     template<typename K, typename V>
     class btree_iterator;
 
+    template<typename K, typename V>
+    class btree_const_iterator;
 
     template<typename K, typename V>
-    class base_iterator ;
-
-    template<typename K, typename V>
-    class btree_const_iterator ;
-
-    template<typename K, typename V>
-    class binary_tree {
+    class btree {
     public:
         using key_type = K;
         using mapped_type = V;
@@ -41,40 +37,73 @@ namespace s21 {
         using const_iterator = btree_const_iterator<K, V>;
         using size_type = size_t;
         using sh_ptr_iterator = std::shared_ptr<btree_iterator<K, V>>;
+        using node_ptr = shared_ptr<btree_node<K, V>>;
 
 
-        binary_tree() : root(nullptr), it(), size_() {}
+        btree() : bt_root_(nullptr), bt_size_() {}
 
-        binary_tree(K key, V value);
 
-        binary_tree(const binary_tree &other): root(other.root), it(other.it), size_(other.size_){}
+        btree(const btree &other) : bt_root_(other.bt_root_), bt_size_(other.bt_size_) {}
 
-        ~binary_tree();
+        btree(btree &&bt) noexcept {
+            bt_root_ = std::move(bt.bt_root_);
+            bt_size_ = std::move(bt.size_);
+        }
+
+        btree(K key, V value) {
+            bt_root_ = std::make_shared<node_type >>(key, value);
+            bt_size_ = 1;
+        }
+
+        btree(value_type data){
+            bt_root_ = std::make_shared<node_type >>(data.first, data.second);
+            bt_size_ = 1;
+        }
+
+        ~btree();
+
+        btree &operator=(const btree &other) {
+            if (this != &other) {
+                bt_root_.reset();
+                bt_root_ = other.bt_root_;
+                bt_size_ = other.bt_size_;
+            }
+            return *this;
+        }
+
+        btree &operator=(btree &&other) noexcept {
+            if (this == &other) {
+                bt_root_ = std::move(other.bt_root_);
+                bt_size_ = std::move(other.bt_size_);
+            }
+            return *this;
+        }
+
 
         void insert(K key, V value, bool &is_inserted);
 
-        shared_ptr<btree_node<K, V>> find(std::shared_ptr<btree_node<K, V>> node,
-                                          K key) const;
+        node_ptr find(node_ptr node,
+                      K key) const;
 
 
-        std::shared_ptr<btree_node<K, V>> get_root();
+        node_ptr get_root();
 
-        size_type size() const { return size_; }
+        size_type size() const { return bt_size_; }
 
-        bool contains(const K &key) const { return this->find(root, key) != nullptr; }
+        bool contains(const K &key) const { return this->find(bt_root_, key) != nullptr; }
 
         void destroyRecursive(btree_node<K, V> *node);
 
-        void in_order_tree_walk(std::shared_ptr<btree_node<K, V>> node);
+        void in_order_tree_walk(node_ptr node);
 
         friend class btree_iterator<K, V>;
 
         friend class map<K, V>;
 
     private:
-        std::shared_ptr<btree_node<K, V>> root;
-        iterator it;
-        size_t size_;
+        node_ptr bt_root_;
+        //iterator bt_it_;
+        size_t bt_size_;
     };
 
     template<typename K, typename V>
@@ -96,13 +125,13 @@ namespace s21 {
 
         btree_iterator(btree_node<K, V> *node);
 
-        btree_iterator(const btree_iterator<K, V>& other);
+        btree_iterator(const btree_iterator<K, V> &other);
 
         btree_iterator(K key, V value);
 
         ~btree_iterator();
 
-        void set_root(btree_node<K, V> *root);
+        void set_root(btree_node<K, V> *bt_root_);
 
         btree_iterator &operator=(const btree_iterator &other);
 
@@ -111,6 +140,7 @@ namespace s21 {
         btree_iterator &operator--();
 
         btree_iterator operator++(int);
+
         btree_iterator operator--(int);
 
 
@@ -120,18 +150,18 @@ namespace s21 {
 
         reference operator*() const { return currentNode_->data; }
 
-        std::pair<K, V>* operator->() const { return &(currentNode_->data); }
+        std::pair<K, V> *operator->() const { return &(currentNode_->data); }
 
-        btree_node<K, V>  *findMin(btree_node<K, V>  *node) const;
+        btree_node<K, V> *findMin(btree_node<K, V> *node) const;
 
-        btree_node<K, V>  *findMax(btree_node<K, V>  *node) const;
+        btree_node<K, V> *findMax(btree_node<K, V> *node) const;
 
-        btree_node<K, V>  *next(btree_node<K, V>  *node) const;
+        btree_node<K, V> *next(btree_node<K, V> *node) const;
 
-        btree_node<K, V>  *prev(btree_node<K, V>  *node) const;
+        btree_node<K, V> *prev(btree_node<K, V> *node) const;
 
 
-        friend class binary_tree<K, V>;  //<K, V>;
+        friend class btree<K, V>;  //<K, V>;
         friend class map<K, V>;
 
     private:
@@ -155,7 +185,7 @@ namespace s21 {
 
         btree_node(K, V);
 
-        ~btree_node();
+        ~btree_node() = default;
 
         std::pair<K, V> get_data() { return data; }
 
@@ -166,9 +196,8 @@ namespace s21 {
         bool operator==(const btree_node &other) const noexcept;
 
 
-
         //        template<template K, template  V>
-        friend class binary_tree<K, V>;  //<K, V>;
+        friend class btree<K, V>;  //<K, V>;
         friend class btree_iterator<K, V>;
 
         friend class map<K, V>;
