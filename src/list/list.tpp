@@ -6,6 +6,13 @@ template <class T>
 s21::list<T>::list() : size_(0), head_(nullptr), tail_(nullptr) {}
 
 template <class T>
+s21::list<T>::list(size_type n) : size_(0), head_(nullptr), tail_(nullptr){
+    for(size_type i = 0; i < n; ++i){
+        push_back(T());
+    }
+}
+
+template <class T>
 s21::list<T>::list(const std::initializer_list<value_type> &items)
     : size_(0), head_(nullptr), tail_(nullptr) {
   for (const auto &item : items) {
@@ -283,7 +290,7 @@ Node *prev_node = current->pPrev;
 Node *second_list = other.head_;
 
 if(head_ == nullptr){
-    this = other;
+    *this = other;
 }
 
 while(second_list != nullptr){

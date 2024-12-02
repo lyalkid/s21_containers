@@ -19,6 +19,12 @@ TEST(List, MemberConstructor){
     }
 }
 
+TEST(Queue, InitList){
+    s21::list<int> list_ = {1, 2, 3};
+    EXPECT_FALSE(list_.empty());
+    EXPECT_EQ(list_.size(), 3);
+}
+
 TEST(List, InitList){
     s21::list<int> list_ = {1,2,3};
     EXPECT_FALSE(list_.empty());
@@ -137,16 +143,44 @@ TEST(List, Size){
     EXPECT_EQ(list_1_.size(), org_list_1_.size());
 }
 
-TEST(List, InsertEmptyList){
-    s21::list<int> list_ = {1,2,3};
-    s21::list<int> list_1;
+TEST(List, EraseFirst){
+    s21::list<int> list_ = {10, 20, 30};
+    s21::list<int>::iterator it = list_.begin();
 
+    list_.erase(it);
+
+    std::list<int> org_list_ = {10, 20, 30};
+    auto org_it = org_list_.begin();
+
+    org_list_.erase(org_it);
+
+    it = list_.begin();
+    for(org_it = org_list_.begin(); org_it != org_list_.end(); ++org_it){
+        EXPECT_EQ(*org_it, *it);
+        ++it;
+    }
+}
+
+TEST(List, Erase){
+    s21::list<int> list_ = {10, 20, 30, 66};
     s21::list<int>::iterator it = list_.begin();
     ++it;
+    ++it;
 
-    list_.splice(it, list_1);
+    list_.erase(it);
 
+    std::list<int> org_list_ = {10, 20, 30, 66};
+    auto org_it = org_list_.begin();
+    ++org_it;
+    ++org_it;
 
+    org_list_.erase(org_it);
+
+    it = list_.begin();
+    for(org_it = org_list_.begin(); org_it != org_list_.end(); ++org_it){
+        EXPECT_EQ(*org_it, *it);
+        ++it;
+    }
 }
 
 TEST(List, PushBack){
@@ -235,3 +269,151 @@ TEST(List, Swap){
     EXPECT_EQ(list_2_.front(), 5);
     EXPECT_EQ(list_2_.size(), list_.size());
 }
+
+TEST(List, Merge){
+    s21::list<int> list_1_ = {1, 5, 8, 9};
+    s21::list<int> list_2_ = {2, 3, 6, 7};
+
+    list_1_.merge(list_2_);
+
+    std::list<int> org_list_ = {1, 5, 8, 9};
+    std::list<int> org_list_1_ = {2, 3, 6, 7};
+
+    org_list_.merge(org_list_1_);
+
+    s21::list<int>::iterator it = list_1_.begin();
+    auto org_it = org_list_.begin();
+
+    for(org_it = org_list_.begin(); org_it != org_list_.end(); ++org_it){
+        EXPECT_EQ(*org_it, *it);
+        ++it;
+    }
+
+}
+
+TEST(List, MergeEmpty){
+    s21::list<int> list_1_;
+    s21::list<int> list_2_ = {2, 3, 6, 7};
+
+    list_1_.merge(list_2_);
+    EXPECT_EQ(list_2_.size(), 0);
+
+    std::list<int> org_list_;
+    std::list<int> org_list_1_ = {2, 3, 6, 7};;
+
+    org_list_.merge(org_list_1_);
+
+    s21::list<int>::iterator it = list_1_.begin();
+    auto org_it = org_list_.begin();
+
+    for(org_it = org_list_.begin(); org_it != org_list_.end(); ++org_it){
+        EXPECT_EQ(*org_it, *it);
+        ++it;
+    }
+
+}
+
+TEST(List, MergeInEmpty){
+    s21::list<int> list_1_ = {1, 5, 8, 9};
+    s21::list<int> list_2_;
+
+    list_1_.merge(list_2_);
+    EXPECT_EQ(list_2_.size(), 0);
+
+    std::list<int> org_list_ = {1, 5, 8, 9};
+    std::list<int> org_list_1_;
+
+    org_list_.merge(org_list_1_);
+
+    s21::list<int>::iterator it = list_1_.begin();
+    auto org_it = org_list_.begin();
+
+    for(org_it = org_list_.begin(); org_it != org_list_.end(); ++org_it){
+        EXPECT_EQ(*org_it, *it);
+        ++it;
+    }
+
+}
+
+TEST(List, SpliceEmptyList){
+    s21::list<int> list_ = {1,2,3};;
+    s21::list<int> list_1;
+
+    s21::list<int>::iterator it = list_.begin();
+    list_.splice(it, list_1);
+
+
+    std::list<int> org_list_ = {1,2,3};
+    std::list<int> org_list_1;
+
+    auto org_it = org_list_.begin();
+    org_list_.splice(org_it, org_list_1);
+
+    for(org_it = org_list_.begin(); org_it != org_list_.end(); ++org_it){
+        EXPECT_EQ(*org_it, *it);
+        ++it;
+    }
+}
+
+TEST(List, SpliceInEmptyList){
+    s21::list<int> list_;
+    s21::list<int> list_1 = {1,2,3};
+
+    s21::list<int>::iterator it = list_.begin();
+    list_.splice(it, list_1);
+
+
+    std::list<int> org_list_;
+    std::list<int> org_list_1 = {1,2,3};
+
+    auto org_it = org_list_.begin();
+    org_list_.splice(org_it, org_list_1);
+
+    for(org_it = org_list_.begin(); org_it != org_list_.end(); ++org_it){
+        EXPECT_EQ(*org_it, *it);
+        ++it;
+    }
+}
+
+TEST(List, Splice){
+    s21::list<int> list_ = {32,45,10,11};
+    s21::list<int> list_1 = {9,1,2};
+
+    s21::list<int>::iterator it = list_.begin();
+    ++it;
+    ++it;
+    list_.splice(it, list_1);
+
+
+    std::list<int> org_list_ = {32,45,10,11};;
+    std::list<int> org_list_1 = {9,1,2};
+
+    auto org_it = org_list_.begin();
+    ++org_it;
+    ++org_it;
+    org_list_.splice(org_it, org_list_1);
+
+    it = list_.begin();
+    for(org_it = org_list_.begin(); org_it != org_list_.end(); ++org_it){
+        EXPECT_EQ(*org_it, *it);
+        ++it;
+    }
+}
+
+TEST(List, Reverse){
+    s21::list<int> list_ = {10, 20, 30, 55, 98};
+    list_.reverse();
+
+    std::list<int> org_list_ = {10, 20, 30, 55, 98};
+    org_list_.reverse();
+
+    s21::list<int>::iterator it = list_.begin();
+    auto org_it = org_list_.begin();
+
+    for(org_it = org_list_.begin(); org_it != org_list_.end(); ++org_it){
+        EXPECT_EQ(*org_it, *it);
+    ++it;
+    }
+}
+
+

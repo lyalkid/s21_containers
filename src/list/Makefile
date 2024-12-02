@@ -1,30 +1,29 @@
-CC = g++
-CFLAGS = -std=c++17 -pedantic -Wall -Werror -Wextra
+CC = gcc
+CFLAGS = -std=c++17 -pedantic -Wall -Werror -Wextra -pthread -lstdc++
 
-SOURCE = list.tpp
-OBJECTS = $(subst .tpp,.o, $(SOURCE))
+OBJECT = $(subst .tpp,.o, list.tpp)
 
+TEST_FILES = test_list.cpp
+TEST_OUT = test
 
-list.a: $(OBJECTS)
-	ar rcs list.a $^
-	ranlib list.a
-	rm -rf *.o
+OS := $(shell uname -s)
 
-%.o: %.tpp
-	$(CC) $(CFLAGS) -c $< -o $@
+ifeq ($(OS),Linux)
+	OPEN_CMD = xdg-open
+	TEST_LIBS = -lgtest -lgtest_main -lsubunit -lrt -lm -pthread -lstdc++
+endif
+ifeq ($(OS),Darwin)
+	OPEN_CMD = open
+	TEST_LIBS = -L/usr/local/lib -lgtest -lgtest_main -pthread -lstdc++
+endif
 
-testim: clean
-	$(CC)  main.cpp -o testim
-	./testim
+stack.a: $(OBJECT)
+	ar rcs queue.a $^
+	ranlib queue.a
 
-testim_list:
-	rm -rf tst
-	$(CC) main_org.cpp -o tst
-	./tst
+test: clean
+	$(CC) $(CFLAGS) $(TEST_FILES) $(TEST_LIBS) -g -o $(TEST_OUT)
+	./$(TEST_OUT)
 
 clean:
-	rm -rf testim
-
-style_correct:
-	cp ../../materials/linters/.clang-format .
-	clang-format -i *.cpp
+	rm -rf test
