@@ -9,7 +9,6 @@ namespace s21 {
 class list{
 public:
     class ListIterator;
-    //List Member type
     using value_type = T;
     using reference = T&;
     using const_reference = const T&;
@@ -17,7 +16,6 @@ public:
     using const_iterator = const list<T>::ListIterator;
     using size_type = std::size_t;
 
-    //List Functions
     list();
     list(size_type n);
     list(std::initializer_list<value_type> const &items);
@@ -30,21 +28,16 @@ public:
     bool operator==(list const &l);
     bool operator!=(list const &l);
 
-
-    //List Element access
     const_reference front();
     const_reference back();
 
-    //List Iterators
     iterator begin();
     iterator end();
 
-    //List Capacity
     bool empty();
     size_type size();
     size_type max_size();
 
-    //List Modifiers
     void clear();
     iterator insert(iterator pos, const_reference value);
     void erase(iterator pos);

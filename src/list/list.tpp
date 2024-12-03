@@ -2,7 +2,6 @@
 
 namespace s21 {
 template <class T>
-// List Functions
 s21::list<T>::list() : size_(0), head_(nullptr), tail_(nullptr) {}
 
 template <class T>
@@ -106,7 +105,7 @@ bool s21::list<T>::operator!=(const list<T> &l) {
   return false;
 }
 
-// List Element access
+
 template <class T>
 const T &s21::list<T>::front() {
   return head_->data_;
@@ -117,7 +116,7 @@ const T &s21::list<T>::back() {
   return tail_->data_;
 }
 
-// List Iterator
+
 template <class T>
 typename s21::list<T>::iterator s21::list<T>::begin() {
   return iterator(head_);
@@ -128,7 +127,7 @@ typename s21::list<T>::iterator s21::list<T>::end() {
   return iterator(nullptr);
 }
 
-// List Capacity
+
 template <class T>
 bool s21::list<T>::empty() {
   return size_ == 0 ? true : false;
@@ -165,32 +164,46 @@ typename s21::list<T>::iterator s21::list<T>::insert(iterator pos, const_referen
   Node *current = pos.getCurrent();
   if (current == head_){
     push_front(value);
+    return (head_);
+  }else if(current == nullptr){
+    push_back(value);
+    return (tail_);
   }else{
     Node *prev_node = current->pPrev;
     Node *new_node = new Node(value, nullptr, nullptr);
+
+    prev_node->pNext = new_node;
     new_node->pNext = current;
-    new_node->pPrev = prev_node->pPrev;
+
+    current->pPrev = new_node;
+    new_node->pPrev = prev_node;
     size_++;
+    return iterator(new_node);
   }
-  return pos;
 }
 
 template <class T>
 void s21::list<T>::erase(iterator pos) {
     Node *delete_node = pos.getCurrent();
     if(delete_node == nullptr){
-    throw std::out_of_range ("Iterator out of ange");
+    return;
     }
     Node *prev_node = delete_node->pPrev;
     Node *next_node = delete_node->pNext;
 
-    if(next_node != nullptr){
+    if(delete_node == head_){
+        delete head_;
+        head_ = next_node;
+    } else if(delete_node == tail_){
+        prev_node->pNext = nullptr;
+        tail_ = prev_node;
+    }else{
     prev_node->pNext = delete_node->pNext;
     next_node->pPrev = delete_node->pPrev;
 
     delete delete_node;
-    --size_;
     }
+    --size_;
 }
 
 
@@ -209,7 +222,7 @@ void s21::list<T>::push_back(const_reference value) {
 template <class T>
 void s21::list<T>::pop_back() {
   if (head_ == nullptr) {
-    throw std::out_of_range("Empty list");
+    return;
   }
   if (head_ == tail_) {
     delete head_;
@@ -231,14 +244,14 @@ void s21::list<T>::push_front(const_reference value) {
   }else {
     head_->pPrev = new_node;
     head_ = new_node;
-    ++size_;
   }
+  ++size_;
 }
 
 template <class T>
 void s21::list<T>::pop_front() {
   if (head_ == nullptr) {
-    throw std::out_of_range("Empty list");
+    return;
   }
   if (head_ == tail_) {
     delete head_;
@@ -285,13 +298,15 @@ void s21::list<T>::merge(list<T> &other) noexcept {
 
 template <class T>
 void s21::list<T>::splice(const_iterator pos, list<T> &other) {
+
+  if(head_ == nullptr){
+    *this = std::move(other);
+    return;
+  }
+
 Node *current = pos.getCurrent();
 Node *prev_node = current->pPrev;
 Node *second_list = other.head_;
-
-if(head_ == nullptr){
-    *this = other;
-}
 
 while(second_list != nullptr){
     Node *new_node = new Node(second_list->data_, current, prev_node);
@@ -304,7 +319,8 @@ while(second_list != nullptr){
 
 other.head_ = nullptr;
 other.tail_ = nullptr;
-size_ = 0;
+other.size_ = 0;
+size_ += other.size_;
 }
 
 template <class T>

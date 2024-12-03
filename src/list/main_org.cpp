@@ -3,16 +3,14 @@
 #include <limits>
 
  int main(){
-     std::list<int> mylist_ ;
-     std::list<int> mylist_2 = {11, 8, 63, 1};
 
-     auto it = mylist_.begin();
-     ++it;
-     ++it;
+          std::list<int> org_list_;
+          std::list<int> org_list_1 = {1,2,3};
 
-     mylist_.splice(it, mylist_2);
+          auto org_it = org_list_.begin();
+          org_list_.splice(org_it, org_list_1);
 
-     for(auto it = mylist_.begin(); it != mylist_.end(); ++it){
+     for(auto it = org_list_.begin(); it != org_list_.end(); ++it){
          std::cout << *it << " ";
      }
  }

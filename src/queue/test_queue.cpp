@@ -72,7 +72,7 @@ TEST(Queue, SelfAssigment){
     EXPECT_EQ(queue_1_.front(), 3);
 }
 
-TEST(Queue, Front){
+TEST(QueueElementAccess, Front){
     s21::queue<int> queue_ = {1, 2 ,3};
     std::queue<int> org_queue;
     org_queue.push(1);
@@ -82,7 +82,7 @@ TEST(Queue, Front){
     EXPECT_EQ(queue_.front(), org_queue.front());
 }
 
-TEST(Queue, Back){
+TEST(QueueElementAccess, Back){
     s21::queue<int> queue_ = {1, 2 ,3};
     std::queue<int> org_queue;
     org_queue.push(1);
@@ -92,7 +92,7 @@ TEST(Queue, Back){
     EXPECT_EQ(queue_.back(), org_queue.back());
 }
 
-TEST(Queue, Empty){
+TEST(QueueCapacity, Empty){
     s21::queue<int> queue_;
     std::queue<int> org_queue_;
     EXPECT_EQ(queue_.empty(), org_queue_.empty());
@@ -105,7 +105,7 @@ TEST(Queue, Empty){
     EXPECT_EQ(stack_1_.empty(), org_stack_1_.empty());
 }
 
-TEST(Queue, Size){
+TEST(QueueCapacity, Size){
     s21::queue<int> queue_;
     std::queue<int> org_queue_;
 
@@ -124,7 +124,7 @@ TEST(Queue, Size){
     EXPECT_EQ(queue_1_.size(), org_queue_1_.size());
 }
 
-TEST(Queue, Push) {
+TEST(QueueModifiers, Push) {
     s21::queue<int> queue_;
     queue_.push(2);
     EXPECT_EQ(queue_.size(), 1);
@@ -151,7 +151,7 @@ TEST(Queue, Push) {
     }
 }
 
-TEST(Queue, Pop){
+TEST(QueueModifiers, Pop){
     s21::queue<int> queue = {1,3,5};
 
     std::queue<int> org_queue_;
@@ -166,7 +166,7 @@ TEST(Queue, Pop){
     EXPECT_EQ(queue.front(), org_queue_.front());
 }
 
-TEST(Queue, Swap){
+TEST(QueueModifiers, Swap){
     s21::queue<int> queue_ = {3,5,7};
     s21::queue<int> queue_2_ = {6,8,10};
 

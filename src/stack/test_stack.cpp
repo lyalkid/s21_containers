@@ -78,7 +78,7 @@ TEST(Stack, SelfAssigment){
     EXPECT_EQ(stack_1_.top(), 1);
 }
 
-TEST(Stack, Top){
+TEST(StackElementAccess, Top){
     s21::stack<int> stack_;
     stack_.push(4);
     stack_.push(3);
@@ -92,7 +92,7 @@ TEST(Stack, Top){
     EXPECT_EQ(stack_.top(), stack_org_.top());
 }
 
-TEST(Stack, Empty){
+TEST(StackCapacity, Empty){
     s21::stack<int> stack_;
     std::stack<int> org_stak_;
     EXPECT_EQ(stack_.empty(), org_stak_.empty());
@@ -106,7 +106,7 @@ TEST(Stack, Empty){
 
 }
 
-TEST(Stack, Size) {
+TEST(StackCapacity, Size) {
     s21::stack<int> stack_;
     std::stack<int> org_stak_;
 
@@ -138,7 +138,7 @@ TEST(Stack, Size) {
     EXPECT_NE(stack_2_.size(), org_stack_2_.size());
 }
 
-TEST(Stack, Push){
+TEST(StackModifiers, Push){
     s21::stack<int> stack_;
     stack_.push(2);
     EXPECT_EQ(stack_.size(), 1);
@@ -164,7 +164,7 @@ TEST(Stack, Push){
     }
 
 }
-TEST(Stack, Pop){
+TEST(StackModifiers, Pop){
     s21::stack<int> stack_ = {1,3,5};
 
     std::stack<int> org_stack_;
@@ -179,7 +179,7 @@ TEST(Stack, Pop){
     EXPECT_EQ(stack_.top(), org_stack_.top());
 }
 
-TEST(Stack, Swap){
+TEST(StackModifiers, Swap){
     s21::stack<int> stack_ = {3,5,7};
     s21::stack<int> stack_2_ = {6,8,10};
 
