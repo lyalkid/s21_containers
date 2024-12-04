@@ -95,6 +95,9 @@ class btree {
   bool empty();
 
   node_ptr get_root();
+  key_type root() const {
+    return bt_root_ != nullptr ? bt_root_->data.first : nullptr;
+  }
 
   size_type size() const { return bt_size_; }
 

@@ -8,7 +8,10 @@ using std::pair;
 using std::shared_ptr;
 
 template <typename K, typename V>
-btree<K, V>::~btree() = default;
+btree<K, V>::~btree() {
+  this->clear();
+  bt_root_ = nullptr;
+}
 
 template <typename K, typename V>
 std::shared_ptr<btree_node<K, V>> btree<K, V>::get_root() {
@@ -17,7 +20,7 @@ std::shared_ptr<btree_node<K, V>> btree<K, V>::get_root() {
 
 // insert
 template <typename K, typename V>
-void btree<K, V>::insert(K key, V value) {
+void btree<K, V>::insert(const K key, V value) {
   if (bt_root_ == nullptr) {
     bt_root_ = std::make_shared<btree_node<K, V>>(key, value);
     bt_size_++;

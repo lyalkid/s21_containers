@@ -120,10 +120,12 @@ int main() {
 
   s21::btree<int, int> btree1;
   bool v = true;
-  btree1.insert(1, 2, v);
+  btree1.insert(1, 2);
+  btree1.~btree();
+  btree1.insert(1, 2);
 
   s21::btree<int, int> btree2 = btree1;
-  btree1.insert(2, 1, v);
+  btree1.insert(2, 1);
   btree2 = btree1;
   int c = 1;
 }

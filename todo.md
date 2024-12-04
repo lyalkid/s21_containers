@@ -22,18 +22,18 @@ This table contains in-class type overrides (typical for the standard STL librar
 
 ## Binary Tree Member functions
 
-| Done | Member functions       | Definition                                      |
-|------|------------------------|------------------------------------------------|
-| [x]  | binary_tree()           | default constructor, creates an empty binary tree|
-| [x]  | binary_tree(const binary_tree &bt) | copy constructor                              |
-| [x]  | binary_tree(binary_tree &&bt) | move constructor                              |
-| [x]  | ~binary_tree()          | destructor                                     |
-| [x]  | operator=(binary_tree &&bt) | assignment operator overload for moving an object |
-| [x]  | insert(const key_type &key, const value_type &value) | inserts a node into the tree |
-| [x]  | remove(const key_type &key) | removes a node with a specific key            |
-| [x]  | search(const key_type &key) | searches for a node by key                   |
-| [ ]  | clear()                 | clears the tree                               |
-
+| Done | Member functions                                     | Definition                                        |
+|------|------------------------------------------------------|---------------------------------------------------|
+| [x]  | binary_tree()                                        | default constructor, creates an empty binary tree |
+| [x]  | binary_tree(const binary_tree &bt)                   | copy constructor                                  |
+| [x]  | binary_tree(binary_tree &&bt)                        | move constructor                                  |
+| [x]  | ~binary_tree()                                       | destructor                                        |
+| [x]  | operator=(binary_tree &&bt)                          | assignment operator overload for moving an object |
+| [x]  | insert(const key_type &key, const value_type &value) | inserts a node into the tree                      |
+| [x]  | remove(const key_type &key)                          | removes a node with a specific key                |
+| [x]  | search(const key_type &key)                          | searches for a node by key                        |
+| [x]  | clear()                                              | clears the tree                                   |
+| [x]  | empty()                                              | checks whether the tree is empty                  |
 ## Binary Tree Element access
 
 | Done | Element access         | Definition                                     |
@@ -55,15 +55,15 @@ This table contains in-class type overrides (typical for the standard STL librar
 
 | Done | Capacity               | Definition                                     |
 |------|------------------------|------------------------------------------------|
-| [ ]  | bool empty()            | checks whether the tree is empty               |
-| [ ]  | size_type size()        | returns the number of nodes in the tree        |
+| [x]  | bool empty()            | checks whether the tree is empty               |
+| [x]  | size_type size()        | returns the number of nodes in the tree        |
 | [ ]  | size_type max_size()    | returns the maximum possible number of nodes   |
 
 ## Binary Tree Modifiers
 
 | Done | Modifiers              | Definition                                     |
 |------|------------------------|------------------------------------------------|
-| [ ]  | void clear()            | clears the contents of the tree                |
+| [x]  | void clear()            | clears the contents of the tree                |
 | [ ]  | void swap(binary_tree &other) | swaps the contents of two trees           |
 
 ## Binary Tree Traversal

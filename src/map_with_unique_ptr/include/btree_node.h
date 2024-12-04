@@ -23,7 +23,7 @@ class btree_iterator;
 template <typename K, typename V>
 class btree_node {
  private:
-  std::pair<K, V> data;
+  std::pair<const K, V> data;
   btree_node *parent;
   std::shared_ptr<btree_node> right;
   std::shared_ptr<btree_node> left;
@@ -32,15 +32,22 @@ class btree_node {
   //        using value = std::pair<K, V>;
   btree_node() = default;
 
-  btree_node(K, V);
+  btree_node(const K key, V value);
+  btree_node(const btree_node &other)
+      : data(other.data),
+        parent(other.parent),
+        right(other.right),
+        left(other.left) {}
+  btree_node(btree_node &&other) noexcept;
 
   ~btree_node() = default;
 
-  std::pair<K, V> get_data() { return data; }
+  std::pair<const K, V> get_data() const { return data; }
 
   bool equals(const btree_node &other) const noexcept;
 
   btree_node &operator=(const btree_node &other);
+  btree_node &operator=(btree_node &&other) noexcept;
 
   bool operator==(const btree_node &other) const noexcept;
 
