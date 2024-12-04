@@ -40,7 +40,7 @@ This table contains in-class type overrides (typical for the standard STL librar
 |------|------------------------|------------------------------------------------|
 | [ ]  | node_type* find(const key_type &key) | finds a node by key                        |
 | [ ]  | const node_type* find(const key_type &key) | finds a node by key (const version)      |
-| [ ]  | key_type root()         | returns the root key of the tree               |
+| [x]  | key_type root()         | returns the root key of the tree               |
 
 ## Binary Tree Iterators
 

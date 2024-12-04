@@ -90,16 +90,16 @@ class btree {
   node_ptr tree_successor(node_ptr del_node) const;
 
   void remove(const key_type& key);
+  size_type size() const { return bt_size_; }
+  bool empty();
+
   void clear();
   void clear_node(node_ptr node);
-  bool empty();
 
   node_ptr get_root();
   key_type root() const {
     return bt_root_ != nullptr ? bt_root_->data.first : nullptr;
   }
-
-  size_type size() const { return bt_size_; }
 
   bool contains(const K& key) const {
     return this->find(bt_root_, key) != nullptr;

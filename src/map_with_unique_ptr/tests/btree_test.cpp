@@ -126,7 +126,7 @@ TEST(test_class, remove_from_single_element_tree) {
   EXPECT_EQ(tree.size(), 0);  // Размер дерева должен быть 0
 }
 
-TEST(test_class, clear) {
+TEST(test_class, clear_tree) {
   btree<int, int> tree;
   tree.insert(10, 100);
   tree.insert(20, 200);

@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/lyalkid/code/s21/containers_dream_team/build",
-  "command": "/usr/bin/g++   -g -o CMakeFiles/containers.dir/src/map_with_unique_ptr/main.cpp.o -c /home/lyalkid/code/s21/containers_dream_team/src/map_with_unique_ptr/main.cpp",
-  "file": "/home/lyalkid/code/s21/containers_dream_team/src/map_with_unique_ptr/main.cpp"
-}
-]
