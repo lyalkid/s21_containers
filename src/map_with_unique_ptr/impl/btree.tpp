@@ -217,4 +217,14 @@ bool btree<K, V>::empty() {
   return bt_root_ == nullptr;
 }
 
+template <typename K, typename V>
+size_t btree<K, V>::size() const {
+  return bt_size_;
+}
+
+template <typename K, typename V>
+void btree<K, V>::swap(btree &other) {
+  std::swap(bt_root_, other.bt_root_);
+  std::swap(bt_size_, other.bt_size_);
+}
 }  // namespace s21

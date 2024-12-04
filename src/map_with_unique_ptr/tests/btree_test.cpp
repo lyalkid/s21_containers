@@ -136,3 +136,28 @@ TEST(test_class, clear_tree) {
   ASSERT_EQ(tree.size(), 0);
   ASSERT_EQ(tree.empty(), true);
 }
+
+TEST(test_class, swap) {
+  btree<int, int> tree;
+  tree.insert(112, 100);
+  tree.insert(20, 200);
+  tree.insert(555, 50);
+
+  btree<int, int> tree2;
+  tree2.insert(10, 10);
+  tree2.insert(5, 5);    // Левый потомок
+  tree2.insert(15, 15);  // Правый потомок
+  tree2.insert(3, 3);    // Левый потомок 5
+  tree2.insert(7, 7);    // Правый потомок 5
+
+  ASSERT_EQ(tree.size(), 3);
+  ASSERT_EQ(tree2.size(), 5);
+  ASSERT_NE(tree.find(tree.get_root(), 555), nullptr);
+  ASSERT_EQ(tree2.find(tree2.get_root(), 555), nullptr);
+
+  tree.swap(tree2);
+  ASSERT_EQ(tree.size(), 5);
+  ASSERT_EQ(tree2.size(), 3);
+  ASSERT_EQ(tree.find(tree.get_root(), 555), nullptr);
+  ASSERT_NE(tree2.find(tree2.get_root(), 555), nullptr);
+}

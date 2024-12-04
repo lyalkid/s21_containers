@@ -30,8 +30,8 @@ class btree {
   using mapped_type = V;
   using value_type = std::pair<const key_type, mapped_type>;
   using node_type = btree_node<K, V>;
-  using reference = value_type&;
-  using const_reference = const value_type&;
+  using reference = value_type &;
+  using const_reference = const value_type &;
   using iterator = btree_iterator<K, V>;
   using size_type = size_t;
   using sh_ptr_iterator = std::shared_ptr<btree_iterator<K, V>>;
@@ -39,10 +39,10 @@ class btree {
 
   btree() : bt_root_(nullptr), bt_size_() {}
 
-  btree(const btree& other)
+  btree(const btree &other)
       : bt_root_(other.bt_root_), bt_size_(other.bt_size_) {}
 
-  btree(btree&& bt) noexcept {
+  btree(btree &&bt) noexcept {
     bt_root_ = std::move(bt.bt_root_);
     bt_size_ = std::move(bt.size_);
   }
@@ -59,7 +59,7 @@ class btree {
 
   ~btree();
 
-  btree& operator=(const btree& other) {
+  btree &operator=(const btree &other) {
     if (this != &other) {
       bt_root_.reset();
       bt_root_ = other.bt_root_;
@@ -68,7 +68,7 @@ class btree {
     return *this;
   }
 
-  btree& operator=(btree&& other) noexcept {
+  btree &operator=(btree &&other) noexcept {
     if (this == &other) {
       bt_root_ = std::move(other.bt_root_);
       bt_size_ = std::move(other.bt_size_);
@@ -78,40 +78,48 @@ class btree {
 
   void insert(K key, V value);
 
+  void remove(const key_type &key);
+
   node_ptr find(node_ptr node, K key) const;
 
-  node_type* findMin(node_type* node) const;
-
-  node_type* findMax(node_type* node) const;
-
-  node_type* next(node_type* node) const;
-
-  node_type* prev(node_type* node) const;
-  node_ptr tree_successor(node_ptr del_node) const;
-
-  void remove(const key_type& key);
-  size_type size() const { return bt_size_; }
   bool empty();
 
+  size_t size() const;
+
+  size_t max_size() const;
+
   void clear();
+
   void clear_node(node_ptr node);
 
+  void swap(btree &other);
+
   node_ptr get_root();
-  key_type root() const {
-    return bt_root_ != nullptr ? bt_root_->data.first : nullptr;
-  }
 
-  bool contains(const K& key) const {
-    return this->find(bt_root_, key) != nullptr;
-  }
-
-  void in_order_tree_walk(node_ptr node, int space);
+  node_ptr tree_successor(node_ptr del_node) const;
 
   friend class btree_iterator<K, V>;
 
   friend class map<K, V>;
 
  private:
+  key_type root() const {
+    return bt_root_ != nullptr ? bt_root_->data.first : nullptr;
+  }
+  node_type *findMin(node_type *node) const;
+
+  node_type *findMax(node_type *node) const;
+
+  node_type *next(node_type *node) const;
+
+  node_type *prev(node_type *node) const;
+
+  bool contains(const K &key) const {
+    return this->find(bt_root_, key) != nullptr;
+  }
+
+  void in_order_tree_walk(node_ptr node, int space);
+
   node_ptr bt_root_;
   size_t bt_size_;
 };
