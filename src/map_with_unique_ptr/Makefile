@@ -97,3 +97,9 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
+GIT_MESSAGE = "Обновление проекта"
+
+git-push:
+	@git add .
+	@git commit -m $(GIT_MESSAGE)
+	@git push
