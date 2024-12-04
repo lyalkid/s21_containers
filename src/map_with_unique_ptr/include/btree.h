@@ -89,7 +89,10 @@ class btree {
   node_type* prev(node_type* node) const;
   node_ptr tree_successor(node_ptr del_node) const;
 
-  void remove(const key_type key);
+  void remove(const key_type& key);
+  void clear();
+  void clear_node(node_ptr node);
+  bool empty();
 
   node_ptr get_root();
 

@@ -113,7 +113,7 @@ void btree<K, V>::in_order_tree_walk(std::shared_ptr<btree_node<K, V>> node,
 }
 
 template <typename K, typename V>
-void btree<K, V>::remove(const key_type key) {
+void btree<K, V>::remove(const key_type &key) {
   node_ptr current = find(bt_root_, key);
   if (current != nullptr) {
     node_type *parent = current->parent;
@@ -191,6 +191,27 @@ typename btree<K, V>::node_ptr btree<K, V>::tree_successor(
     successor->right = del_node->right;
   }
   return successor;
+}
+template <typename K, typename V>
+void btree<K, V>::clear() {
+  clear_node(bt_root_);
+  bt_root_.reset();
+  bt_size_ = 0;
+}
+template <typename K, typename V>
+void btree<K, V>::clear_node(node_ptr node) {
+  if (node == nullptr) return;
+  clear_node(node->left);
+  clear_node(node->right);
+  node->left.reset();
+  node->right.reset();
+  node->parent = nullptr;
+  bt_size_--;
+}
+template <typename K, typename V>
+
+bool btree<K, V>::empty() {
+  return bt_root_ == nullptr;
 }
 
 }  // namespace s21

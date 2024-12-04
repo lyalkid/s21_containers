@@ -30,7 +30,7 @@ This table contains in-class type overrides (typical for the standard STL librar
 | [x]  | ~binary_tree()          | destructor                                     |
 | [x]  | operator=(binary_tree &&bt) | assignment operator overload for moving an object |
 | [x]  | insert(const key_type &key, const value_type &value) | inserts a node into the tree |
-| [ ]  | remove(const key_type &key) | removes a node with a specific key            |
+| [x]  | remove(const key_type &key) | removes a node with a specific key            |
 | [x]  | search(const key_type &key) | searches for a node by key                   |
 | [ ]  | clear()                 | clears the tree                               |
 

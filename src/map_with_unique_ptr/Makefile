@@ -97,7 +97,7 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "btree remove by key + tests"
+GIT_MESSAGE = "btree clear tree"
 
 git-push: style
 	@git add ../..
