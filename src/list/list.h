@@ -6,93 +6,105 @@
 
 namespace s21 {
     template <typename T>
-class list{
+class List {
 public:
+
+    //List Member type
+    using ValueType = T;
+    using Reference = T&;
+    using ConstReference = const T&;
+    using SizeType = std::size_t;
+
+    //Iterator
     class ListIterator;
-    using value_type = T;
-    using reference = T&;
-    using const_reference = const T&;
-    using iterator = list<T>::ListIterator;
-    using const_iterator = const list<T>::ListIterator;
-    using size_type = std::size_t;
+    using Iterator = List<T>::ListIterator;
+    using ConstIterator = const List<T>::ListIterator;
 
-    list();
-    list(size_type n);
-    list(std::initializer_list<value_type> const &items);
-    list(const list &l) noexcept;
-    list(list &&l) noexcept;
-    ~list();
+    //List Functions
+    List();
+    List(SizeType n);
+    List(std::initializer_list<ValueType> const& items);
+    List(const List& l) noexcept;
+    List(List&& l) noexcept;
+    ~List();
 
-    list &operator=(list &&l);
-    list &operator=(const list &l);
-    bool operator==(list const &l);
-    bool operator!=(list const &l);
+    //Operators
+    List &operator=(const List& l);
+    List &operator=(List&& l);
+    bool operator==(List const& l);
+    bool operator!=(List const& l);
 
-    const_reference front();
-    const_reference back();
+    //List Element access
+    ConstReference Front() const;
+    ConstReference Back() const;
 
-    iterator begin();
-    iterator end();
+    //List Iterators
+    Iterator Begin();
+    Iterator End();
 
-    bool empty();
-    size_type size();
-    size_type max_size();
+    //List Capacity
+    bool Empty() const;
+    SizeType Size() const;
+    SizeType MaxSize() const;
 
-    void clear();
-    iterator insert(iterator pos, const_reference value);
-    void erase(iterator pos);
-    void push_back(const_reference value);
-    void pop_back();
-    void push_front(const_reference value);
-    void pop_front();
-    void swap(list& other) noexcept;
-    void merge(list& other) noexcept;
-    void splice(const_iterator pos, list& other);
-    void reverse() noexcept;
-    void unique();
-    void sort();
+    //List Modifiers
+    void Clear();
+    Iterator Insert(Iterator pos, ConstReference value);
+    void Erase(Iterator pos);
+    void PushBack(ConstReference value);
+    void PopBack();
+    void PushFront(ConstReference value);
+    void PopFront();
+    void Swap(List & other) noexcept;
+    void Merge(List & other) noexcept;
+    void Splice(ConstIterator pos, List & other);
+    void Reverse() noexcept;
+    void Unique();
+    void Sort();
 
 protected:
-    value_type list_;
-    size_type size_;
+    //List' node
     class Node{
     public:
         T data_;
-        Node *pNext;
-        Node *pPrev;
-        Node(const T& data = T(), Node *pNext = nullptr, Node *pPrev = nullptr)
-            : data_(data), pNext(pNext), pPrev(pPrev){}
+        Node* p_next_;
+        Node*p_prev_;
+        Node(const T& data = T(), Node *p_next = nullptr, Node *p_prev = nullptr)
+            : data_(data), p_next_(p_next), p_prev_(p_prev){}
     };
     Node *head_;
     Node *tail_;
+    SizeType size_;
 
 public:
+    //Iterator
     class ListIterator {
     public:
-        ListIterator(Node* node = nullptr) : current(node) {};
+        ListIterator(Node* node = nullptr) : current_(node) {};
 
-        reference operator *() const {return current->data_;}
+        Reference operator *() const {return current_->data_;}
 //TODO:: добавить обработку на итерацию с последнего/первого элемента
-        ListIterator & operator++(){
-        if(current) current = current->pNext;
+        ListIterator& operator++(){
+        if(current_) current_ = current_->p_next_;
         return *this;
     }
 
-    ListIterator & operator--(){
-        if(current) current = current->pPrev;
+    ListIterator& operator--(){
+        if(current_) current_ = current_->p_prev_;
         return *this;
     }
 
-    Node* getCurrent() const { return current;}
+    Node* GetCurrent() const { return current_;}
 
-    bool operator==(const iterator& other) const {return current == other.current;}
-    bool operator!=(const iterator& other) const {return current != other.current;}
+    bool operator==(const Iterator& other) const {return current_ == other.current_;}
+    bool operator!=(const Iterator& other) const {return current_ != other.current_;}
 
 private:
-        Node* current;
+        Node*current_;
     };
 };
-}
+} // namespace s21
 
 #include "list.tpp"
-#endif
+
+#endif // CPP_S21_CONTAINERS_1_SRC_LIST_LIST_H_
