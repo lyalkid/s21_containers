@@ -1,12 +1,11 @@
 //
 // Created by Siona Paella on 11/28/24.
 //
-#include <gtest/gtest.h>
-
 #include "../include/btree.h"
 
-#include "../include/s21_map.h"
+#include <gtest/gtest.h>
 
+#include "../include/s21_map.h"
 
 using namespace s21;
 
@@ -41,4 +40,3 @@ TEST(test_class, successor) {
   EXPECT_EQ(tree.find(root, 15)->get_data().first, 15);
   EXPECT_EQ(tree.find(root, 20)->get_data().first, 20);
 }
-

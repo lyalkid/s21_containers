@@ -9,7 +9,6 @@ btree_node<K, V>::btree_node(K key, V value)
   data = std::make_pair(key, value);
 }
 
-
 template <typename K, typename V>
 btree_node<K, V> &btree_node<K, V>::operator=(const btree_node<K, V> &other) {
   if (this == &other) {
@@ -38,9 +37,5 @@ bool btree_node<K, V>::equals(const btree_node &other) const noexcept {
   return (data == other.data && parent == other.parent &&
           right == other.right && left == other.left && lvl == other.lvl);
 }
-
-
-
-
 
 }  // namespace s21

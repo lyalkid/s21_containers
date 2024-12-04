@@ -60,12 +60,12 @@ clean:
 	rm -rf .clang-format *.o *.a *.gcda *.gcno *.info *.gcov report $(GCOV_OUT) $(TEST_OUT) $(A_OUT) *.dSYM
 
 style:
-	@clang-format --style=Google -i *.h *.cpp */*.h */*.cpp *.tpp
+	@clang-format --style=Google -i  *.cpp */*.h */*.cpp */*.tpp
 	@echo "Don't panic! Clang is fine :)"
 
 
 style_test:
-	@clang-format --style=Google -n *.h *.cpp */*.h */*.cpp
+	@clang-format --style=Google -n *.cpp */*.h */*.cpp */*.tpp
 	@echo "Don't panic! Clang is fine :)"
 
 
@@ -97,10 +97,10 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "раскидал по папкам"
+GIT_MESSAGE = "style"
 
 git-push:
-	git add ../..
-	git commit -m $(GIT_MESSAGE)
-	git push -u origin sionapae
-	cd -
+	@git add ../..
+	@git commit -m $(GIT_MESSAGE)
+	@git push -u origin sionapae
+

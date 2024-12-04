@@ -22,15 +22,15 @@ class map {
   class const_iterator;
 
   // Constructors
-  map(): size_(), tree(){};
+  map() : size_(), tree() {};
 
   map(const Key key, T value) : tree(key, value), size_(1) {}
 
-  map(std::initializer_list<value_type> const &items){
-      auto it = items.begin();
-      while (it != items.end()) {
-          insert(*it++);
-      }
+  map(std::initializer_list<value_type> const &items) {
+    auto it = items.begin();
+    while (it != items.end()) {
+      insert(*it++);
+    }
   }
 
   map(const map &m);
@@ -47,7 +47,7 @@ class map {
 
   iterator begin();
 
-  iterator end() ;
+  iterator end();
 
   bool empty() const;
 
