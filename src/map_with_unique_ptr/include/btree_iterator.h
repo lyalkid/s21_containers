@@ -53,14 +53,6 @@ class btree_iterator {
 
   std::pair<K, V> *operator->() const { return &(currentNode_->data); }
 
-  btree_node<K, V> *findMin(btree_node<K, V> *node) const;
-
-  btree_node<K, V> *findMax(btree_node<K, V> *node) const;
-
-  btree_node<K, V> *next(btree_node<K, V> *node) const;
-
-  btree_node<K, V> *prev(btree_node<K, V> *node) const;
-
   friend class btree<K, V>;  //<K, V>;
   friend class map<K, V>;
 

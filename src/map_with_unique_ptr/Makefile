@@ -97,9 +97,9 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "style"
+GIT_MESSAGE = "refactor"
 
-git-push:
+git-push: style
 	@git add ../..
 	@git commit -m $(GIT_MESSAGE)
 	@git push -u origin sionapae

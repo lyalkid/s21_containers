@@ -17,7 +17,7 @@ std::shared_ptr<btree_node<K, V>> btree<K, V>::get_root() {
 
 // insert
 template <typename K, typename V>
-void btree<K, V>::insert(K key, V value, bool &is_inserted) {
+void btree<K, V>::insert(K key, V value, bool& is_inserted) {
   if (bt_root_ == nullptr) {
     bt_root_ = std::make_shared<btree_node<K, V>>(key, value);
     bt_size_++;
@@ -27,39 +27,31 @@ void btree<K, V>::insert(K key, V value, bool &is_inserted) {
   }
 
   is_inserted = false;
-  btree_node<K, V> *parent = nullptr;
+  node_type* parent = nullptr;
   shared_ptr<btree_node<K, V>> current = bt_root_;
   shared_ptr<btree_node<K, V>> temp = make_shared<btree_node<K, V>>(key, value);
-  //  if(this->find(bt_root_, key) != nullptr){
-  //      return;
-  //  }
+
   while (current != nullptr) {
     parent = current.get();
     current = key < current->data.first ? current->left : current->right;
   }
   temp->parent = parent;
-  temp->lvl = temp->parent->lvl + 2;
   if (parent == nullptr) {
     bt_root_ = temp;
     is_inserted = true;
   } else if (key < parent->data.first) {
     parent->left = temp;
-    //            parent->left->parent = parent;
     is_inserted = true;
-    // bt_it_.currentNode_ = parent->left.get();
   } else {
     parent->right = temp;
-    //            parent->left->parent = parent;
 
     is_inserted = true;
-    // bt_it_.currentNode_ = parent->right.get();
   }
   if (is_inserted) bt_size_++;
 }
 
 template <typename K, typename V>
-shared_ptr<btree_node<K, V>> btree<K, V>::find(
-    std::shared_ptr<btree_node<K, V>> node, K key) const {
+typename btree<K, V>::node_ptr btree<K, V>::find(node_ptr node, K key) const {
   if (node == nullptr || node->data.first == key) {
     return node;
   }
@@ -71,6 +63,52 @@ shared_ptr<btree_node<K, V>> btree<K, V>::find(
 }
 
 template <typename K, typename V>
+typename btree<K, V>::node_type* btree<K, V>::findMin(node_type* node) const {
+  if (node->left == nullptr) {
+    return node;
+  }
+  return findMin(node->left.get());
+}
+
+template <typename K, typename V>
+typename btree<K, V>::node_type* btree<K, V>::findMax(node_type* node) const {
+  if (node->right == nullptr) {
+    return node;
+  }
+  return findMax(node->right.get());
+}
+
+template <typename K, typename V>
+typename btree<K, V>::node_type* btree<K, V>::next(node_type* node) const {
+  if (node->right != nullptr) {
+    return findMin(node->right.get());
+  }
+  node_type* parent = node->parent;
+  while (parent && node == parent->right.get()) {
+    node = parent;
+    parent = parent->parent;
+  }
+  return parent;
+}
+
+template <typename K, typename V>
+typename btree<K, V>::node_type* btree<K, V>::prev(node_type* node) const {
+  if (node->left != nullptr) {
+    return findMax(node->left.get());
+  }
+  node_type* parent = node->parent;
+  while (parent && node == parent->left.get()) {
+    node = parent;
+    parent = parent->parent;
+  }
+  return parent;
+}
+
+template <typename K, typename V>
+typename btree<K, V>::node_type* btree<K, V>::tree_successor(
+    node_type* node) const {}
+
+template <typename K, typename V>
 void btree<K, V>::in_order_tree_walk(std::shared_ptr<btree_node<K, V>> node) {
   if (node != nullptr) {
     in_order_tree_walk(node->right);
@@ -79,8 +117,6 @@ void btree<K, V>::in_order_tree_walk(std::shared_ptr<btree_node<K, V>> node) {
   }
 }
 template <typename K, typename V>
-void btree<K, V>::remove(const key_type key) {
-
-}
+void btree<K, V>::remove(const key_type key) {}
 
 }  // namespace s21
