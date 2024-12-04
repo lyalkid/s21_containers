@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 
+#include "btree_iterator.h"
 #include "btree_node.h"
 
 /// @brief
@@ -47,12 +48,12 @@ class btree {
   }
 
   btree(K key, V value) {
-    bt_root_ = std::make_shared < node_type >> (key, value);
+    bt_root_ = std::make_shared<node_type>(key, value);
     bt_size_ = 1;
   }
 
   btree(value_type data) {
-    bt_root_ = std::make_shared < node_type >> (data.first, data.second);
+    bt_root_ = std::make_shared<node_type>(data.first, data.second);
     bt_size_ = 1;
   }
 
@@ -75,7 +76,7 @@ class btree {
     return *this;
   }
 
-  void insert(K key, V value, bool& is_inserted);
+  void insert(K key, V value);
 
   node_ptr find(node_ptr node, K key) const;
 
@@ -86,7 +87,7 @@ class btree {
   node_type* next(node_type* node) const;
 
   node_type* prev(node_type* node) const;
-  node_type* tree_successor(node_type* node) const;
+  node_ptr tree_successor(node_ptr del_node) const;
 
   void remove(const key_type key);
 
@@ -98,7 +99,7 @@ class btree {
     return this->find(bt_root_, key) != nullptr;
   }
 
-  void in_order_tree_walk(node_ptr node);
+  void in_order_tree_walk(node_ptr node, int space);
 
   friend class btree_iterator<K, V>;
 
