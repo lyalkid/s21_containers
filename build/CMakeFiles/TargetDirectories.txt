@@ -1,0 +1,3 @@
+/home/lyalkid/code/s21/containers_dream_team/build/CMakeFiles/containers.dir
+/home/lyalkid/code/s21/containers_dream_team/build/CMakeFiles/edit_cache.dir
+/home/lyalkid/code/s21/containers_dream_team/build/CMakeFiles/rebuild_cache.dir
