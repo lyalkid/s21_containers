@@ -17,7 +17,7 @@ cmake-build-debug
 .vscode
 .idea
 
- *.txt
+CMakeLists.txt
 
 # Precompiled Headers
 *.gch
