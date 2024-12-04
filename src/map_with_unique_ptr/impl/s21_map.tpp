@@ -1,4 +1,4 @@
-#include "s21_map.h"
+#include "../include/s21_map.h"
 
 namespace s21 {
 using std::make_pair;

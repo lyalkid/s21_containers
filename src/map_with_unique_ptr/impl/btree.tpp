@@ -1,4 +1,4 @@
-#include "binaryTree.h"
+#include "../include/btree.h"
 
 namespace s21 {
 //    template<typename K, typename V>
@@ -22,7 +22,6 @@ void btree<K, V>::insert(K key, V value, bool& is_inserted) {
     bt_root_ = std::make_shared<btree_node<K, V>>(key, value);
     bt_size_++;
     is_inserted = true;
-
     return;
   }
 
