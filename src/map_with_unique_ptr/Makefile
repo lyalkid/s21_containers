@@ -100,8 +100,9 @@ docker_delete:
 GIT_MESSAGE = "раскидал по папкам"
 
 git-push:
-	@cd ../..
-	@git add .
-	@git commit -m $(GIT_MESSAGE)
-	@git push -u origin sionapae
-	@cd -
+	cd ../..
+	pwd
+	git add .
+	git commit -m $(GIT_MESSAGE)
+	git push -u origin sionapae
+	cd -
