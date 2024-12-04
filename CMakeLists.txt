@@ -12,7 +12,7 @@ include_directories(${GTEST_INCLUDE_DIRS})
 # Главный исполняемый файл проекта
 add_executable(containers
         src/map_with_unique_ptr/main.cpp
-        src/map_with_unique_ptr/node.tpp
+        src/map_with_unique_ptr/include/btree_node.h
 )
 
 # Тесты
