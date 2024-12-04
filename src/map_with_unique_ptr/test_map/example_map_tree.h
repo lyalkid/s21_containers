@@ -50,7 +50,7 @@ class Tree {
   typedef struct Node_ {
     value_type element_;
     unsigned char height_;
-    explicit Node_(const value_type &elem) : element_(elem), height_(1) {};
+    explicit Node_(const value_type &elem) : element_(elem), height_(1){};
   } Node_;
 
   Node_ *root_;

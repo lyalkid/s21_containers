@@ -4,14 +4,6 @@
 namespace s21 {
 
 template <typename K, typename V>
-btree_node<K, V>::btree_node(const K key, V value) {
-  data = std::make_pair(key, value);
-  parent = nullptr;
-  right = nullptr;
-  left = nullptr;
-}
-
-template <typename K, typename V>
 btree_node<K, V>::btree_node(btree_node &&other) noexcept {
   data = std::move(other.data);
   parent = std::move(other.parent);

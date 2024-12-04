@@ -22,7 +22,7 @@ class map {
   class const_iterator;
 
   // Constructors
-  map() : size_(), tree() {};
+  map() : size_(), tree(){};
 
   map(const Key key, T value) : tree(key, value), size_(1) {}
 
