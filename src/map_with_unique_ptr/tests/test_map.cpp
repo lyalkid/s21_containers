@@ -3,7 +3,7 @@
 #include <iostream>
 #include <map>
 
-#include "../s21_map.h"
+#include "../include/s21_map.h"
 
 /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -->>    Map Member functions

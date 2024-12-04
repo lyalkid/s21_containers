@@ -1,8 +1,8 @@
 #include <iostream>
 #include <map>
 
-#include "binaryTree.h"
-#include "s21_map.h"
+#include "include/btree.h"
+#include "include/s21_map.h"
 
 #include <queue>
 #include <list>

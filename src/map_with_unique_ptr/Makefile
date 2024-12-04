@@ -57,7 +57,7 @@ v: compileg test
 
 
 clean:
-	rm -rf .clang-format *.o *.a *.gcda *.gcno *.info *.gcov report $(GCOV_OUT) $(TEST_OUT) $(A_OUT)
+	rm -rf .clang-format *.o *.a *.gcda *.gcno *.info *.gcov report $(GCOV_OUT) $(TEST_OUT) $(A_OUT) *.dSYM
 
 style:
 	@clang-format --style=Google -i *.h *.cpp */*.h */*.cpp *.tpp
@@ -97,9 +97,9 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "Обновление проекта"
+GIT_MESSAGE = "раскидал по папкам"
 
 git-push:
 	@git add .
 	@git commit -m $(GIT_MESSAGE)
-	@git push
+	@git push -u origin sionapae

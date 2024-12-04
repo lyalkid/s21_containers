@@ -1,7 +1,7 @@
 #ifndef S21_MAP_H_
 #define S21_MAP_H_
 
-#include "binaryTree.h"
+#include "btree.h"
 
 namespace s21 {
 
@@ -69,6 +69,6 @@ class map {
 };
 }  // namespace s21
 
-#include "s21_map.tpp"
+#include "../impl/s21_map.tpp"
 
 #endif  // S21_MAP_H_
