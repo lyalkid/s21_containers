@@ -55,6 +55,9 @@ class btree_iterator {
 
   std::pair<const K, V> *operator->() const { return &(currentNode_->data); }
 
+  bool has_next();
+  next();
+
   friend class btree<K, V>;  //<K, V>;
   friend class map<K, V>;
 

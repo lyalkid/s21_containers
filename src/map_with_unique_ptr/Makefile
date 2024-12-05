@@ -97,7 +97,7 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "swap"
+GIT_MESSAGE = "try iterators"
 
 git-push: style
 	@git add .
