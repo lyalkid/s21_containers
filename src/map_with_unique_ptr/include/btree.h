@@ -33,6 +33,7 @@ class btree {
   using reference = value_type &;
   using const_reference = const value_type &;
   using iterator = btree_iterator<K, V>;
+  using const_iterator = const iterator;
   using size_type = size_t;
   using sh_ptr_iterator = std::shared_ptr<btree_iterator<K, V>>;
   using node_ptr = shared_ptr<btree_node<K, V>>;
@@ -94,11 +95,18 @@ class btree {
 
   void swap(btree &other);
 
+  void merge(btree &other);
+
   node_ptr get_root();
 
   node_ptr tree_successor(node_ptr del_node) const;
 
-  friend class btree_iterator<K, V>;
+  iterator begin() const;
+  iterator end() const;
+
+  ¬
+
+      friend class btree_iterator<K, V>;
 
   friend class map<K, V>;
 
@@ -106,13 +114,6 @@ class btree {
   key_type root() const {
     return bt_root_ != nullptr ? bt_root_->data.first : nullptr;
   }
-  node_type *findMin(node_type *node) const;
-
-  node_type *findMax(node_type *node) const;
-
-  node_type *next(node_type *node) const;
-
-  node_type *prev(node_type *node) const;
 
   bool contains(const K &key) const {
     return this->find(bt_root_, key) != nullptr;

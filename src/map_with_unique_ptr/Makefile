@@ -100,7 +100,7 @@ docker_delete:
 GIT_MESSAGE = "swap"
 
 git-push: style
-	@git add ../..
+	@git add .
 	@git commit -m $(GIT_MESSAGE)
 	@git push -u origin sionapae
 	@git status

@@ -161,3 +161,35 @@ TEST(test_class, swap) {
   ASSERT_EQ(tree.find(tree.get_root(), 555), nullptr);
   ASSERT_NE(tree2.find(tree2.get_root(), 555), nullptr);
 }
+
+TEST(test_class, iterator) {
+  btree<int, int> tree;
+  tree.insert(10, 100);
+  tree.insert(20, 200);
+  tree.insert(5, 1);
+  tree.insert(2, 1);
+  tree.insert(10, 1);
+  tree.insert(15, 1);
+  tree.insert(20, 1);
+  tree.insert(30, 1);
+  tree.insert(35, 1);
+
+  auto it = tree.begin();
+  for (it = tree.begin(); it != tree.end(); it++) {
+    std::cout << it->first << std::endl;
+  }
+  for (it = tree.end()--; it != tree.begin(); it--) {
+    std::cout << it->first << std::endl;
+  }
+
+  //  ASSERT_EQ((it)->first, 5);
+  //  it++;
+  //    ASSERT_EQ((it)->first, 10);
+  //    it++;
+  //    ASSERT_EQ((it)->first, 20);
+  //    it++;
+  ////    ASSERT_EQ((it)->first, 0);
+}
+
+//  ASSERT_EQ(tree.size(), 0);
+//  ASSERT_EQ(tree.empty(), true);

@@ -63,48 +63,6 @@ typename btree<K, V>::node_ptr btree<K, V>::find(node_ptr node, K key) const {
 }
 
 template <typename K, typename V>
-typename btree<K, V>::node_type *btree<K, V>::findMin(node_type *node) const {
-  if (node->left == nullptr) {
-    return node;
-  }
-  return findMin(node->left.get());
-}
-
-template <typename K, typename V>
-typename btree<K, V>::node_type *btree<K, V>::findMax(node_type *node) const {
-  if (node->right == nullptr) {
-    return node;
-  }
-  return findMax(node->right.get());
-}
-
-template <typename K, typename V>
-typename btree<K, V>::node_type *btree<K, V>::next(node_type *node) const {
-  if (node->right != nullptr) {
-    return findMin(node->right.get());
-  }
-  node_type *parent = node->parent;
-  while (parent && node == parent->right.get()) {
-    node = parent;
-    parent = parent->parent;
-  }
-  return parent;
-}
-
-template <typename K, typename V>
-typename btree<K, V>::node_type *btree<K, V>::prev(node_type *node) const {
-  if (node->left != nullptr) {
-    return findMax(node->left.get());
-  }
-  node_type *parent = node->parent;
-  while (parent && node == parent->left.get()) {
-    node = parent;
-    parent = parent->parent;
-  }
-  return parent;
-}
-
-template <typename K, typename V>
 void btree<K, V>::in_order_tree_walk(std::shared_ptr<btree_node<K, V>> node,
                                      int space) {
   if (node != nullptr) {
@@ -212,7 +170,6 @@ void btree<K, V>::clear_node(node_ptr node) {
   bt_size_--;
 }
 template <typename K, typename V>
-
 bool btree<K, V>::empty() {
   return bt_root_ == nullptr;
 }
@@ -227,4 +184,28 @@ void btree<K, V>::swap(btree &other) {
   std::swap(bt_root_, other.bt_root_);
   std::swap(bt_size_, other.bt_size_);
 }
+
+template <typename K, typename V>
+typename btree<K, V>::iterator btree<K, V>::begin() const {
+  if (bt_root_) {
+    iterator it(bt_root_.get());
+    it.currentNode_ = (it.currentNode_)->findMin(it.currentNode_);
+    it.init_stack(bt_root_.get());
+    return it;
+  }
+  return nullptr;
+}
+
+template <typename K, typename V>
+typename btree<K, V>::iterator btree<K, V>::end() const {
+  //    if(bt_root_ == nullptr){
+  //        return nullptr;
+  //    }
+  //    node_type * node =  bt_root_.get();
+  //    while ( node->right != nullptr){
+  // node = node->right.get();
+  //    }
+  return iterator(nullptr, true);
+}
+
 }  // namespace s21

@@ -29,6 +29,7 @@ class btree_node {
   std::shared_ptr<btree_node> left;
 
  public:
+  using node_type = btree_node<K, V>;
   //        using value = std::pair<K, V>;
   btree_node() = default;
 
@@ -51,6 +52,15 @@ class btree_node {
   btree_node &operator=(btree_node &&other) noexcept;
 
   bool operator==(const btree_node &other) const noexcept;
+
+  bool operator!=(const btree_node &other) const noexcept;
+
+  node_type *next(node_type *node);
+
+  node_type *prev(node_type *node) const;
+  node_type *findMin(node_type *node) const;
+
+  node_type *findMax(node_type *node) const;
 
   //        template<template K, template  V>
   friend class btree<K, V>;  //<K, V>;

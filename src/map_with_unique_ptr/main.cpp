@@ -118,14 +118,20 @@ using namespace s21;
 int main() {
   //    std::queue<int> q_{};
 
-  s21::btree<int, int> btree1;
-  bool v = true;
-  btree1.insert(1, 2);
-  btree1.~btree();
-  btree1.insert(1, 2);
+  std::map<int, int>
 
-  s21::btree<int, int> btree2 = btree1;
-  btree1.insert(2, 1);
-  btree2 = btree1;
+      btree1;
+  bool v = true;
+  btree1.insert({1, 2});
+  btree1.insert({111, 2});
+
+  std::map<int, int> btree2;
+  btree2.insert({2, 1});
+  btree2.insert({1, 2});
+  btree2.insert({111, 2});
+  btree1.merge(btree2);
+
+  for (auto it = btree1.begin(); it != btree1.end(); it++) {
+  }
   int c = 1;
 }
