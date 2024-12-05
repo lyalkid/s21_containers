@@ -64,7 +64,7 @@ This table contains in-class type overrides (typical for the standard STL librar
 | Done | Modifiers              | Definition                                     |
 |------|------------------------|------------------------------------------------|
 | [x]  | void clear()            | clears the contents of the tree                |
-| [ ]  | void swap(binary_tree &other) | swaps the contents of two trees           |
+| [x]  | void swap(binary_tree &other) | swaps the contents of two trees           |
 
 ## Binary Tree Traversal
 
