@@ -57,11 +57,12 @@ class btree_node {
 
   node_type *next(node_type *node);
 
-  node_type *prev(node_type *node) const;
+  node_type *prev(node_type *node);
   node_type *findMin(node_type *node) const;
 
   node_type *findMax(node_type *node) const;
 
+  bool has_next() { return right != nullptr || left != nullptr; }
   //        template<template K, template  V>
   friend class btree<K, V>;  //<K, V>;
   friend class btree_iterator<K, V>;

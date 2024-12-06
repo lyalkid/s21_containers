@@ -26,8 +26,8 @@ TEST(test_class, find_nullptr) {
 TEST(test_class, successor) {
   btree<int, int> tree;
   //    5, 10, 15, 20, 30, 35
-  bool flag = true;
-  btree<int, int>::iterator it;
+
+  btree<int, int>::iterator чit;
   tree.insert(5, 1);
   tree.insert(2, 1);
   tree.insert(10, 1);
@@ -80,7 +80,6 @@ TEST(test_class, remove_node_with_two_children) {
   tree.insert(3, 3);    // Левый потомок 5
   tree.insert(7, 7);    // Правый потомок 5
   auto root = tree.get_root();
-  size_t old_size = tree.size();
 
   tree.remove(5);  // Удаляем узел с двумя дочерними элементами
 
@@ -100,7 +99,6 @@ TEST(test_class, remove_root) {
   tree.insert(5, 5);    // Левый потомок
   tree.insert(15, 15);  // Правый потомок
   auto root = tree.get_root();
-  size_t old_size = tree.size();
 
   tree.remove(10);  // Удаляем корень
 

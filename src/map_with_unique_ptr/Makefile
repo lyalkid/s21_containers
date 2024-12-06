@@ -97,9 +97,10 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "try iterators"
+GIT_MESSAGE = "try iterators 2"
 
 git-push: style
+	@git pull
 	@git add .
 	@git commit -m $(GIT_MESSAGE)
 	@git push -u origin sionapae

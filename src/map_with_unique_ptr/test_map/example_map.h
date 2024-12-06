@@ -8,11 +8,11 @@ template <typename K, typename V>
 class map : public Tree<K, V> {
  public:
   // CONSTRUCTORS
-  map() : Tree<K, V>() {};
+  map() : Tree<K, V>(){};
   map(std::initializer_list<typename Tree<K, V>::value_type> const& items)
-      : Tree<K, V>(items) {};
-  map(const map& m) : Tree<K, V>(m) {};
-  map(map&& m) noexcept : Tree<K, V>(std::move(m)) {};
+      : Tree<K, V>(items){};
+  map(const map& m) : Tree<K, V>(m){};
+  map(map&& m) noexcept : Tree<K, V>(std::move(m)){};
 
   // DESTRUCTOR
   ~map() = default;

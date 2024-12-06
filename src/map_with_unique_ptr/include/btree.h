@@ -10,9 +10,9 @@
 #include "btree_iterator.h"
 #include "btree_node.h"
 
-/// @brief
+// todo: разбить функции по блокам
+
 namespace s21 {
-using std::shared_ptr;
 
 template <typename Key, typename T>
 class map;
@@ -36,22 +36,27 @@ class btree {
   using const_iterator = const iterator;
   using size_type = size_t;
   using sh_ptr_iterator = std::shared_ptr<btree_iterator<K, V>>;
-  using node_ptr = shared_ptr<btree_node<K, V>>;
+  using node_ptr = std::shared_ptr<btree_node<K, V>>;
 
+  // todo: вынести реализации в .tpp файл
   btree() : bt_root_(nullptr), bt_size_() {}
 
+  // todo: вынести реализации в .tpp файл
   btree(const btree &other)
       : bt_root_(other.bt_root_), bt_size_(other.bt_size_) {}
 
+  // todo: вынести реализации в .tpp файл
   btree(btree &&bt) noexcept {
     bt_root_ = std::move(bt.bt_root_);
     bt_size_ = std::move(bt.size_);
   }
 
+  // todo: вынести реализации в .tpp файл
   btree(K key, V value) {
     bt_root_ = std::make_shared<node_type>(key, value);
     bt_size_ = 1;
   }
+  // todo: вынести реализации в .tpp файл
 
   btree(value_type data) {
     bt_root_ = std::make_shared<node_type>(data.first, data.second);
@@ -59,7 +64,7 @@ class btree {
   }
 
   ~btree();
-
+  // todo: вынести реализации в .tpp файл
   btree &operator=(const btree &other) {
     if (this != &other) {
       bt_root_.reset();
@@ -68,7 +73,7 @@ class btree {
     }
     return *this;
   }
-
+  // todo: вынести реализации в .tpp файл
   btree &operator=(btree &&other) noexcept {
     if (this == &other) {
       bt_root_ = std::move(other.bt_root_);
@@ -78,7 +83,7 @@ class btree {
   }
 
   void insert(K key, V value);
-
+  void insert(value_type data) { insert(data.first, data.second); }
   void remove(const key_type &key);
 
   node_ptr find(node_ptr node, K key) const;
@@ -104,9 +109,7 @@ class btree {
   iterator begin() const;
   iterator end() const;
 
-  ¬
-
-      friend class btree_iterator<K, V>;
+  friend class btree_iterator<K, V>;
 
   friend class map<K, V>;
 

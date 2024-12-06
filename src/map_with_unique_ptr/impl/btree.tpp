@@ -187,25 +187,19 @@ void btree<K, V>::swap(btree &other) {
 
 template <typename K, typename V>
 typename btree<K, V>::iterator btree<K, V>::begin() const {
-  if (bt_root_) {
-    iterator it(bt_root_.get());
-    it.currentNode_ = (it.currentNode_)->findMin(it.currentNode_);
-    it.init_stack(bt_root_.get());
+  if (bt_root_ != nullptr) {
+    node_type *current_node_ = bt_root_->findMin(bt_root_.get());
+    iterator it(current_node_, bt_root_);
     return it;
   }
-  return nullptr;
+  iterator tmp(nullptr, nullptr);
+  return tmp;
 }
 
 template <typename K, typename V>
 typename btree<K, V>::iterator btree<K, V>::end() const {
-  //    if(bt_root_ == nullptr){
-  //        return nullptr;
-  //    }
-  //    node_type * node =  bt_root_.get();
-  //    while ( node->right != nullptr){
-  // node = node->right.get();
-  //    }
-  return iterator(nullptr, true);
+  iterator end(nullptr, bt_root_);
+  return end;
 }
 
 }  // namespace s21

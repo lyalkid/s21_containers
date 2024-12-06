@@ -23,10 +23,11 @@ btree_node<K, V> &btree_node<K, V>::operator=(const btree_node<K, V> &other) {
   left = other.left;
   return *this;
 }
+
 template <typename K, typename V>
 btree_node<K, V> &btree_node<K, V>::operator=(
     btree_node<K, V> &&other) noexcept {
-  if (this == &other) {
+  if (this != &other) {
     data = std::move(other.data);
     parent = std::move(other.parent);
     right = std::move(other.right);
@@ -39,6 +40,7 @@ template <typename K, typename V>
 bool btree_node<K, V>::operator==(const btree_node &other) const noexcept {
   return this->equals(other);
 }
+
 template <typename K, typename V>
 bool btree_node<K, V>::operator!=(const btree_node &other) const noexcept {
   return (!this->equals(other));
@@ -67,8 +69,7 @@ typename btree_node<K, V>::node_type *btree_node<K, V>::next(node_type *node) {
 }
 
 template <typename K, typename V>
-typename btree_node<K, V>::node_type *btree_node<K, V>::prev(
-    node_type *node) const {
+typename btree_node<K, V>::node_type *btree_node<K, V>::prev(node_type *node) {
   if (node->left != nullptr) {
     return findMax(node->left.get());
   }

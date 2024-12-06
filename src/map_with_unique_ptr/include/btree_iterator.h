@@ -1,8 +1,10 @@
 
 #ifndef CONTAINERS_BTREE_ITERATOR_H
 #define CONTAINERS_BTREE_ITERATOR_H
+
 #include "../../stack/stack.h"
 #include "btree_node.h"
+
 namespace s21 {
 template <typename Key, typename T>
 class map;
@@ -11,62 +13,104 @@ template <typename K, typename V>
 class btree_node;
 
 template <typename K, typename V>
-class btree_iterator;
+class btree;
 
 template <typename K, typename V>
 class btree_iterator {
  public:
   using node_type = btree_node<K, V>;
+  using node_ptr = std::shared_ptr<node_type>;
   using value_type = std::pair<const K, V>;
   using reference = value_type &;
-
   using pointer = value_type *;
-  using difference_type = std::ptrdiff_t;
-  using iterator_category = std::bidirectional_iterator_tag;
 
-  btree_iterator() = default;
+  // default constructor
+  btree_iterator() : current_node_(nullptr), root_(nullptr){};
 
-  btree_iterator(node_type *node);
+  // init iterator
+  btree_iterator(node_ptr node) : current_node_(node){};
 
-  btree_iterator(const btree_iterator<K, V> &other);
+  // copy constructor
+  btree_iterator(const btree_iterator &other)
+      : current_node_(other.current_node_){};
 
-  btree_iterator(K key, V value);
-  btree_iterator(node_type *node, bool end_)
-      : currentNode_(node), end_(end_) {};
+  // move constructor
+  btree_iterator(btree_iterator &&other) {
+    current_node_ = std::move(other.current_node_);
+  };
 
-  ~btree_iterator();
+  // destructor
+  ~btree_iterator() = default;
 
-  btree_iterator &operator=(const btree_iterator &other);
+  // constructor for end
+  btree_iterator(node_type *current_node, node_ptr root)
+      : current_node_(current_node), root_(root){};
 
-  btree_iterator &operator++();
-  const btree_iterator operator++(int);
-  node_type *find_root();
+  btree_iterator &operator=(const btree_iterator &other) {
+    if (this != &other) {
+      current_node_ = other.current_node_;
+      if (other.root_ != nullptr || root_ != nullptr) root_ = other.root_;
+    }
+    return *this;
+  }
 
-  btree_iterator &operator--();
+  btree_iterator &operator=(btree_iterator &&other) noexcept {
+    if (this != &other) {
+      current_node_ = std::move(other.current_node_);
+      if (other.root_ != nullptr) root_ = std::move(other.root_);
+    }
+    return *this;
+  }
 
-  void init_stack(btree_node<K, V> *root);
-  btree_iterator operator--(int);
+  // increment
+  btree_iterator &operator++() {
+    current_node_ = current_node_->next(current_node_);
+    return *this;
+  }
 
-  bool operator==(const btree_iterator &other) const;
+  btree_iterator operator++(int) {
+    btree_iterator temp = *this;
+    ++(*this);
+    return temp;
+  }
 
-  bool operator!=(const btree_iterator &other) const;
+  // decrement
+  btree_iterator &operator--() {
+    if (current_node_ == nullptr) {
+      current_node_ = root_->findMax(root_.get());
+    } else {
+      current_node_ = current_node_->prev(current_node_);
+    }
+    return *this;
+  }
 
-  reference operator*() const { return currentNode_->data; }
+  btree_iterator operator--(int) {
+    btree_iterator temp = *this;
+    --(*this);
 
-  std::pair<const K, V> *operator->() const { return &(currentNode_->data); }
+    return temp;
+  }
 
-  bool has_next();
-  next();
+  bool operator==(const btree_iterator &other) {
+    return current_node_ == other.current_node_;
+  }
 
-  friend class btree<K, V>;  //<K, V>;
-  friend class map<K, V>;
+  bool operator!=(const btree_iterator &other) {
+    return current_node_ != other.current_node_;
+  }
+
+  reference operator*() const { return current_node_->data; }
+
+  value_type *operator->() const { return &(current_node_->data); }
+
+  friend class btree<K, V>;
+  friend class btree_node<K, V>;
 
  private:
-  node_type *currentNode_;
-  bool end_;
-  s21::stack<value_type> nextStack;
-  s21::stack<value_type> prevStack;
+  node_type *current_node_;
+  node_ptr root_;
 };
+
 }  // namespace s21
 #include "../impl/btree_iterator.tpp"
 

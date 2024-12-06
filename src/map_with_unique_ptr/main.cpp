@@ -6,13 +6,12 @@
 
 #include "include/btree.h"
 #include "include/s21_map.h"
-// #include "test_map/example_map.h"
 
 using std::cout;
 using std::endl;
 using std::map;
 using std::string;
-using namespace s21;
+// using namespace s21;
 
 // int main() {
 //   //  s21::binary_tree<int, string> binary_tree;
@@ -118,20 +117,34 @@ using namespace s21;
 int main() {
   //    std::queue<int> q_{};
 
-  std::map<int, int>
+  s21::btree<int, int>
 
       btree1;
   bool v = true;
   btree1.insert({1, 2});
   btree1.insert({111, 2});
 
-  std::map<int, int> btree2;
+  s21::btree<int, int> btree2;
   btree2.insert({2, 1});
-  btree2.insert({1, 2});
+  btree2.insert({3, 2});
   btree2.insert({111, 2});
-  btree1.merge(btree2);
+  btree2.insert({23, 1});
+  btree2.insert({12, 2});
+  btree2.insert({11121, 2});
+  btree2.insert({2121, 1});
+  btree2.insert({1121211, 2});
+  btree2.insert({1313142111, 2});
+  //  btree1.merge(btree2);
+  auto it = btree1.begin();
+  it = btree1.end();
+  for (it = btree1.begin(); it != btree1.end(); it++) {
+    auto ti = it;
 
-  for (auto it = btree1.begin(); it != btree1.end(); it++) {
+    int c = 1;
   }
-  int c = 1;
+
+  for (it = btree1.end(); it != btree1.begin(); it--) {
+    auto ti = it;
+    int c = 1;
+  }
 }
