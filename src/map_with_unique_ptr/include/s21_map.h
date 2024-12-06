@@ -7,39 +7,35 @@ namespace s21 {
 
 template <typename Key, typename T>
 class map {
- private:
-  size_t size_;
-
  public:
   using key_type = Key;
   using mapped_type = T;
   using value_type = std::pair<const key_type, mapped_type>;
   using reference = value_type &;
   using const_reference = const value_type &;
-  using size_type = size_t;
   using iterator = typename btree<key_type, mapped_type>::iterator;
-
-  class const_iterator;
+  using const_iterator = const iterator;
+  using size_type = size_t;
+  using tree_type = btree<Key, T>;
 
   // Constructors
-  map() : size_(), tree(){};
+  map() = default;
 
-  map(const Key key, T value) : tree(key, value), size_(1) {}
+  //  map(const Key key, T value) : tree_(key, value), size_(1) {}
 
-  map(std::initializer_list<value_type> const &items) {
-    auto it = items.begin();
-    while (it != items.end()) {
-      insert(*it++);
-    }
-  }
+  map(std::initializer_list<value_type> const &items);
 
   map(const map &m);
 
-  map(map &&m);
+  map(map &&m) noexcept;
 
-  ~map() {}
+  map &operator=(const map &other);
+  map &operator=(map &&other) noexcept;
 
-  map &operator=(map &&m);
+  ~map() {
+    delete tree_;
+    size_ = 0;
+  }
 
   mapped_type &at(const key_type &key);
 
@@ -64,7 +60,8 @@ class map {
   bool contains(const key_type &key) const;
 
  private:
-  btree<key_type, mapped_type> tree;
+  tree_type tree_;
+  size_type size_;
   void clearHelper(std::shared_ptr<btree_node<Key, T>> &node);
 };
 }  // namespace s21

@@ -18,51 +18,51 @@
 - T& operator[](const Key& key) - !!! для проверки значений !!!
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
-// TEST(Map, EmptyConstructor) {
-//   s21::map<int, int> intM;
-//   s21::map<double, double> doubleM;
-//   s21::map<std::string, std::string> stringM;
-//
-//   EXPECT_EQ(intM.size(), 0U);
-//   EXPECT_EQ(doubleM.size(), 0U);
-//   EXPECT_EQ(stringM.size(), 0U);
-// }
+TEST(Map, EmptyConstructor) {
+  s21::map<int, int> intM;
+  s21::map<double, double> doubleM;
+  s21::map<std::string, std::string> stringM;
 
-// TEST(Map, InitListConstuctor) {
-//   // Zero Value
-//   s21::map<int, std::string> m0({});
-//   EXPECT_EQ(m0.size(), 0);
-//
-//   // One value
-//   s21::map<int, std::string> m1({{1, "one"}});
-//   EXPECT_EQ(m1.size(), 1);
-//
-//   // Multiple values
-//   s21::map<int, std::string> m2({{1, "one"}, {2, "two"}, {3, "three"}});
-//   EXPECT_EQ(m2.size(), 3);
-//   EXPECT_EQ(m2[1], "one");
-//   EXPECT_EQ(m2[2], "two");
-//   EXPECT_EQ(m2[3], "three");
-//
-//   // Key duplicate
-//   s21::map<int, std::string> mDup({{1, "one"}, {1, "uno"}});
-//   EXPECT_EQ(mDup.size(), 1);
-//   EXPECT_EQ(mDup[1], "one");
-//
-//   // Mixed order
-//   s21::map<int, std::string> mOrder({{3, "three"}, {1, "one"}, {2, "two"}});
-//   EXPECT_EQ(mOrder.size(), 3);
-//   EXPECT_EQ(mOrder[1], "one");
-//   EXPECT_EQ(mOrder[2], "two");
-//   EXPECT_EQ(mOrder[3], "three");
-//
-//   // Mixed type
-//   s21::map<std::string, int> mTypes({{"a", 1}, {"b", 2}, {"c", 3}});
-//   EXPECT_EQ(mTypes.size(), 3);
-//   EXPECT_EQ(mTypes["a"], 1);
-//   EXPECT_EQ(mTypes["b"], 2);
-//   EXPECT_EQ(mTypes["c"], 3);
-// }
+  EXPECT_EQ(intM.size(), 0U);
+  EXPECT_EQ(doubleM.size(), 0U);
+  EXPECT_EQ(stringM.size(), 0U);
+}
+
+TEST(Map, InitListConstuctor) {
+  // Zero Value
+  s21::map<int, std::string> m0({});
+  EXPECT_EQ(m0.size(), 0);
+
+  // One value
+  s21::map<int, std::string> m1({{1, "one"}});
+  EXPECT_EQ(m1.size(), 1);
+
+  // Multiple values
+  s21::map<int, std::string> m2({{1, "one"}, {2, "two"}, {3, "three"}});
+  EXPECT_EQ(m2.size(), 3);
+  EXPECT_EQ(m2[1], "one");
+  EXPECT_EQ(m2[2], "two");
+  EXPECT_EQ(m2[3], "three");
+
+  // Key duplicate
+  s21::map<int, std::string> mDup({{1, "one"}, {1, "uno"}});
+  EXPECT_EQ(mDup.size(), 1);
+  EXPECT_EQ(mDup[1], "one");
+
+  // Mixed order
+  s21::map<int, std::string> mOrder({{3, "three"}, {1, "one"}, {2, "two"}});
+  EXPECT_EQ(mOrder.size(), 3);
+  EXPECT_EQ(mOrder[1], "one");
+  EXPECT_EQ(mOrder[2], "two");
+  EXPECT_EQ(mOrder[3], "three");
+
+  // Mixed type
+  s21::map<std::string, int> mTypes({{"a", 1}, {"b", 2}, {"c", 3}});
+  EXPECT_EQ(mTypes.size(), 3);
+  EXPECT_EQ(mTypes["a"], 1);
+  EXPECT_EQ(mTypes["b"], 2);
+  EXPECT_EQ(mTypes["c"], 3);
+}
 //
 //// TEST(Map, TreePair) {
 ////   std::pair<int, double> intDouble{9, 1.4};

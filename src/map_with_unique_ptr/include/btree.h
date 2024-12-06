@@ -75,7 +75,7 @@ class btree {
   }
   // todo: вынести реализации в .tpp файл
   btree &operator=(btree &&other) noexcept {
-    if (this == &other) {
+    if (this != &other) {
       bt_root_ = std::move(other.bt_root_);
       bt_size_ = std::move(other.bt_size_);
     }

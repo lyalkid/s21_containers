@@ -25,14 +25,14 @@ class btree_iterator {
   using pointer = value_type *;
 
   // default constructor
-  btree_iterator() : current_node_(nullptr), root_(nullptr){};
+  btree_iterator() : current_node_(nullptr), root_(nullptr) {};
 
   // init iterator
-  btree_iterator(node_ptr node) : current_node_(node){};
+  btree_iterator(node_ptr node) : current_node_(node) {};
 
   // copy constructor
   btree_iterator(const btree_iterator &other)
-      : current_node_(other.current_node_), root_(other.root_){};
+      : current_node_(other.current_node_), root_(other.root_) {};
 
   // move constructor
   btree_iterator(btree_iterator &&other) {
@@ -45,7 +45,7 @@ class btree_iterator {
 
   // constructor for end
   btree_iterator(node_type *current_node, node_ptr root)
-      : current_node_(current_node), root_(root){};
+      : current_node_(current_node), root_(root) {};
 
   btree_iterator &operator=(const btree_iterator &other) {
     if (this != &other) {

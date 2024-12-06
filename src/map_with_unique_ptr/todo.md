@@ -89,14 +89,14 @@ This table contains in-class type overrides (typical for the standard STL librar
 
 | Done | Member type            | Definition                                                                             |
 |------|------------------------|----------------------------------------------------------------------------------------|
-| [ ]  | key_type               | Key the first template parameter (Key)                                                |
-| [ ]  | mapped_type            | T the second template parameter (T)                                                   |
-| [ ]  | value_type             | std::pair<const key_type, mapped_type> Key-value pair                                  |
-| [ ]  | reference              | value_type & defines the type of the reference to an element                          |
-| [ ]  | const_reference        | const value_type & defines the type of the constant reference                         |
-| [ ]  | iterator               | internal class MapIterator<K, T> or binary_tree::iterator                              |
-| [ ]  | const_iterator         | internal class MapConstIterator<K, T> or binary_tree::const_iterator                   |
-| [ ]  | size_type              | size_t defines the type of the container size (standard type is size_t)               |
+| [x]  | key_type               | Key the first template parameter (Key)                                                |
+| [x]  | mapped_type            | T the second template parameter (T)                                                   |
+| [x]  | value_type             | std::pair<const key_type, mapped_type> Key-value pair                                  |
+| [x]  | reference              | value_type & defines the type of the reference to an element                          |
+| [x]  | const_reference        | const value_type & defines the type of the constant reference                         |
+| [x]  | iterator               | internal class MapIterator<K, T> or binary_tree::iterator                              |
+| [x]  | const_iterator         | internal class MapConstIterator<K, T> or binary_tree::const_iterator                   |
+| [x]  | size_type              | size_t defines the type of the container size (standard type is size_t)               |
 
 ## Map Member functions
 
@@ -104,12 +104,12 @@ This table contains the main public methods for interacting with the class:
 
 | Done | Member functions       | Definition                                      |
 |------|------------------------|------------------------------------------------|
-| [ ]  | map()                  | default constructor, creates an empty map      |
-| [ ]  | map(std::initializer_list<value_type> const &items) | creates a map initialized using std::initializer_list<T> |
-| [ ]  | map(const map &m)      | copy constructor                                |
-| [ ]  | map(map &&m)           | move constructor                               |
-| [ ]  | ~map()                 | destructor                                     |
-| [ ]  | operator=(map &&m)     | assignment operator overload for moving an object |
+| [x]  | map()                  | default constructor, creates an empty map      |
+| [x]  | map(std::initializer_list<value_type> const &items) | creates a map initialized using std::initializer_list<T> |
+| [x]  | map(const map &m)      | copy constructor                                |
+| [x]  | map(map &&m)           | move constructor                               |
+| [x]  | ~map()                 | destructor                                     |
+| [x]  | operator=(map &&m)     | assignment operator overload for moving an object |
 
 ## Map Element access
 
