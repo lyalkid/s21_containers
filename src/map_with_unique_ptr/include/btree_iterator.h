@@ -32,11 +32,12 @@ class btree_iterator {
 
   // copy constructor
   btree_iterator(const btree_iterator &other)
-      : current_node_(other.current_node_){};
+      : current_node_(other.current_node_), root_(other.root_){};
 
   // move constructor
   btree_iterator(btree_iterator &&other) {
     current_node_ = std::move(other.current_node_);
+    root_ = std::move(other.root_);
   };
 
   // destructor
@@ -49,7 +50,7 @@ class btree_iterator {
   btree_iterator &operator=(const btree_iterator &other) {
     if (this != &other) {
       current_node_ = other.current_node_;
-      if (other.root_ != nullptr || root_ != nullptr) root_ = other.root_;
+      root_ = other.root_;
     }
     return *this;
   }
@@ -57,21 +58,22 @@ class btree_iterator {
   btree_iterator &operator=(btree_iterator &&other) noexcept {
     if (this != &other) {
       current_node_ = std::move(other.current_node_);
-      if (other.root_ != nullptr) root_ = std::move(other.root_);
+      root_ = std::move(other.root_);
     }
     return *this;
   }
 
   // increment
   btree_iterator &operator++() {
-    current_node_ = current_node_->next(current_node_);
+    if (current_node_ != nullptr)
+      current_node_ = current_node_->next(current_node_);
     return *this;
   }
 
   btree_iterator operator++(int) {
-    btree_iterator temp = *this;
+    //    btree_iterator temp = *this;
     ++(*this);
-    return temp;
+    return *this;
   }
 
   // decrement
@@ -85,10 +87,10 @@ class btree_iterator {
   }
 
   btree_iterator operator--(int) {
-    btree_iterator temp = *this;
+    //    btree_iterator temp = *this;
     --(*this);
 
-    return temp;
+    return *this;
   }
 
   bool operator==(const btree_iterator &other) {

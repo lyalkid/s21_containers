@@ -115,36 +115,23 @@ using std::string;
 // }
 
 int main() {
-  //    std::queue<int> q_{};
+  s21::btree<int, int> tree;
+  tree.insert(10, 100);
+  tree.insert(20, 200);
+  tree.insert(5, 1);
+  tree.insert(2, 1);
+  tree.insert(10, 1);
+  tree.insert(15, 1);
+  tree.insert(20, 1);
+  tree.insert(30, 1);
+  tree.insert(35, 1);
 
-  s21::btree<int, int>
-
-      btree1;
-  bool v = true;
-  btree1.insert({1, 2});
-  btree1.insert({111, 2});
-
-  s21::btree<int, int> btree2;
-  btree2.insert({2, 1});
-  btree2.insert({3, 2});
-  btree2.insert({111, 2});
-  btree2.insert({23, 1});
-  btree2.insert({12, 2});
-  btree2.insert({11121, 2});
-  btree2.insert({2121, 1});
-  btree2.insert({1121211, 2});
-  btree2.insert({1313142111, 2});
-  //  btree1.merge(btree2);
-  auto it = btree1.begin();
-  it = btree1.end();
-  for (it = btree1.begin(); it != btree1.end(); it++) {
-    auto ti = it;
-
-    int c = 1;
+  auto it = tree.begin();
+  auto end = tree.end();
+  for (it = tree.begin(); it != tree.end(); it++) {
+    std::cout << it->first << std::endl;
   }
-
-  for (it = btree1.end(); it != btree1.begin(); it--) {
-    auto ti = it;
-    int c = 1;
+  for (it = tree.end()--; it != tree.begin(); it--) {
+    std::cout << it->first << std::endl;
   }
 }

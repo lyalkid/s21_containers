@@ -173,6 +173,7 @@ TEST(test_class, iterator) {
   tree.insert(35, 1);
 
   auto it = tree.begin();
+  auto end = tree.end();
   for (it = tree.begin(); it != tree.end(); it++) {
     std::cout << it->first << std::endl;
   }

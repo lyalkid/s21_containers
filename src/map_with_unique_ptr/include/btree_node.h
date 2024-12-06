@@ -31,7 +31,11 @@ class btree_node {
  public:
   using node_type = btree_node<K, V>;
   //        using value = std::pair<K, V>;
-  btree_node() = default;
+  btree_node()
+      : data(std::make_pair(K{}, V{})),
+        parent(nullptr),
+        left(nullptr),
+        right(nullptr) {}
 
   btree_node(const K key, V value)
       : data(key, value), parent(nullptr), right(nullptr), left(nullptr) {}
