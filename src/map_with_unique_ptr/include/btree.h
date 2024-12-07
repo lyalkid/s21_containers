@@ -48,7 +48,7 @@ class btree {
   // todo: вынести реализации в .tpp файл
   btree(btree &&bt) noexcept {
     bt_root_ = std::move(bt.bt_root_);
-    bt_size_ = std::move(bt.size_);
+    bt_size_ = std::move(bt.bt_size_);
   }
 
   // todo: вынести реализации в .tpp файл
@@ -125,7 +125,7 @@ class btree {
   void in_order_tree_walk(node_ptr node, int space);
 
   node_ptr bt_root_;
-  size_t bt_size_;
+  size_type bt_size_;
 };
 
 }  // namespace s21

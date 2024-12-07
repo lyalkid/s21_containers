@@ -126,12 +126,44 @@ int main() {
   tree.insert(30, 1);
   tree.insert(35, 1);
 
-  auto it = tree.begin();
-  auto end = tree.end();
-  for (it = tree.begin(); it != tree.end(); it++) {
+  auto i = tree.begin();
+  auto ed = tree.end();
+  for (i = tree.begin(); i != tree.end(); i++) {
+    std::cout << i->first << std::endl;
+  }
+
+  std::cout << "---------" << std::endl;
+
+  for (i = tree.end()--; i != tree.begin(); i--) {
+    std::cout << i->first << std::endl;
+  }
+  std::cout << i->first << std::endl;
+
+  std::map<int, int> map;
+
+  map.insert({10, 100});
+  map.insert({20, 200});
+  map.insert({5, 1});
+  map.insert({2, 1});
+  map.insert({10, 1});
+  map.insert({15, 1});
+  map.insert({20, 1});
+  map.insert({30, 1});
+  map.insert({35, 1});
+
+  auto it = map.begin();
+  auto end = map.end();
+
+  for (it = map.begin(); it != map.end(); it++) {
     std::cout << it->first << std::endl;
   }
-  for (it = tree.end()--; it != tree.begin(); it--) {
+
+  std::cout << "---------" << std::endl;
+
+  for (it = --map.end(); it != map.begin(); it--) {
     std::cout << it->first << std::endl;
   }
+
+  // Для вывода последнего элемента
+  std::cout << it->first << std::endl;
 }

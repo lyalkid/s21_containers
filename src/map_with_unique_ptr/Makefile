@@ -97,7 +97,7 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "map constructors"
+GIT_MESSAGE = "iterators works yeaaaah"
 
 git-push: style
 	@git pull
