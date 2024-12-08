@@ -28,7 +28,7 @@ class btree_iterator {
   btree_iterator() : current_node_(nullptr), root_(nullptr) {};
 
   // init iterator
-  btree_iterator(node_ptr node) : current_node_(node) {};
+  btree_iterator(node_type* node) : current_node_(node) {};
 
   // copy constructor
   btree_iterator(const btree_iterator &other)

@@ -17,9 +17,12 @@ class map {
   using const_iterator = const iterator;
   using size_type = size_t;
   using tree_type = btree<Key, T>;
-
+    using insert_type = std::pair<iterator, bool> ;
   // Constructors
-  map() = default;
+  map() {
+      tree_ = new btree<Key, T>();
+      size_ = 0;
+  };
 
   //  map(const Key key, T value) : tree_(key, value), size_(1) {}
 
@@ -32,22 +35,27 @@ class map {
   map &operator=(const map &other);
   map &operator=(map &&other) noexcept;
 
-  ~map() {
-    delete tree_;
-    size_ = 0;
-  }
+  ~map() = default;
 
   mapped_type &at(const key_type &key);
 
   mapped_type &operator[](const key_type &key);
 
-  iterator begin();
+  iterator begin(){
+      return tree_->begin();
+  }
 
-  iterator end();
+  iterator end(){
+      return tree_->end();
+  }
 
-  bool empty() const;
+  bool empty() const{
+      return size_ == 0 || tree_ == nullptr;
+  }
 
-  size_type size() const;
+  size_type size() const{
+      return size_;
+  }
 
   void clear();
 
@@ -60,9 +68,10 @@ class map {
   bool contains(const key_type &key) const;
 
  private:
-  tree_type tree_;
+  tree_type* tree_;
   size_type size_;
   void clearHelper(std::shared_ptr<btree_node<Key, T>> &node);
+  insert_type insert_helper(const key_type &key, const mapped_type &obj);
 };
 }  // namespace s21
 

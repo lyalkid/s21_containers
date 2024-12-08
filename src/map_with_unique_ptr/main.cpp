@@ -115,16 +115,23 @@ using std::string;
 // }
 
 int main() {
-  s21::btree<int, int> tree;
-  tree.insert(10, 100);
-  tree.insert(20, 200);
-  tree.insert(5, 1);
-  tree.insert(2, 1);
-  tree.insert(10, 1);
-  tree.insert(15, 1);
-  tree.insert(20, 1);
-  tree.insert(30, 1);
-  tree.insert(35, 1);
+  s21::map<int, int> tree;
+ auto res =  tree.insert(10, 100);
+  res = tree.insert(20, 200);
+  res = tree.insert(5, 1);
+  res = tree.insert(2, 1);
+  res = tree.insert(10, 1);
+  res = tree.insert(15, 1);
+  res = tree.insert(20, 1);
+  res = tree.insert(30, 1);
+  res = tree.insert(35, 1);
+    auto op = tree[10] ;
+
+    tree[10] = 11111111 ;
+   op = tree[10] ;
+
+    auto c = tree.at(30);
+     c = tree.at(35);
 
   auto i = tree.begin();
   auto ed = tree.end();
@@ -139,6 +146,11 @@ int main() {
   }
   std::cout << i->first << std::endl;
 
+
+
+    std::cout << "---------" << std::endl;
+    std::cout << "---------" << std::endl;
+
   std::map<int, int> map;
 
   map.insert({10, 100});
@@ -150,6 +162,8 @@ int main() {
   map.insert({20, 1});
   map.insert({30, 1});
   map.insert({35, 1});
+
+//  map.at(15000);
 
   auto it = map.begin();
   auto end = map.end();
@@ -164,6 +178,9 @@ int main() {
     std::cout << it->first << std::endl;
   }
 
+
+  auto r = map[1];
+  map.at(1);
   // Для вывода последнего элемента
   std::cout << it->first << std::endl;
 }

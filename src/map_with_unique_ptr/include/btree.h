@@ -86,8 +86,23 @@ class btree {
   void insert(value_type data) { insert(data.first, data.second); }
   void remove(const key_type &key);
 
-  node_ptr find(node_ptr node, K key) const;
+  node_ptr find(node_ptr root, K key) const;
 
+ // todo: написать тесты на эти методы
+  iterator search(const K &key)const{
+    node_type* search = find(bt_root_, key).get();
+    if(search == nullptr){
+        return end();
+    }
+    iterator it(search);
+      return it;
+  }
+  bool contains(const key_type &key){
+        bool contains = false;
+        node_type* s = find(bt_root_, key).get();
+        if(s != nullptr) contains = true;
+      return contains;
+  }
   bool empty();
 
   size_t size() const;

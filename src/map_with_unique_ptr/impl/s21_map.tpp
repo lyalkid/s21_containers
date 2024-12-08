@@ -4,43 +4,109 @@ namespace s21 {
 
 // initializer list constructor, creates the map initizialized using
 // std::initializer_list
-template <typename K, typename T>
-map<K, T>::map(std::initializer_list<value_type> const &items) {
-  size_ = 0;
-  auto it = items.begin();
-  while (it != items.end()) {
+    template<typename K, typename T>
+    map<K, T>::map(std::initializer_list<value_type> const &items): map() {
+
+        auto it = items.begin();
+        while (it != items.end()) {
+            //std::cout << "im in items"<< std::endl;
     insert(*it++);
-  }
-}
+        }
+    }
 
 // copy constructor
-template <typename K, typename T>
-map<K, T>::map(const map &m) : tree_(m.tree_), size_(m.size_) {}
+    template<typename K, typename T>
+    map<K, T>::map(const map &m) : tree_(m.tree_), size_(m.size_) {}
 
-template <typename K, typename T>
-map<K, T>::map(map &&m) noexcept {
-  tree_ = std::move(m.tree_);
-  size_ = std::move(m.size_);
-}
+    template<typename K, typename T>
+    map<K, T>::map(map &&m) noexcept {
+        tree_ = std::move(m.tree_);
+        size_ = std::move(m.size_);
 
-template <typename K, typename T>
-map<K, T> &map<K, T>::operator=(const map &other) {
-  if (this != &other) {
-    tree_ = other.tree_;
-    size_ = other.size_;
-  }
-  return *this;
-}
+        //todo: во всех конструкторах перемещения сделать обнуление параметров
+        m.tree_ = nullptr;
+        m.size_ = 0;
+
+    }
+
+    template<typename K, typename T>
+    map<K, T> &map<K, T>::operator=(const map &other) {
+        if (this != &other) {
+            tree_ = other.tree_;
+            size_ = other.size_;
+        }
+        return *this;
+    }
 
 // todo: проверить все операторы во всех классах
-template <typename K, typename T>
-map<K, T> &map<K, T>::operator=(map &&other) noexcept {
-  if (this != &other) {
-    tree_ = std::move(other.tree_);
-    size_ = std::move(other.size_);
-  }
-  return *this;
-}
+    template<typename K, typename T>
+    map<K, T> &map<K, T>::operator=(map &&other) noexcept {
+        if (this != &other) {
+            tree_ = std::move(other.tree_);
+            size_ = std::move(other.size_);
+
+            //todo: во всех операторах перемещения сделать обнуление параметров
+            other.tree_ = nullptr;
+            other.size_ = 0;
+        }
+        return *this;
+    }
+
+    template<typename K, typename T>
+    typename map<K, T>::mapped_type &map<K, T>::at(const key_type &key) {
+        iterator it = tree_->search(key);
+        if (it == end()) {
+            throw std::out_of_range("map::at");
+        }
+        return (it->second);
+    }
+
+    template<typename K, typename T>
+    typename map<K, T>::mapped_type &map<K, T>::operator[](const key_type &key) {
+         return (insert(std::make_pair(key, T())).first)->second;
+
+    }
+
+
+    template<typename K, typename T>
+    typename map<K, T>::insert_type map<K, T>::insert(const value_type &value) {
+        return insert_helper(value.first, value.second);
+        bool is_contains = contains(value.first);
+        if (!is_contains) {
+            tree_->insert(value.first, value.second);
+            size_++;
+        }
+        iterator it(tree_->find(tree_->bt_root_, value.first).get());
+
+        insert_type res = std::make_pair(it, !is_contains);
+        return res;
+    }
+
+    template<typename K, typename T>
+    typename map<K, T>::insert_type map<K, T>::insert(const K &key, const T &obj) {
+        return insert_helper(key, obj);
+
+    }
+
+    template<typename K, typename T>
+    typename map<K, T>::insert_type map<K, T>::insert_helper(const K &key, const T &obj) {
+        bool is_contains = contains(key);
+        if (!is_contains) {
+            tree_->
+                    insert(key, obj);
+            size_++;
+        }
+        iterator it(tree_->find(tree_->bt_root_, key).get());
+
+        insert_type res = std::make_pair(it, (is_contains ? false : true));
+        return
+                res;
+    }
+
+    template<typename K, typename T>
+    bool map<K, T>::contains(const key_type &key) const {
+        return (tree_ != nullptr && tree_->contains(key));
+    }
 
 // using std::make_pair;
 // using std::pair;

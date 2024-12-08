@@ -51,15 +51,15 @@ void btree<K, V>::insert(const K key, V value) {
 }
 
 template <typename K, typename V>
-typename btree<K, V>::node_ptr btree<K, V>::find(node_ptr node, K key) const {
-  if (node == nullptr || node->data.first == key) {
-    return node;
+typename btree<K, V>::node_ptr btree<K, V>::find(node_ptr root, K key) const {
+  if (root == nullptr || root->data.first == key) {
+    return root;
   }
-  K r_key = node->data.first;
+  K r_key = root->data.first;
   if (key < r_key) {
-    return find(node->left, key);
+    return find(root->left, key);
   }
-  return find(node->right, key);
+  return find(root->right, key);
 }
 
 template <typename K, typename V>
