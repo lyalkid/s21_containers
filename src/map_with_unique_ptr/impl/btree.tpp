@@ -51,15 +51,43 @@ void btree<K, V>::insert(const K key, V value) {
 }
 
 template <typename K, typename V>
-typename btree<K, V>::node_ptr btree<K, V>::find(node_ptr root, K key) const {
+typename btree<K, V>::node_ptr btree<K, V>::find_helper(node_ptr root,
+                                                        K key) const {
   if (root == nullptr || root->data.first == key) {
     return root;
   }
   K r_key = root->data.first;
   if (key < r_key) {
-    return find(root->left, key);
+    return find_helper(root->left, key);
   }
-  return find(root->right, key);
+  return find_helper(root->right, key);
+}
+
+template <typename K, typename V>
+typename btree<K, V>::iterator btree<K, V>::search(const K &key) const {
+  node_type *search = find_helper(bt_root_, key).get();
+  if (search == nullptr) {
+    return end();
+  }
+  iterator it(search, bt_root_);
+  return it;
+}
+
+template <typename K, typename V>
+typename btree<K, V>::iterator btree<K, V>::search(reference value) const {
+  node_type *search = find_helper(bt_root_, value.first).get();
+  if (search != nullptr && search->data.second == value.second) {
+    iterator it(search, bt_root_);
+    return it;
+  }
+  return end();
+}
+template <typename K, typename V>
+bool btree<K, V>::contains(const key_type &key) const {
+  //  bool contains = false;
+  //  node_type *s =
+  //  if (s != nullptr) contains = true;
+  return find_helper(bt_root_, key).get() != nullptr;
 }
 
 template <typename K, typename V>
@@ -75,7 +103,7 @@ void btree<K, V>::in_order_tree_walk(std::shared_ptr<btree_node<K, V>> node,
 
 template <typename K, typename V>
 void btree<K, V>::remove(const key_type &key) {
-  node_ptr current = find(bt_root_, key);
+  node_ptr current = find_helper(bt_root_, key);
   if (current != nullptr) {
     node_type *parent = current->parent;
     // case 1
@@ -180,6 +208,11 @@ size_t btree<K, V>::size() const {
 }
 
 template <typename K, typename V>
+size_t btree<K, V>::max_size() const {
+  return std::numeric_limits<size_type>::max() / sizeof(node_type);
+}
+
+template <typename K, typename V>
 void btree<K, V>::swap(btree &other) {
   std::swap(bt_root_, other.bt_root_);
   std::swap(bt_size_, other.bt_size_);
@@ -198,6 +231,7 @@ typename btree<K, V>::iterator btree<K, V>::begin() const {
 
 template <typename K, typename V>
 typename btree<K, V>::iterator btree<K, V>::end() const {
+  // node_type * end_node;
   iterator end(nullptr, bt_root_);
   return end;
 }

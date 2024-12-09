@@ -115,29 +115,29 @@ This table contains the main public methods for interacting with the class:
 
 | Done | Element access         | Definition                                     |
 |------|------------------------|------------------------------------------------|
-| [ ]  | T& at(const Key& key)   | access a specified element with bounds checking |
-| [ ]  | T& operator[](const Key& key) | access or insert specified element       |
+| [x]  | T& at(const Key& key)   | access a specified element with bounds checking |
+| [x]  | T& operator[](const Key& key) | access or insert specified element       |
 
 ## Map Iterators
 
 | Done | Iterators              | Definition                                     |
 |------|------------------------|------------------------------------------------|
-| [ ]  | iterator begin()        | returns an iterator to the beginning          |
-| [ ]  | iterator end()          | returns an iterator to the end                |
+| [x]  | iterator begin()        | returns an iterator to the beginning          |
+| [x]  | iterator end()          | returns an iterator to the end                |
 
 ## Map Capacity
 
 | Done | Capacity               | Definition                                     |
 |------|------------------------|------------------------------------------------|
-| [ ]  | bool empty()           | checks whether the container is empty         |
-| [ ]  | size_type size()       | returns the number of elements                |
-| [ ]  | size_type max_size()   | returns the maximum possible number of elements |
+| [x]  | bool empty()           | checks whether the container is empty         |
+| [x]  | size_type size()       | returns the number of elements                |
+| [x]  | size_type max_size()   | returns the maximum possible number of elements |
 
 ## Map Modifiers
 
 | Done | Modifiers              | Definition                                     |
 |------|------------------------|------------------------------------------------|
-| [ ]  | void clear()           | clears the contents                           |
+| [x]  | void clear()           | clears the contents                           |
 | [ ]  | std::pair<iterator, bool> insert(const value_type& value) | inserts a node and returns an iterator + success |
 | [ ]  | std::pair<iterator, bool> insert(const Key& key, const T& obj) | inserts a value by key and returns iterator + success |
 | [ ]  | void erase(iterator pos) | erases an element at pos                     |
@@ -151,6 +151,21 @@ This table contains the main public methods for interacting with the class:
 | [ ]  | bool contains(const Key& key) | checks if container contains an element with specific key |
 
 </details>
+
+- [x] bool empty 
+- [x] size_type size()
+- [x] size_type max_size()
+- [x] void clear()
+- [x] std::pair<iterator, bool> insert(const value_type& value)
+- [x] std::pair<iterator, bool> insert(const Key& key, const T& obj)
+- [ ] std::pair<iterator, bool> insert_or_assign(const Key& key, const T& obj);
+- [ ] void erase(iterator pos)
+- [ ] void swap(map& other)
+- [ ] void merge(map& other);
+- [ ] bool contains(const Key& key)
+- [ ] vector<std::pair<iterator,bool>> insert_many(Args&&... args)
+- [ ] iterator lower_bound(const Key& key) - Returns an iterator pointing to the first element that is not less than (i.e. greater or equal to) key.
+- [ ] iterator upper_bound(const Key& key) -   Returns an iterator pointing to the first element that is greater than key.
 
 # Set
 

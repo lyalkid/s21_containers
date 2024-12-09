@@ -237,7 +237,7 @@ TEST(Map, MoveConstructorMixKeyType) {
   EXPECT_EQ(temp_map[2.5], "two");    // double и string
   EXPECT_EQ(temp_map['a'], "three");  // char и string
   EXPECT_EQ(temp_map[0127], "four");  // octal и string
-  EXPECT_EQ(temp_map.size(), 4);      // Убедимся, что все элементы перенесены
+  EXPECT_EQ(temp_map.size(), 4);  // Убедимся, что все элементы перенесены
 }
 
 TEST(Map, MoveAssignmentOperator) {

@@ -25,19 +25,34 @@ class btree_iterator {
   using pointer = value_type *;
 
   // default constructor
-  btree_iterator() : current_node_(nullptr), root_(nullptr) {};
+  btree_iterator()
+      : data(std::make_pair(K{}, V{})),
+        current_node_(nullptr),
+        root_(nullptr) {};
 
   // init iterator
-  btree_iterator(node_type* node) : current_node_(node) {};
+  btree_iterator(node_type *node) : current_node_(node) {
+    if (node)
+      data = std::make_pair(K{node->data.first}, V{node->data.second});
+    else
+      data = std::make_pair(K{}, V{});
+  };
 
   // copy constructor
   btree_iterator(const btree_iterator &other)
-      : current_node_(other.current_node_), root_(other.root_) {};
+      : data(std::make_pair(K{other.data.first}, V{other.data.second})),
+        current_node_(other.current_node_),
+        root_(other.root_) {};
 
   // move constructor
-  btree_iterator(btree_iterator &&other) {
+  btree_iterator(btree_iterator &&other) noexcept {
+    data = std::move(other.data);
     current_node_ = std::move(other.current_node_);
     root_ = std::move(other.root_);
+
+    other.data = std::make_pair(K{}, V{});
+    other.current_node_ = nullptr;
+    root_ = nullptr;
   };
 
   // destructor
@@ -45,10 +60,13 @@ class btree_iterator {
 
   // constructor for end
   btree_iterator(node_type *current_node, node_ptr root)
-      : current_node_(current_node), root_(root) {};
+      : data(std::make_pair(K{}, V{})),
+        current_node_(current_node),
+        root_(root) {};
 
   btree_iterator &operator=(const btree_iterator &other) {
     if (this != &other) {
+      data = other.data;
       current_node_ = other.current_node_;
       root_ = other.root_;
     }
@@ -57,8 +75,12 @@ class btree_iterator {
 
   btree_iterator &operator=(btree_iterator &&other) noexcept {
     if (this != &other) {
+      data = std::move(other.data);
       current_node_ = std::move(other.current_node_);
       root_ = std::move(other.root_);
+      other.data = std::make_pair(K{}, V{});
+      other.current_node_ = nullptr;
+      root_ = nullptr;
     }
     return *this;
   }
@@ -101,14 +123,18 @@ class btree_iterator {
     return current_node_ != other.current_node_;
   }
 
-  reference operator*() const { return current_node_->data; }
+  reference operator*() const { return data; }
 
-  value_type *operator->() const { return &(current_node_->data); }
+  value_type *operator->() const { return &(data); }
 
   friend class btree<K, V>;
   friend class btree_node<K, V>;
 
  private:
+  std::pair<const K, V> data;
+
+  // protected:
+
   node_type *current_node_;
   node_ptr root_;
 };

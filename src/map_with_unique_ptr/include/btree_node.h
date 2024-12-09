@@ -4,9 +4,9 @@
 
 // #include <stddef.h>
 
-#include <iostream>
-#include <memory>
-// #include <string>
+// #include <iostream>
+// #include <memory>
+//  #include <string>
 
 // #include "btree.h"
 namespace s21 {
@@ -35,7 +35,9 @@ class btree_node {
       : data(std::make_pair(K{}, V{})),
         parent(nullptr),
         left(nullptr),
-        right(nullptr) {}
+        right(nullptr) {
+    int c = 0;
+  }
 
   btree_node(const K key, V value)
       : data(key, value), parent(nullptr), right(nullptr), left(nullptr) {}

@@ -17,11 +17,11 @@ class map {
   using const_iterator = const iterator;
   using size_type = size_t;
   using tree_type = btree<Key, T>;
-    using insert_type = std::pair<iterator, bool> ;
+  using insert_type = std::pair<iterator, bool>;
   // Constructors
   map() {
-      tree_ = new btree<Key, T>();
-      size_ = 0;
+    tree_ = new btree<Key, T>();
+    size_ = 0;
   };
 
   //  map(const Key key, T value) : tree_(key, value), size_(1) {}
@@ -41,22 +41,14 @@ class map {
 
   mapped_type &operator[](const key_type &key);
 
-  iterator begin(){
-      return tree_->begin();
-  }
+  iterator begin();
 
-  iterator end(){
-      return tree_->end();
-  }
+  iterator end();
 
-  bool empty() const{
-      return size_ == 0 || tree_ == nullptr;
-  }
+  bool empty() const { return size_ == 0 || tree_ == nullptr; }
 
-  size_type size() const{
-      return size_;
-  }
-
+  size_type size() const { return size_; }
+  size_type max_size() const { return tree_->max_size(); }
   void clear();
 
   std::pair<iterator, bool> insert(const value_type &value);
@@ -65,10 +57,13 @@ class map {
 
   void erase(iterator pos);
 
+  iterator find(const Key &key) const;
+  iterator find(value_type value) const;
+
   bool contains(const key_type &key) const;
 
  private:
-  tree_type* tree_;
+  tree_type *tree_;
   size_type size_;
   void clearHelper(std::shared_ptr<btree_node<Key, T>> &node);
   insert_type insert_helper(const key_type &key, const mapped_type &obj);

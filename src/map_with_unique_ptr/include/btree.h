@@ -1,11 +1,11 @@
 #ifndef BINARY_TREE_H
 #define BINARY_TREE_H
 
-#include <stddef.h>
-
-#include <iostream>
-#include <memory>
-#include <string>
+// #include <stddef.h>
+//
+// #include <iostream>
+// #include <memory>
+// #include <string>
 
 #include "btree_iterator.h"
 #include "btree_node.h"
@@ -85,29 +85,14 @@ class btree {
   void insert(K key, V value);
   void insert(value_type data) { insert(data.first, data.second); }
   void remove(const key_type &key);
+  iterator begin() const;
+  iterator end() const;
+  node_ptr find_helper(node_ptr root, K key) const;
 
-  node_ptr find(node_ptr root, K key) const;
-
- // todo: написать тесты на эти методы
-  iterator search(const K &key)const{
-    node_type* search = find(bt_root_, key).get();
-    if(search == nullptr){
-        return end();
-    }
-    iterator it(search);
-      return it;
-  }
-  bool contains(const key_type &key){
-        bool contains = false;
-        node_type* s = find(bt_root_, key).get();
-        if(s != nullptr) contains = true;
-      return contains;
-  }
-  bool empty();
-
-  size_t size() const;
-
-  size_t max_size() const;
+  // todo: написать тесты на эти методы
+  iterator search(const K &key) const;
+  iterator search(reference value) const;
+  bool contains(const key_type &key) const;
 
   void clear();
 
@@ -117,12 +102,15 @@ class btree {
 
   void merge(btree &other);
 
+  bool empty();
+
+  size_t size() const;
+
+  size_t max_size() const;
+
   node_ptr get_root();
 
   node_ptr tree_successor(node_ptr del_node) const;
-
-  iterator begin() const;
-  iterator end() const;
 
   friend class btree_iterator<K, V>;
 
@@ -131,10 +119,6 @@ class btree {
  private:
   key_type root() const {
     return bt_root_ != nullptr ? bt_root_->data.first : nullptr;
-  }
-
-  bool contains(const K &key) const {
-    return this->find(bt_root_, key) != nullptr;
   }
 
   void in_order_tree_walk(node_ptr node, int space);
