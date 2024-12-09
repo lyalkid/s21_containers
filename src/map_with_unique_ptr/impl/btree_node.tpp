@@ -32,6 +32,7 @@ btree_node<K, V> &btree_node<K, V>::operator=(
     parent = std::move(other.parent);
     right = std::move(other.right);
     left = std::move(other.left);
+    end_data = std::move(other.end_data);
   }
   return *this;
 }
@@ -56,12 +57,12 @@ bool btree_node<K, V>::equals(const btree_node &other) const noexcept {
 }
 
 template <typename K, typename V>
-typename btree_node<K, V>::node_type *btree_node<K, V>::next(node_type *node) {
+typename btree_node<K, V>::node_ptr btree_node<K, V>::next(node_ptr node) {
   if (node->right != nullptr) {
-    return findMin(node->right.get());
+    return findMin(node->right);
   }
-  node_type *parent = node->parent;
-  while (parent && node == parent->right.get()) {
+  node_ptr parent = node->parent;
+  while (parent && node == parent->right) {
     node = parent;
     parent = parent->parent;
   }
@@ -69,12 +70,12 @@ typename btree_node<K, V>::node_type *btree_node<K, V>::next(node_type *node) {
 }
 
 template <typename K, typename V>
-typename btree_node<K, V>::node_type *btree_node<K, V>::prev(node_type *node) {
+typename btree_node<K, V>::node_ptr btree_node<K, V>::prev(node_ptr node) {
   if (node->left != nullptr) {
-    return findMax(node->left.get());
+    return findMax(node->left);
   }
-  node_type *parent = node->parent;
-  while (parent && node == parent->left.get()) {
+  node_ptr parent = node->parent;
+  while (parent && node == parent->left) {
     node = parent;
     parent = parent->parent;
   }
@@ -82,21 +83,24 @@ typename btree_node<K, V>::node_type *btree_node<K, V>::prev(node_type *node) {
 }
 
 template <typename K, typename V>
-typename btree_node<K, V>::node_type *btree_node<K, V>::findMin(
-    node_type *node) const {
+typename btree_node<K, V>::node_ptr btree_node<K, V>::findMin(
+    node_ptr node) const {
+  node_ptr res;
   if (node->left == nullptr) {
+    res = node;
     return node;
   }
-  return findMin(node->left.get());
+  res = findMin(node->left);
+  return findMin(node->left);
 }
 
 template <typename K, typename V>
-typename btree_node<K, V>::node_type *btree_node<K, V>::findMax(
-    node_type *node) const {
+typename btree_node<K, V>::node_ptr btree_node<K, V>::findMax(
+    node_ptr node) const {
   if (node->right == nullptr) {
     return node;
   }
-  return findMax(node->right.get());
+  return findMax(node->right);
 }
 
 }  // namespace s21

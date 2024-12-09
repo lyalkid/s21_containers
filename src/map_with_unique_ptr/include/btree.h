@@ -112,6 +112,7 @@ class btree {
 
   node_ptr tree_successor(node_ptr del_node) const;
 
+  void in_order_tree_walk(node_ptr node, int space);
   friend class btree_iterator<K, V>;
 
   friend class map<K, V>;
@@ -120,8 +121,6 @@ class btree {
   key_type root() const {
     return bt_root_ != nullptr ? bt_root_->data.first : nullptr;
   }
-
-  void in_order_tree_walk(node_ptr node, int space);
 
   node_ptr bt_root_;
   size_type bt_size_;

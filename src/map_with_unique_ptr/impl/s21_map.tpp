@@ -67,15 +67,15 @@ typename map<K, T>::mapped_type &map<K, T>::operator[](const key_type &key) {
 template <typename K, typename T>
 typename map<K, T>::insert_type map<K, T>::insert(const value_type &value) {
   return insert_helper(value.first, value.second);
-  bool is_contains = contains(value.first);
-  if (!is_contains) {
-    tree_->insert(value.first, value.second);
-    size_++;
-  }
-  iterator it(tree_->find_helper(tree_->bt_root_, value.first).get());
-
-  insert_type res = std::make_pair(it, !is_contains);
-  return res;
+  //  bool is_contains = contains(value.first);
+  //  if (!is_contains) {
+  //    tree_->insert(value.first, value.second);
+  //    size_++;
+  //  }
+  //  iterator it(tree_->find_helper(tree_->bt_root_, value.first).get());
+  //
+  //  insert_type res = std::make_pair(it, !is_contains);
+  //  return res;
 }
 
 template <typename K, typename T>
@@ -91,9 +91,9 @@ typename map<K, T>::insert_type map<K, T>::insert_helper(const K &key,
     tree_->insert(key, obj);
     size_++;
   }
-  iterator it(tree_->find_helper(tree_->bt_root_, key).get());
+  iterator it(tree_->find_helper(tree_->bt_root_, key));
 
-  insert_type res = std::make_pair(it, (is_contains ? false : true));
+  insert_type res = std::make_pair(it, !is_contains);
   return res;
 }
 template <typename K, typename T>

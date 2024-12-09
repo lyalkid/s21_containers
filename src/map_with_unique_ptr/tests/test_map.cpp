@@ -313,15 +313,26 @@ TEST(Map, AccessElement) {
 -->>   Map Lookup                                                            >>
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
-bool compare(std::map<int, int>& m, s21::map<int, int> s) {
+bool compare(std::map<int, int>& m, s21::map<int, int>& s) {
   bool res = true;
-  auto std_itr = m.begin();
-  auto itr = s.begin();
-  for (; std_itr != m.end() && res; ++std_itr, ++itr) {
-    if ((*itr).first != (*std_itr).first) {
-      auto v = (*itr).first;
-      auto st = (*std_itr).first;
-      res = false;
+  auto std_it = m.begin();
+  auto my_it = s.begin();
+  auto std_size = m.size();
+  auto my_size = s.size();
+  if (std_size != my_size)
+    res = false;
+  else {
+    while (std_size != 0) {
+      auto std_first = std_it->first;
+      auto my_first = my_it->first;
+      if (std_first != my_first) {
+        res = false;
+        break;
+      }
+      std_it++;
+      my_it++;
+
+      std_size--;
     }
   }
   return res;
@@ -372,8 +383,13 @@ TEST(map_erase_suite, erase_one_child) {
   a.insert(1, 0);
   a.insert(8, 0);
 
+  auto r = a.find({3, 0});
+  auto sf = std_a.find(3);
+  a.tree_->in_order_tree_walk(a.tree_->get_root(), 0);
   a.erase(a.find({3, 0}));
   std_a.erase(std_a.find(3));
+  a.tree_->in_order_tree_walk(a.tree_->get_root(), 0);
+
   EXPECT_EQ(compare(std_a, a), true);
 
   a.erase(a.find({7, 0}));
@@ -383,9 +399,12 @@ TEST(map_erase_suite, erase_one_child) {
   a.erase(a.find({1, 0}));
   std_a.erase(std_a.find(1));
   EXPECT_EQ(compare(std_a, a), true);
+  a.tree_->in_order_tree_walk(a.tree_->get_root(), 0);
 
   a.erase(a.find({5, 0}));
   std_a.erase(std_a.find(5));
+  a.tree_->in_order_tree_walk(a.tree_->get_root(), 0);
+
   EXPECT_EQ(compare(std_a, a), true);
 }
 
@@ -408,8 +427,11 @@ TEST(map_erase_suite, erase_two_child) {
   a.insert(6, 0);
   a.insert(8, 0);
 
+  a.tree_->in_order_tree_walk(a.tree_->get_root(), 0);
   a.erase(a.find({3, 0}));
   std_a.erase(std_a.find(3));
+  a.tree_->in_order_tree_walk(a.tree_->get_root(), 0);
+
   EXPECT_EQ(compare(std_a, a), true);
 
   a.erase(a.find({7, 0}));
@@ -499,11 +521,11 @@ TEST(map_iterator_suite, begin) {
 TEST(map_iterator_suite, end) {
   std::map<int, int> std_a = {{1, 0}, {2, 0}, {3, 0}};
   s21::map<int, int> a = {{1, 0}, {2, 0}, {3, 0}};
-  auto ff = (*std_a.end()).first;
+  auto ff = (*std_a.end());
   auto f = (*a.end()).first;
 
-  EXPECT_EQ((*a.end()).first, (*std_a.end()).first);
-  EXPECT_EQ((*a.end()).second, (*std_a.end()).second);
+  EXPECT_EQ((*a.end()).first, 0);
+  EXPECT_EQ((*a.end()).second, 0);
 }
 
 TEST(map_constructor_suite, initializer_constructor_2) {
@@ -618,7 +640,7 @@ TEST(map_modifiers_suite, insert) {
 
   EXPECT_EQ(compare(std_a, a), true);
 }
-
+//
 // TEST(map_modifiers_suite, swap) {
 //   s21::map<int, int> a = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
 //

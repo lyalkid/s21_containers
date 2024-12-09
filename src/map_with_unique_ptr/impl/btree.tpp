@@ -28,12 +28,12 @@ void btree<K, V>::insert(const K key, V value) {
   }
 
   bool is_inserted = false;
-  node_type *parent = nullptr;
+  node_ptr parent = nullptr;
   shared_ptr<btree_node<K, V>> current = bt_root_;
   shared_ptr<btree_node<K, V>> temp = make_shared<btree_node<K, V>>(key, value);
 
   while (current != nullptr) {
-    parent = current.get();
+    parent = current;
     current = key < current->data.first ? current->left : current->right;
   }
   temp->parent = parent;
@@ -65,7 +65,7 @@ typename btree<K, V>::node_ptr btree<K, V>::find_helper(node_ptr root,
 
 template <typename K, typename V>
 typename btree<K, V>::iterator btree<K, V>::search(const K &key) const {
-  node_type *search = find_helper(bt_root_, key).get();
+  node_ptr search = find_helper(bt_root_, key);
   if (search == nullptr) {
     return end();
   }
@@ -221,7 +221,7 @@ void btree<K, V>::swap(btree &other) {
 template <typename K, typename V>
 typename btree<K, V>::iterator btree<K, V>::begin() const {
   if (bt_root_ != nullptr) {
-    node_type *current_node_ = bt_root_->findMin(bt_root_.get());
+    node_ptr current_node_ = bt_root_->findMin(bt_root_);
     iterator it(current_node_, bt_root_);
     return it;
   }

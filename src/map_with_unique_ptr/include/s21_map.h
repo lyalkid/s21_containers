@@ -62,8 +62,9 @@ class map {
 
   bool contains(const key_type &key) const;
 
- private:
   tree_type *tree_;
+
+ private:
   size_type size_;
   void clearHelper(std::shared_ptr<btree_node<Key, T>> &node);
   insert_type insert_helper(const key_type &key, const mapped_type &obj);
