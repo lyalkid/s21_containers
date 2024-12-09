@@ -97,7 +97,7 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "try 3"
+GIT_MESSAGE = "log"
 
 git-push: style
 	@git pull
