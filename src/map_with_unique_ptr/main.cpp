@@ -116,7 +116,6 @@ using std::string;
 
 int main() {
   s21::map<int, int> tree;
-  size_t ss = tree.max_size();
   auto res = tree.insert(10, 100);
   res = tree.insert(20, 200);
   res = tree.insert(5, 1);
@@ -126,13 +125,8 @@ int main() {
   res = tree.insert(20, 1);
   res = tree.insert(30, 1);
   res = tree.insert(35, 1);
-  auto op = tree[10];
 
   tree[10] = 11111111;
-  op = tree[10];
-
-  auto c = tree.at(30);
-  c = tree.at(35);
 
   auto i = tree.begin();
   auto ed = tree.end();
@@ -152,7 +146,6 @@ int main() {
 
   std::map<int, int> map;
 
-  size_t s = map.max_size();
   map.insert({10, 100});
   map.insert({20, 200});
   map.insert({5, 1});
@@ -162,27 +155,6 @@ int main() {
   map.insert({20, 1});
   map.insert({30, 1});
   map.insert({35, 1});
-
-  auto oo = map.end();
-  ////  map.at(15000);
-
-  auto it = map.begin();
-  auto end = map.end();
-
-  for (it = map.begin(); it != map.end(); it++) {
-    std::cout << it->first << std::endl;
-  }
-
-  std::cout << "---------" << std::endl;
-
-  for (it = --map.end(); it != map.begin(); it--) {
-    std::cout << it->first << std::endl;
-  }
-
-  auto r = map[1];
-  map.at(1);
-  // Для вывода последнего элемента
-  std::cout << it->first << std::endl;
 
   //  auto r = ss - s;
 }

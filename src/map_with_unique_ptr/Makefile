@@ -11,10 +11,10 @@ TEST_OUT=unit_tests
 GCOV_OUT=gcov_test
 TESTS=$(wildcard tests/*.cpp)
 compile:
-	@g++ main.cpp -o $(A_OUT)
+	@g++  main.cpp $(CFLAGS) -o $(A_OUT)
 
 compileg:
-	@g++ main.cpp -g -o $(A_OUT)
+	@g++ main.cpp $(CFLAGS) -g -o $(A_OUT)
 
 
 run: style compile
@@ -99,7 +99,7 @@ docker_delete:
 
 GIT_MESSAGE = "откатил итеатор"
 
-git-push: style
+git-push: clean style
 	@git pull
 	@git add .
 	@git commit -m $(GIT_MESSAGE)

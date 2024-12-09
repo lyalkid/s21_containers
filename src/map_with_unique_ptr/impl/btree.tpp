@@ -75,7 +75,7 @@ typename btree<K, V>::iterator btree<K, V>::search(const K &key) const {
 
 template <typename K, typename V>
 typename btree<K, V>::iterator btree<K, V>::search(reference value) const {
-  node_type *search = find_helper(bt_root_, value.first).get();
+  node_ptr search = find_helper(bt_root_, value.first);
   if (search != nullptr && search->data.second == value.second) {
     iterator it(search, bt_root_);
     return it;
@@ -105,7 +105,7 @@ template <typename K, typename V>
 void btree<K, V>::remove(const key_type &key) {
   node_ptr current = find_helper(bt_root_, key);
   if (current != nullptr) {
-    node_type *parent = current->parent;
+    node_ptr parent = current->parent;
     // case 1
     if (current->right == nullptr && current->left == nullptr) {
       if (current == bt_root_) {

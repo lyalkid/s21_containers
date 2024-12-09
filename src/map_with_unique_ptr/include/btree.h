@@ -1,11 +1,12 @@
 #ifndef BINARY_TREE_H
 #define BINARY_TREE_H
 
-// #include <stddef.h>
-//
-// #include <iostream>
-// #include <memory>
-// #include <string>
+#include <stddef.h>
+
+#include <iostream>
+#include <limits>
+#include <memory>
+#include <string>
 
 #include "btree_iterator.h"
 #include "btree_node.h"

@@ -98,7 +98,7 @@ typename map<K, T>::insert_type map<K, T>::insert_helper(const K &key,
 }
 template <typename K, typename T>
 void map<K, T>::erase(iterator pos) {
-  if (pos != nullptr) {
+  if (pos != end()) {
     tree_->remove(pos->first);
     size_ = tree_->size();
     ;

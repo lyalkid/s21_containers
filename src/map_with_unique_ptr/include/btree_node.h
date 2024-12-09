@@ -2,13 +2,12 @@
 #ifndef CONTAINERS_BTREE_NODE_H
 #define CONTAINERS_BTREE_NODE_H
 
-// #include <stddef.h>
+#include <stddef.h>
 
-// #include <iostream>
-// #include <memory>
-//  #include <string>
+#include <iostream>
+#include <memory>
+#include <string>
 
-// #include "btree.h"
 namespace s21 {
 
 template <typename Key, typename T>
@@ -34,6 +33,7 @@ class btree_node {
 
   std::pair<const K, V> end_data;
 
+ public:
   using value = std::pair<K, V>;
   btree_node()
       : data(std::make_pair(K{}, V{})),
