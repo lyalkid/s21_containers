@@ -29,7 +29,7 @@ endif
 	./$(TEST_OUT)
 
 
-gcov_report:
+gcov_report: clean
 ifeq ($(OS), Darwin)
 	$(CC) $(CFLAGS) $(LFLAGS) $(TESTS)  -o $(GCOV_OUT) $(LIBS)
 else
@@ -97,7 +97,7 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "tests works"
+GIT_MESSAGE = "is map finall, bro ?.. "
 
 git-push: clean style
 	@git pull

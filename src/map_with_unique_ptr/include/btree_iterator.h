@@ -120,7 +120,6 @@ class btree_iterator {
   btree_iterator operator--(int) {
     btree_iterator temp = *this;
     --(*this);
-
     return temp;
     //!= nullptr ? temp : *this;
   }

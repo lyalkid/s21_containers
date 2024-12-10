@@ -139,80 +139,100 @@ bool compare(std::map<int, int> &std_map, s21::map<int, int> &my_map) {
 }
 
 int main() {
-  //  s21::map<int, int> tree;
-  //  auto res = tree.insert(10, 100);
-  //  res = tree.insert(20, 200);
-  //  res = tree.insert(5, 1);
-  //  res = tree.insert(2, 1);
-  //  res = tree.insert(10, 1);
-  //  res = tree.insert(15, 1);
-  //  res = tree.insert(20, 1);
-  //  res = tree.insert(30, 1);
-  //  res = tree.insert(35, 1);
+  //    s21::map<int, int> tree;
+  //    auto res = tree.insert(10, 100);
+  //    res = tree.insert(20, 200);
+  //    res = tree.insert(5, 1);
+  //    res = tree.insert(2, 1);
+  //    res = tree.insert(10, 1);
+  //    res = tree.insert(15, 1);
+  //    res = tree.insert(20, 1);
+  //    res = tree.insert(30, 1);
+  //    res = tree.insert(35, 1);
   //
-  //  tree[10] = 11111111;
+  //    tree[10] = 11111111;
   //
-  //  auto i = tree.begin();
-  //  auto ed = tree.end();
-  //  for (i = tree.begin(); i != tree.end(); i++) {
+  //    auto i = tree.begin();
+  //    auto ed = tree.end();
+  //    for (i = tree.begin(); i != tree.end(); i++) {
+  //      std::cout << i->first << std::endl;
+  //    }
+  //
+  //    std::cout << "---------" << std::endl;
+  //
+  //    for (i = tree.end()--; i != tree.begin(); i--) {
+  //      std::cout << i->first << std::endl;
+  //    }
   //    std::cout << i->first << std::endl;
-  //  }
   //
-  //  std::cout << "---------" << std::endl;
+  //    std::cout << "---------" << std::endl;
+  //    std::cout << "---------" << std::endl;
+
+  std::map<int, int> map;
+
+  //   auto it = map.insert({2, 1});
+  map.insert({2, 110});
+
+  map.insert({10, 100});
+  map.insert({20, 200});
+  map.insert({5, 1});
+  map.insert({10, 1});
+  map.insert({15, 1});
+  map.insert({20, 1});
+  map.insert({30, 1});
+  map.insert({35, 1});
+
+  std::map<int, int> map1;
+
+  map1.insert({2, 1});
+  //    map1.insert({2, 110});
+
+  map1.insert({11, 100});
+  map1.insert({21, 200});
+  map1.insert({6, 1});
+  map1.insert({13, 1});
+  map1.insert({15, 1});
+  map1.insert({20, 1});
+  map1.insert({30, 1});
+  map1.insert({35, 1});
+
+  map.merge(map1);
+
+  //  std::map<int, int> std_a;
+  //  s21::map<int, int> a;
   //
-  //  for (i = tree.end()--; i != tree.begin(); i--) {
-  //    std::cout << i->first << std::endl;
-  //  }
-  //  std::cout << i->first << std::endl;
+  //  std_a.insert({5, 0});
+  //  std_a.insert({3, 0});
+  //  std_a.insert({7, 0});
+  //  std_a.insert({1, 0});
+  //  std_a.insert({2, 0});
+  //  std_a.insert({8, 0});
+  //  std_a.insert({6, 0});
   //
-  //  std::cout << "---------" << std::endl;
-  //  std::cout << "---------" << std::endl;
+  //  a.insert(5, 0);
+  //  a.insert(3, 0);
+  //  a.insert(7, 0);
+  //  a.insert(1, 0);
+  //  a.insert(2, 0);
+  //  a.insert(6, 0);
+  //  a.insert(8, 0);
   //
-  //  std::map<int, int> map;
+  //  a.erase(a.find({3, 0}));
+  //  std_a.erase(std_a.find(3));
   //
-  //  map.insert({10, 100});
-  //  map.insert({20, 200});
-  //  map.insert({5, 1});
-  //  map.insert({2, 1});
-  //  map.insert({10, 1});
-  //  map.insert({15, 1});
-  //  map.insert({20, 1});
-  //  map.insert({30, 1});
-  //  map.insert({35, 1});
-
-  std::map<int, int> std_a;
-  s21::map<int, int> a;
-
-  std_a.insert({5, 0});
-  std_a.insert({3, 0});
-  std_a.insert({7, 0});
-  std_a.insert({1, 0});
-  std_a.insert({2, 0});
-  std_a.insert({8, 0});
-  std_a.insert({6, 0});
-
-  a.insert(5, 0);
-  a.insert(3, 0);
-  a.insert(7, 0);
-  a.insert(1, 0);
-  a.insert(2, 0);
-  a.insert(6, 0);
-  a.insert(8, 0);
-
-  a.erase(a.find({3, 0}));
-  std_a.erase(std_a.find(3));
-
-  //    auto flag = compare(std_a, a) == true;
-
-  a.erase(a.find({7, 0}));
-  std_a.erase(std_a.find(7));
-  //    flag = compare(std_a, a) == true;
-
-  //    a.erase(a.find({1, 0}));
-  //    std_a.erase(std_a.find(1));
-  // flag = compare(std_a, a) ==true;
-
-  a.erase(a.find({5, 0}));
-  std_a.erase(std_a.find(5));
-  //    flag = (compare(std_a, a) == true);
+  //  //    auto flag = compare(std_a, a) == true;
+  //
+  //  a.erase(a.find({7, 0}));
+  //  std_a.erase(std_a.find(7));
+  //  std_a.clear();
+  //  std_a.insert({1, 2});
+  //  //    flag = compare(std_a, a) == true;
+  //
+  //  //    a.erase(a.find({1, 0}));
+  //  //    std_a.erase(std_a.find(1));
+  //  // flag = compare(std_a, a) ==true;
+  //
+  //  a.erase(a.find({5, 0}));
+  //  std_a.erase(std_a.find(5));
+  //  //    flag = (compare(std_a, a) == true);
 }

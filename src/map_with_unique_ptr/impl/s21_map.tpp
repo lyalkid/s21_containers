@@ -76,6 +76,21 @@ typename map<K, T>::insert_type map<K, T>::insert(const K &key, const T &obj) {
 }
 
 template <typename K, typename T>
+typename map<K, T>::insert_type map<K, T>::insert_or_assign(const K &key,
+                                                            const T &obj) {
+  bool is_contains = contains(key);
+  if (!is_contains) {
+    insert(key, obj);
+  } else {
+    iterator temp = find(key);
+    temp.current_node_->data.second = obj;
+  }
+  iterator iter = find(key);
+  insert_type res = std::make_pair(iter, !is_contains);
+  return res;
+}
+
+template <typename K, typename T>
 typename map<K, T>::insert_type map<K, T>::insert_helper(const K &key,
                                                          const T &obj) {
   bool is_contains = true;
@@ -90,6 +105,8 @@ typename map<K, T>::insert_type map<K, T>::insert_helper(const K &key,
   insert_type res = std::make_pair(it, !is_contains);
   return res;
 }
+
+// todo :  поменять возвращаемый тип
 template <typename K, typename T>
 void map<K, T>::erase(iterator pos) {
   if (pos != end()) {
@@ -104,6 +121,7 @@ template <typename K, typename T>
 typename map<K, T>::iterator map<K, T>::find(const K &key) const {
   return tree_->search(key);
 }
+
 template <typename K, typename T>
 typename map<K, T>::iterator map<K, T>::find(value_type value) const {
   return tree_->search(value);
@@ -113,19 +131,46 @@ template <typename K, typename T>
 bool map<K, T>::contains(const key_type &key) const {
   return (tree_ != nullptr && tree_->contains(key));
 }
+
 template <typename K, typename T>
 typename map<K, T>::iterator map<K, T>::begin() {
   return tree_->begin();
 }
+
 template <typename K, typename T>
 typename map<K, T>::iterator map<K, T>::end() {
   return tree_->end();
 }
 
 template <typename K, typename T>
-void map<K, T>::clear() {
+void map<K, T>::clear() noexcept {
   tree_->clear();
   size_ = 0;
+}
+
+template <typename K, typename T>
+void map<K, T>::swap(map &other) noexcept {
+  std::swap(tree_, other.tree_);
+  std::swap(size_, other.size_);
+}
+
+template <typename K, typename T>
+void map<K, T>::merge(map &other) noexcept {
+  for (auto iter = other.begin(); !other.empty() && iter != other.end();
+       iter++) {
+    if (!contains(iter.current_node_->data.first)) {
+      insert(iter.current_node_->data.first, iter.current_node_->data.second);
+      other.erase(iter);
+    }
+  }
+}
+
+template <typename K, typename T>
+template <typename... Args>
+typename map<K, T>::insert_many_type map<K, T>::insert_many(Args &&...args) {
+  auto res = tree_->insert_many(args...);
+  size_ = tree_->size();
+  return res;
 }
 
 // template <typename K, typename T>

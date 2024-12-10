@@ -62,7 +62,7 @@ typename btree_node<K, V>::node_ptr btree_node<K, V>::next(node_ptr node) {
     return findMin(node->right);
   }
   node_ptr parent = node->parent;
-  while (parent && node == parent->right) {
+  while (parent != nullptr && node == parent->right) {
     node = parent;
     parent = parent->parent;
   }
