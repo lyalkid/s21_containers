@@ -4,14 +4,6 @@ namespace s21 {
 
 // initializer list constructor, creates the map initizialized using
 // std::initializer_list
-template <typename K, typename T>
-map<K, T>::map(std::initializer_list<value_type> const &items) : map() {
-  auto it = items.begin();
-  while (it != items.end()) {
-    // std::cout << "im in items"<< std::endl;
-    insert(*it++);
-  }
-}
 
 // copy constructor
 template <typename K, typename T>
@@ -53,10 +45,10 @@ map<K, T> &map<K, T>::operator=(map &&other) noexcept {
 template <typename K, typename T>
 typename map<K, T>::mapped_type &map<K, T>::at(const key_type &key) {
   iterator it = tree_->search(key);
-  if (it == end()) {
-    throw std::out_of_range("map::at");
+  if (it != end()) {
+    return (it->second);
   }
-  return (it->second);
+  throw std::out_of_range("map::at");
 }
 
 template <typename K, typename T>
@@ -86,7 +78,9 @@ typename map<K, T>::insert_type map<K, T>::insert(const K &key, const T &obj) {
 template <typename K, typename T>
 typename map<K, T>::insert_type map<K, T>::insert_helper(const K &key,
                                                          const T &obj) {
-  bool is_contains = contains(key);
+  bool is_contains = true;
+
+  is_contains = contains(key);
   if (!is_contains) {
     tree_->insert(key, obj);
     size_++;
@@ -101,7 +95,8 @@ void map<K, T>::erase(iterator pos) {
   if (pos != end()) {
     tree_->remove(pos->first);
     size_ = tree_->size();
-    ;
+
+    //  pos.current_node_.reset();
   }
 }
 

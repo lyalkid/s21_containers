@@ -2,7 +2,6 @@
 #ifndef CONTAINERS_BTREE_ITERATOR_H
 #define CONTAINERS_BTREE_ITERATOR_H
 
-#include "../../stack/stack.h"
 #include "btree_node.h"
 
 namespace s21 {
@@ -54,7 +53,10 @@ class btree_iterator {
   };
 
   // destructor
-  ~btree_iterator() = default;
+  ~btree_iterator() {
+    current_node_.reset();
+    root_.reset();
+  }
 
   // constructor for end
   btree_iterator(node_ptr current_node, node_ptr root)
@@ -146,6 +148,7 @@ class btree_iterator {
   friend class btree<K, V>;
 
   friend class btree_node<K, V>;
+  friend class map<K, V>;
 
  protected:
   node_ptr current_node_;

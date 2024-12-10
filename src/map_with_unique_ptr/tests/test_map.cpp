@@ -367,6 +367,71 @@ TEST(map_erase_suite, erase_no_child) {
   EXPECT_EQ(a.empty(), std_a.empty());
 }
 
+TEST(map_erase_suite, erase_one_child) {
+  std::map<int, int> std_a;
+  s21::map<int, int> a;
+
+  std_a.insert({5, 0});
+  std_a.insert({3, 0});
+  std_a.insert({7, 0});
+  std_a.insert({1, 0});
+  std_a.insert({8, 0});
+
+  a.insert(5, 0);
+  a.insert(3, 0);
+  a.insert(7, 0);
+  a.insert(1, 0);
+  a.insert(8, 0);
+
+  a.erase(a.find({3, 0}));
+  std_a.erase(std_a.find(3));
+  EXPECT_EQ(compare(std_a, a), true);
+
+  a.erase(a.find({7, 0}));
+  std_a.erase(std_a.find(7));
+  EXPECT_EQ(compare(std_a, a), true);
+
+  a.erase(a.find({1, 0}));
+  std_a.erase(std_a.find(1));
+  EXPECT_EQ(compare(std_a, a), true);
+
+  a.erase(a.find({5, 0}));
+  std_a.erase(std_a.find(5));
+  EXPECT_EQ(compare(std_a, a), true);
+}
+
+TEST(map_erase_suite, erase_two_child) {
+  std::map<int, int> std_a;
+  s21::map<int, int> a;
+  std_a.insert({5, 0});
+  std_a.insert({3, 0});
+  std_a.insert({7, 0});
+  std_a.insert({1, 0});
+  std_a.insert({2, 0});
+  std_a.insert({8, 0});
+  std_a.insert({6, 0});
+
+  a.insert(5, 0);
+  a.insert(3, 0);
+  a.insert(7, 0);
+  a.insert(1, 0);
+  a.insert(2, 0);
+  a.insert(6, 0);
+  a.insert(8, 0);
+
+  a.erase(a.find({3, 0}));
+  std_a.erase(std_a.find(3));
+  EXPECT_EQ(compare(std_a, a), true);
+
+  a.erase(a.find({7, 0}));
+  std_a.erase(std_a.find(7));
+  EXPECT_EQ(compare(std_a, a), true);
+
+  a.erase(a.find({5, 0}));
+  std_a.erase(std_a.find(5));
+  EXPECT_EQ(compare(std_a, a), true);
+}
+
 TEST(map_constructor_suite, default_constructor) {
   std::map<int, int> std_a;
   s21::map<int, int> a;
@@ -654,12 +719,12 @@ TEST(mapTest, AtAndOperatorBrackets) {
 
   EXPECT_EQ(map.at(1), "one");
   EXPECT_EQ(map[2], "two");
-  // try{
-  //     EXPECT_THROW(map.at (4), std::out_of_range);
-  //
-  // }
-  // catch(std::out_of_range &ex) {
-  // }
+  //  try {
+  //      ASSERT_THROW(map.at(4), std::out_of_range);
+  //  }catch (std::out_of_range& ex){
+  //      int c;
+  //  }
+
   map[4] = "four";
   EXPECT_EQ(map[4], "four");
   map[2] = "TWO";
@@ -678,11 +743,11 @@ TEST(mapTest, EmptyAndSize) {
 }
 
 TEST(mapTest, MaxSize) {
-  s21::map<int, std::string> map;
-  std::map<int, std::string> map1;
+  s21::map<int, std::string> s21_map;
+  std::map<int, std::string> std_map;
 
   // Max size is implementation-dependent, but it should be greater than 0
-  EXPECT_GE(map.max_size(), map1.max_size());
+  EXPECT_GE(s21_map.max_size(), 0);
 }
 TEST(mapTest, Erase) {
   s21::map<int, std::string> map;

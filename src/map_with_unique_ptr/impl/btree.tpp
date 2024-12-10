@@ -21,7 +21,7 @@ std::shared_ptr<btree_node<K, V>> btree<K, V>::get_root() {
 // insert
 template <typename K, typename V>
 void btree<K, V>::insert(const K key, V value) {
-  if (bt_root_ == nullptr) {
+  if (bt_size_ == 0) {
     bt_root_ = std::make_shared<btree_node<K, V>>(key, value);
     bt_size_++;
     return;
@@ -103,64 +103,80 @@ void btree<K, V>::in_order_tree_walk(std::shared_ptr<btree_node<K, V>> node,
 
 template <typename K, typename V>
 void btree<K, V>::remove(const key_type &key) {
-  node_ptr current = find_helper(bt_root_, key);
-  if (current != nullptr) {
-    node_ptr parent = current->parent;
+  node_ptr remove_node = find_helper(bt_root_, key);
+  if (remove_node != nullptr) {
+    node_ptr parent = remove_node->parent;
     // case 1
-    if (current->right == nullptr && current->left == nullptr) {
-      if (current == bt_root_) {
-        bt_root_.reset();
+    if (remove_node->right == nullptr && remove_node->left == nullptr) {
+      if (remove_node == bt_root_) {
+        bt_root_ = nullptr;
         bt_size_--;
-      } else if (parent->left == current) {
+      } else if (parent->left == remove_node) {
         parent->left = nullptr;
         bt_size_--;
-      } else if (parent->right == current) {
+      } else if (parent->right == remove_node) {
         parent->right = nullptr;
         bt_size_--;
       }
     }
     // cas2.1
-    else if (current->right == nullptr) {
-      if (current == bt_root_) {
-        bt_root_ = current->left;
+    else if (remove_node->right == nullptr) {
+      if (remove_node == bt_root_) {
+        bt_root_ = remove_node->left;
         bt_size_--;
-      } else if (parent->left == current) {
-        parent->left = current->left;
+      } else if (parent->left == remove_node) {
+        parent->left = remove_node->left;
+        parent->left->parent = parent;
         bt_size_--;
-      } else if (parent->right == current) {
-        parent->right = current->left;
+      } else if (parent->right == remove_node) {
+        parent->right = remove_node->left;
+        parent->right->parent = parent;
+
         bt_size_--;
       }
     }
     // cas2.2
-    else if (current->left == nullptr) {
-      if (current == bt_root_) {
-        bt_root_ = current->right;
+    else if (remove_node->left == nullptr) {
+      if (remove_node == bt_root_) {
+        bt_root_ = remove_node->right;
         bt_size_--;
-      } else if (parent->left == current) {
-        parent->left = current->right;
+      } else if (parent->left == remove_node) {
+        parent->left = remove_node->right;
+        parent->left->parent = parent;
+
         bt_size_--;
-      } else if (parent->right == current) {
-        parent->right = current->right;
+      } else if (parent->right == remove_node) {
+        parent->right = remove_node->right;
+        parent->right->parent = parent;
+
         bt_size_--;
       }
     }
     // case 3
 
     else {
-      node_ptr successor = tree_successor(current);
-      if (current == bt_root_) {
+      // получаем преемника у удаляемой ноды
+      node_ptr successor = tree_successor(remove_node);
+      successor->parent = parent;
+
+      if (remove_node == bt_root_) {
         bt_root_ = successor;
+        bt_root_->parent = nullptr;
         bt_size_--;
-      } else if (parent->left == current) {
+      } else if (parent->left == remove_node) {
         parent->left = successor;
         bt_size_--;
-      } else if (parent->right == current) {
+      } else if (parent->right == remove_node) {
         parent->right = successor;
+
         bt_size_--;
       }
-      successor->left = current->left;
+      successor->left = remove_node->left;
+      successor->left->parent = successor;
     }
+    //      remove_node->parent.reset();
+    remove_node.reset();
+    //    parent.reset();
   }
 }
 

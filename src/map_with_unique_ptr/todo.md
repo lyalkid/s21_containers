@@ -159,10 +159,10 @@ This table contains the main public methods for interacting with the class:
 - [x] std::pair<iterator, bool> insert(const value_type& value)
 - [x] std::pair<iterator, bool> insert(const Key& key, const T& obj)
 - [ ] std::pair<iterator, bool> insert_or_assign(const Key& key, const T& obj);
-- [ ] void erase(iterator pos)
+- [x] void erase(iterator pos)
 - [ ] void swap(map& other)
 - [ ] void merge(map& other);
-- [ ] bool contains(const Key& key)
+- [x] bool contains(const Key& key)
 - [ ] vector<std::pair<iterator,bool>> insert_many(Args&&... args)
 - [ ] iterator lower_bound(const Key& key) - Returns an iterator pointing to the first element that is not less than (i.e. greater or equal to) key.
 - [ ] iterator upper_bound(const Key& key) -   Returns an iterator pointing to the first element that is greater than key.

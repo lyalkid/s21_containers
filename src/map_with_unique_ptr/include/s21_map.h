@@ -20,13 +20,19 @@ class map {
   using insert_type = std::pair<iterator, bool>;
   // Constructors
   map() {
-    tree_ = new btree<Key, T>();
+    tree_ = std::make_shared<tree_type>();
     size_ = 0;
-  };
+  }
 
   //  map(const Key key, T value) : tree_(key, value), size_(1) {}
 
-  map(std::initializer_list<value_type> const &items);
+  map(std::initializer_list<value_type> const &items) : map() {
+    auto it = items.begin();
+    while (it != items.end()) {
+      // std::cout << "im in items"<< std::endl;
+      insert(*it++);
+    }
+  }
 
   map(const map &m);
 
@@ -62,10 +68,9 @@ class map {
 
   bool contains(const key_type &key) const;
 
-  tree_type *tree_;
-
  private:
   size_type size_;
+  shared_ptr<tree_type> tree_;
   void clearHelper(std::shared_ptr<btree_node<Key, T>> &node);
   insert_type insert_helper(const key_type &key, const mapped_type &obj);
 };

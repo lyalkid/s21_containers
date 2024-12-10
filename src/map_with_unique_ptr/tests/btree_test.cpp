@@ -27,7 +27,7 @@ TEST(test_class, successor) {
   btree<int, int> tree;
   //    5, 10, 15, 20, 30, 35
 
-  btree<int, int>::iterator чit;
+  btree<int, int>::iterator it;
   tree.insert(5, 1);
   tree.insert(2, 1);
   tree.insert(10, 1);
@@ -116,7 +116,7 @@ TEST(test_class, remove_root) {
 TEST(test_class, remove_from_single_element_tree) {
   btree<int, int> tree;
   tree.insert(10, 10);  // Единственный элемент
-  auto root = tree.get_root();
+
   size_t old_size = tree.size();
 
   tree.remove(10);  // Удаляем единственный элемент

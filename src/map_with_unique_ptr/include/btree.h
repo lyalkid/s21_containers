@@ -40,7 +40,9 @@ class btree {
   using node_ptr = std::shared_ptr<btree_node<K, V>>;
 
   // todo: вынести реализации в .tpp файл
-  btree() : bt_root_(nullptr), bt_size_() {}
+  btree() : bt_root_(std::make_shared<node_type>(K{}, V{})), bt_size_() {
+    int c = 1;
+  }
 
   // todo: вынести реализации в .tpp файл
   btree(const btree &other)

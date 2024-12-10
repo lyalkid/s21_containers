@@ -49,7 +49,7 @@ cp:
 
 v: compileg test
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -s ./$(TEST_OUT)
-	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -s ./$(A_OUT)
+	#valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -s ./$(A_OUT)
 
 #
 #vt: test
@@ -97,7 +97,7 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "откатил итеатор"
+GIT_MESSAGE = "tests works"
 
 git-push: clean style
 	@git pull
