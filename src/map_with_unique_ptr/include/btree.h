@@ -88,6 +88,10 @@ class btree {
   void insert(K key, V value);
   void insert(value_type data) { insert(data.first, data.second); }
   void remove(const key_type &key);
+  void remove1(node_ptr remove_node);
+  void remove2(node_ptr remove_node);
+  void remove3(node_ptr remove_node);
+    void remove4(node_ptr remove_node);
   iterator begin() const;
   iterator end() const;
   node_ptr find_helper(node_ptr root, K key) const;

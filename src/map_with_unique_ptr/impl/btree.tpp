@@ -100,15 +100,10 @@ void btree<K, V>::in_order_tree_walk(std::shared_ptr<btree_node<K, V>> node,
   }
   if (space == 0) std::cout << "-----\n";
 }
-
 template <typename K, typename V>
-void btree<K, V>::remove(const key_type &key) {
-  node_ptr remove_node = find_helper(bt_root_, key);
-  if (remove_node != nullptr) {
-    node_ptr parent = remove_node->parent;
-    // case 1
-    if (remove_node->right == nullptr && remove_node->left == nullptr) {
-      if (remove_node == bt_root_) {
+void btree<K, V>::remove1(node_ptr remove_node){ //case1 
+  node_ptr parent = remove_node->parent;
+  if (remove_node == bt_root_) {
         bt_root_ = nullptr;
         bt_size_--;
       } else if (parent->left == remove_node) {
@@ -118,10 +113,11 @@ void btree<K, V>::remove(const key_type &key) {
         parent->right = nullptr;
         bt_size_--;
       }
-    }
-    // cas2.1
-    else if (remove_node->right == nullptr) {
-      if (remove_node == bt_root_) {
+}
+template <typename K, typename V>
+void btree<K, V>::remove2(node_ptr remove_node){ //case2.1
+  node_ptr parent = remove_node->parent;
+  if (remove_node == bt_root_) {
         bt_root_ = remove_node->left;
         bt_size_--;
       } else if (parent->left == remove_node) {
@@ -134,10 +130,11 @@ void btree<K, V>::remove(const key_type &key) {
 
         bt_size_--;
       }
-    }
-    // cas2.2
-    else if (remove_node->left == nullptr) {
-      if (remove_node == bt_root_) {
+}
+template <typename K, typename V>
+void btree<K, V>::remove3(node_ptr remove_node){
+  node_ptr parent = remove_node->parent;
+   if (remove_node == bt_root_) {
         bt_root_ = remove_node->right;
         bt_size_--;
       } else if (parent->left == remove_node) {
@@ -151,12 +148,11 @@ void btree<K, V>::remove(const key_type &key) {
 
         bt_size_--;
       }
-    }
-    // case 3
-
-    else {
-      // получаем преемника у удаляемой ноды
-      node_ptr successor = tree_successor(remove_node);
+}
+template <typename K, typename V>
+void btree<K, V>::remove4(node_ptr remove_node){
+      node_ptr parent = remove_node->parent;
+  node_ptr successor = tree_successor(remove_node);
       successor->parent = parent;
 
       if (remove_node == bt_root_) {
@@ -173,11 +169,34 @@ void btree<K, V>::remove(const key_type &key) {
       }
       successor->left = remove_node->left;
       successor->left->parent = successor;
+}
+template <typename K, typename V>
+void btree<K, V>::remove(const key_type &key) {
+  node_ptr remove_node = find_helper(bt_root_, key);
+  if (remove_node != nullptr) {
+    node_ptr parent = remove_node->parent;
+    // case 1
+    if (remove_node->right == nullptr && remove_node->left == nullptr) {
+      remove1(remove_node);
+    }
+    // cas2.1
+    else if (remove_node->right == nullptr) {
+      remove2(remove_node);
+    }
+    // cas2.2
+    else if (remove_node->left == nullptr) {
+     remove3(remove_node);
+    }
+    // case 3
+
+    else {
+      // получаем преемника у удаляемой ноды
+      remove4(remove_node)
     }
     //      remove_node->parent.reset();
     remove_node.reset();
     //    parent.reset();
-  }
+  } //main if 
 }
 
 template <typename K, typename V>
