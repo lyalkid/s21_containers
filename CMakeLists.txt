@@ -21,6 +21,8 @@ add_executable(containers
          src/map_with_unique_ptr/tests/btree_test.cpp
          src/map_with_unique_ptr/tests/test_main.cpp
          src/map_with_unique_ptr/tests/test_map.cpp
+         src/set/testSet.cpp
+
  )
 
  # Линковка с Google Test

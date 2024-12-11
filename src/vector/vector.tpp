@@ -1,7 +1,7 @@
 #ifndef CPP2_S21_CONTAINERS_1_SRC_VECTOR_VECTOR_TPP_
 #define CPP2_S21_CONTAINERS_1_SRC_VECTOR_VECTOR_TPP_
 #include "vector.h"
-
+#include <utility>
 namespace s21 {
 /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 -->>    Vector Member functions                                              >>

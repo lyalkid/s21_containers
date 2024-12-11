@@ -206,7 +206,7 @@ void btree<K, V>::remove(const key_type &key) {
 
     else {
       // получаем преемника у удаляемой ноды
-      remove4(remove_node)
+      remove4(remove_node);
     }
     //      remove_node->parent.reset();
     remove_node.reset();
