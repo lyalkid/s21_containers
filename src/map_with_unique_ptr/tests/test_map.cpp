@@ -690,30 +690,30 @@ TEST(mapTest, InsertPair) {
   EXPECT_EQ(map.contains(2), true);
   EXPECT_EQ(map[2], "two");
 }
-// TEST(mapTest, InsertOrAssign) {
-//     s21::map<int, std::string> map;
-//     // Insert a new element with a key that does not exist.
-//     auto [it1, inserted1] = map.insert_or_assign(1, "one");
-//     EXPECT_TRUE(inserted1);
-//     EXPECT_EQ(it1->first, 1);
-//     EXPECT_EQ(it1->second, "one");
-//     // Insert a new element with a key that already exists.
-//     auto [it2, inserted2] = map.insert_or_assign(1, "ONE");
-//     EXPECT_FALSE(inserted2);
-//     EXPECT_EQ(it2->first, 1);
-//     EXPECT_EQ(it2->second, "ONE");
-//     // Insert multiple elements.
-//     map.insert_or_assign(2, "two");
-//     map.insert_or_assign(3, "three");
-//     map.insert_or_assign(4, "four");
-//     map.insert_or_assign(5, "five");
-//     EXPECT_EQ(map.size(), 5);
-//     EXPECT_EQ(map[1], "ONE");
-//     EXPECT_EQ(map[2], "two");
-//     EXPECT_EQ(map[3], "three");
-//     EXPECT_EQ(map[4], "four");
-//     EXPECT_EQ(map[5], "five");
-// }
+TEST(mapTest, InsertOrAssign) {
+  s21::map<int, std::string> map;
+  // Insert a new element with a key that does not exist.
+  auto [it1, inserted1] = map.insert_or_assign(1, "one");
+  EXPECT_TRUE(inserted1);
+  EXPECT_EQ(it1->first, 1);
+  EXPECT_EQ(it1->second, "one");
+  // Insert a new element with a key that already exists.
+  auto [it2, inserted2] = map.insert_or_assign(1, "ONE");
+  EXPECT_FALSE(inserted2);
+  EXPECT_EQ(it2->first, 1);
+  EXPECT_EQ(it2->second, "ONE");
+  // Insert multiple elements.
+  map.insert_or_assign(2, "two");
+  map.insert_or_assign(3, "three");
+  map.insert_or_assign(4, "four");
+  map.insert_or_assign(5, "five");
+  EXPECT_EQ(map.size(), 5);
+  EXPECT_EQ(map[1], "ONE");
+  EXPECT_EQ(map[2], "two");
+  EXPECT_EQ(map[3], "three");
+  EXPECT_EQ(map[4], "four");
+  EXPECT_EQ(map[5], "five");
+}
 TEST(mapTest, AtAndOperatorBrackets) {
   s21::map<int, std::string> map = {{1, "one"}, {2, "two"}, {3, "three"}};
 
@@ -764,43 +764,43 @@ TEST(mapTest, Erase) {
   EXPECT_FALSE(map.contains(1));
 }
 
-// TEST(mapTest, Swap) {
-//     s21::map<int, std::string> map1;
-//     map1.insert({1, "one"});
-//     map1.insert({2, "two"});
-//
-//     s21::map<int, std::string> map2;
-//     map2.insert({3, "three"});
-//     map2.insert({4, "four"});
-//
-//     map1.swap(map2);
-//
-//     EXPECT_EQ(map1.size(), 2);
-//     EXPECT_TRUE(map1.contains(3));
-//     EXPECT_TRUE(map1.contains(4));
-//
-//     EXPECT_EQ(map2.size(), 2);
-//     EXPECT_TRUE(map2.contains(1));
-//     EXPECT_TRUE(map2.contains(2));
-// }
-//
-// TEST(mapTest, Merge) {
-//     s21::map<int, std::string> map1;
-//     map1.insert({1, "one"});
-//     map1.insert({2, "two"});
-//
-//     s21::map<int, std::string> map2;
-//     map2.insert({3, "three"});
-//     map2.insert({4, "four"});
-//
-//     map1.merge(map2);
-//
-//     EXPECT_EQ(map1.size(), 4);
-//     EXPECT_TRUE(map1.contains(1));
-//     EXPECT_TRUE(map1.contains(2));
-//     EXPECT_TRUE(map1.contains(3));
-//     EXPECT_TRUE(map1.contains(4));
-// }
+TEST(mapTest, Swap) {
+  s21::map<int, std::string> map1;
+  map1.insert({1, "one"});
+  map1.insert({2, "two"});
+
+  s21::map<int, std::string> map2;
+  map2.insert({3, "three"});
+  map2.insert({4, "four"});
+
+  map1.swap(map2);
+
+  EXPECT_EQ(map1.size(), 2);
+  EXPECT_TRUE(map1.contains(3));
+  EXPECT_TRUE(map1.contains(4));
+
+  EXPECT_EQ(map2.size(), 2);
+  EXPECT_TRUE(map2.contains(1));
+  EXPECT_TRUE(map2.contains(2));
+}
+
+TEST(mapTest, Merge) {
+  s21::map<int, std::string> map1;
+  map1.insert({1, "one"});
+  map1.insert({2, "two"});
+
+  s21::map<int, std::string> map2;
+  map2.insert({3, "three"});
+  map2.insert({4, "four"});
+
+  map1.merge(map2);
+
+  EXPECT_EQ(map1.size(), 4);
+  EXPECT_TRUE(map1.contains(1));
+  EXPECT_TRUE(map1.contains(2));
+  EXPECT_TRUE(map1.contains(3));
+  EXPECT_TRUE(map1.contains(4));
+}
 
 TEST(mapTest, Contains) {
   s21::map<int, std::string> map;
@@ -810,129 +810,138 @@ TEST(mapTest, Contains) {
   EXPECT_TRUE(map.contains(2));
   EXPECT_FALSE(map.contains(3));
 }
-//
-// TEST(map_modifiers_suite, swap) {
-//   s21::map<int, int> a = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
-//
-//   s21::map<int, int> b = {{11, 1}, {12, 0}, {13, 0}, {14, 0}, {15, 5}};
-//
-//   s21::map<int, int> b_swap = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
-//
-//   s21::map<int, int> a_swap = {{11, 1}, {12, 0}, {13, 0}, {14, 0}, {15, 5}};
-//
-//   a.swap(b);
-//   auto a_itr = a.begin();
-//   auto a_swap_itr = a_swap.begin();
-//   for (; a_itr != a.end(); ++a_itr, ++a_swap_itr) {
-//     EXPECT_EQ(*a_itr, *a_swap_itr);
-//   }
-//
-//   auto b_itr = b.begin();
-//   auto b_swap_itr = b_swap.begin();
-//   for (; b_itr != b.end(); ++b_itr, ++b_swap_itr) {
-//     EXPECT_EQ(*b_itr, *b_swap_itr);
-//   }
-// }
-//
-// TEST(map_modifiers_suite, merge) {
-//   s21::map<int, int> a = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
-//   s21::map<int, int> b = {{1, 1},  {2, 0},  {3, 0},  {4, 0},  {5, 5},
-//                           {11, 1}, {12, 0}, {13, 0}, {14, 0}, {15, 5}};
-//
-//   s21::map<int, int> result = {{1, 1},  {2, 0},  {3, 0},  {4, 0},  {5, 5},
-//                                {11, 1}, {12, 0}, {13, 0}, {14, 0}, {15, 5}};
-//
-//   a.merge(b);
-//   auto a_itr = a.begin();
-//   auto result_itr = result.begin();
-//   for (; a_itr != a.end(); ++a_itr, ++result_itr) {
-//     EXPECT_EQ(*a_itr, *result_itr);
-//   }
-// }
-//
-// TEST(map_modifiers_suite, merge_empty) {
-//   s21::map<int, int> a = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
-//   s21::map<int, int> b;
-//   s21::map<int, int> result = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
-//
-//   a.merge(b);
-//   auto a_itr = a.begin();
-//   auto result_itr = result.begin();
-//   for (; a_itr != a.end(); ++a_itr, ++result_itr) {
-//     EXPECT_EQ(*a_itr, *result_itr);
-//   }
-// }
-//
-// TEST(map_modifiers_suite, merge_both_empty) {
-//   s21::map<int, int> a;
-//   s21::map<int, int> b;
-//   s21::map<int, int> result;
-//
-//   a.merge(b);
-//   auto a_itr = a.begin();
-//   auto result_itr = result.begin();
-//   for (; a_itr != a.end(); ++a_itr, ++result_itr) {
-//     EXPECT_EQ(*a_itr, *result_itr);
-//   }
-// }
-//
-// TEST(map_lookup_suite, contains) {
-//   s21::map<int, int> a = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
-//
-//   EXPECT_TRUE(a.contains({1, 1}));
-//   EXPECT_TRUE(a.contains({2, 0}));
-//   EXPECT_TRUE(a.contains({3, 0}));
-//   EXPECT_TRUE(a.contains({4, 0}));
-//   EXPECT_TRUE(a.contains({5, 5}));
-//
-//   EXPECT_FALSE(a.contains({8, 8}));
-//   EXPECT_FALSE(a.contains({6, 7}));
-//   EXPECT_FALSE(a.contains({123, 33}));
-// }
-//
-// TEST(map_element_access, braces_and_at) {
-//   s21::map<int, int> a;
-//   std::map<int, int> std_a;
-//
-//   std_a.insert({1, 1});
-//   std_a.insert({2, 34});
-//   std_a.insert({3, 234});
-//
-//   a.insert({1, 1});
-//   a.insert({2, 34});
-//   a.insert({3, 234});
-//
-//   EXPECT_EQ(a.empty(), std_a.empty());
-//   EXPECT_EQ(a.size(), std_a.size());
-//
-//   auto std_itr = std_a.begin();
-//   auto itr = a.begin();
-//
-//   for (int i = 1; std_itr != std_a.end(); ++std_itr, ++itr, ++i) {
-//     EXPECT_EQ(a.at(i), std_a.at(i));
-//     EXPECT_EQ(a[i], std_a[i]);
-//     EXPECT_EQ((*itr).first, (*std_itr).first);
-//     EXPECT_EQ((*itr).second, (*std_itr).second);
-//   }
-// }
-//
-// TEST(map_modifiers_insert, insert_or_assign) {
-//   s21::map<int, int> a;
-//   std::map<int, int> std_a;
-//
-//   a.insert_or_assign(1, 1);
-//   a.insert_or_assign(2, 1);
-//   a.insert_or_assign(1, 11);
-//   a.insert_or_assign(2, 22);
-//   a.insert_or_assign(3, 1);
-//
-//   std_a.insert_or_assign(1, 1);
-//   std_a.insert_or_assign(2, 1);
-//   std_a.insert_or_assign(1, 11);
-//   std_a.insert_or_assign(2, 22);
-//   std_a.insert_or_assign(3, 1);
-//
-//   EXPECT_EQ(a.empty(), std_a.empty());
-//   EXPECT_EQ(a.size(), std_a.size());
-//   EXPECT_EQ(compare(std_a, a), true);
-// }
+
+TEST(map_modifiers_suite, swap) {
+  s21::map<int, int> a = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
+
+  s21::map<int, int> b = {{11, 1}, {12, 0}, {13, 0}, {14, 0}, {15, 5}};
+
+  s21::map<int, int> b_swap = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
+
+  s21::map<int, int> a_swap = {{11, 1}, {12, 0}, {13, 0}, {14, 0}, {15, 5}};
+
+  a.swap(b);
+  auto a_itr = a.begin();
+  auto a_swap_itr = a_swap.begin();
+  for (; a_itr != a.end(); ++a_itr, ++a_swap_itr) {
+    EXPECT_EQ(*a_itr, *a_swap_itr);
+  }
+
+  auto b_itr = b.begin();
+  auto b_swap_itr = b_swap.begin();
+  for (; b_itr != b.end(); ++b_itr, ++b_swap_itr) {
+    EXPECT_EQ(*b_itr, *b_swap_itr);
+  }
+}
+
+TEST(map_modifiers_suite, merge) {
+  s21::map<int, int> a = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
+  s21::map<int, int> b = {{1, 1},  {2, 0},  {3, 0},  {4, 0},  {5, 5},
+                          {11, 1}, {12, 0}, {13, 0}, {14, 0}, {15, 5}};
+
+  s21::map<int, int> result = {{1, 1},  {2, 0},  {3, 0},  {4, 0},  {5, 5},
+                               {11, 1}, {12, 0}, {13, 0}, {14, 0}, {15, 5}};
+
+  a.merge(b);
+  auto a_itr = a.begin();
+  auto result_itr = result.begin();
+  for (; a_itr != a.end(); ++a_itr, ++result_itr) {
+    EXPECT_EQ(*a_itr, *result_itr);
+  }
+}
+
+TEST(map_modifiers_suite, merge_empty) {
+  s21::map<int, int> a = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
+  s21::map<int, int> b;
+  s21::map<int, int> result = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
+
+  a.merge(b);
+  auto a_itr = a.begin();
+  auto result_itr = result.begin();
+  for (; a_itr != a.end(); ++a_itr, ++result_itr) {
+    EXPECT_EQ(*a_itr, *result_itr);
+  }
+}
+
+TEST(map_modifiers_suite, merge_both_empty) {
+  s21::map<int, int> a;
+  s21::map<int, int> b;
+  s21::map<int, int> result;
+
+  a.merge(b);
+  auto a_itr = a.begin();
+  auto result_itr = result.begin();
+  for (; a_itr != a.end(); ++a_itr, ++result_itr) {
+    EXPECT_EQ(*a_itr, *result_itr);
+  }
+}
+
+TEST(map_lookup_suite, contains) {
+  s21::map<int, int> a = {{1, 1}, {2, 0}, {3, 0}, {4, 0}, {5, 5}};
+
+  EXPECT_TRUE(a.contains(1));
+  EXPECT_TRUE(a.contains(2));
+  EXPECT_TRUE(a.contains(3));
+  EXPECT_TRUE(a.contains(4));
+  EXPECT_TRUE(a.contains(5));
+
+  EXPECT_FALSE(a.contains(8));
+  EXPECT_FALSE(a.contains(6));
+  EXPECT_FALSE(a.contains(123));
+}
+
+TEST(map_element_access, braces_and_at) {
+  s21::map<int, int> a;
+  std::map<int, int> std_a;
+
+  std_a.insert({1, 1});
+  std_a.insert({2, 34});
+  std_a.insert({3, 234});
+
+  a.insert({1, 1});
+  a.insert({2, 34});
+  a.insert({3, 234});
+
+  EXPECT_EQ(a.empty(), std_a.empty());
+  EXPECT_EQ(a.size(), std_a.size());
+
+  auto std_itr = std_a.begin();
+  auto itr = a.begin();
+
+  for (int i = 1; std_itr != std_a.end(); ++std_itr, ++itr, ++i) {
+    EXPECT_EQ(a.at(i), std_a.at(i));
+    EXPECT_EQ(a[i], std_a[i]);
+    EXPECT_EQ((*itr).first, (*std_itr).first);
+    EXPECT_EQ((*itr).second, (*std_itr).second);
+  }
+}
+
+TEST(map_modifiers_insert, insert_or_assign) {
+  s21::map<int, int> a;
+  std::map<int, int> std_a;
+
+  a.insert_or_assign(1, 1);
+  a.insert_or_assign(2, 1);
+  a.insert_or_assign(1, 11);
+  a.insert_or_assign(2, 22);
+  a.insert_or_assign(3, 1);
+
+  std_a.insert_or_assign(1, 1);
+  std_a.insert_or_assign(2, 1);
+  std_a.insert_or_assign(1, 11);
+  std_a.insert_or_assign(2, 22);
+  std_a.insert_or_assign(3, 1);
+
+  EXPECT_EQ(a.empty(), std_a.empty());
+  EXPECT_EQ(a.size(), std_a.size());
+  EXPECT_EQ(compare(std_a, a), true);
+}
+TEST(map_modifiers_insert, InsertManyMethodTest) {
+  s21::map<int, std::string> a;
+  a.insert_many(std::make_pair(10, "ten"), std::make_pair(11, "eleven"),
+                std::make_pair(12, "twelve"));
+  EXPECT_EQ(a.size(), 3);
+  EXPECT_EQ(a.at(10), "ten");
+  EXPECT_EQ(a.at(11), "eleven");
+  EXPECT_EQ(a.at(12), "twelve");
+}

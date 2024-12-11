@@ -138,17 +138,17 @@ This table contains the main public methods for interacting with the class:
 | Done | Modifiers              | Definition                                     |
 |------|------------------------|------------------------------------------------|
 | [x]  | void clear()           | clears the contents                           |
-| [ ]  | std::pair<iterator, bool> insert(const value_type& value) | inserts a node and returns an iterator + success |
-| [ ]  | std::pair<iterator, bool> insert(const Key& key, const T& obj) | inserts a value by key and returns iterator + success |
-| [ ]  | void erase(iterator pos) | erases an element at pos                     |
-| [ ]  | void swap(map& other)   | swaps the contents                            |
+| [x]  | std::pair<iterator, bool> insert(const value_type& value) | inserts a node and returns an iterator + success |
+| [x]  | std::pair<iterator, bool> insert(const Key& key, const T& obj) | inserts a value by key and returns iterator + success |
+| [x]  | void erase(iterator pos) | erases an element at pos                     |
+| [x]  | void swap(map& other)   | swaps the contents                            |
 | [ ]  | void merge(map& other)  | splices nodes from another container          |
 
 ## Map Lookup
 
 | Done | Lookup                 | Definition                                     |
 |------|------------------------|------------------------------------------------|
-| [ ]  | bool contains(const Key& key) | checks if container contains an element with specific key |
+| [x]  | bool contains(const Key& key) | checks if container contains an element with specific key |
 
 </details>
 
@@ -158,14 +158,12 @@ This table contains the main public methods for interacting with the class:
 - [x] void clear()
 - [x] std::pair<iterator, bool> insert(const value_type& value)
 - [x] std::pair<iterator, bool> insert(const Key& key, const T& obj)
-- [ ] std::pair<iterator, bool> insert_or_assign(const Key& key, const T& obj);
 - [x] void erase(iterator pos)
-- [ ] void swap(map& other)
-- [ ] void merge(map& other);
+- [x] void swap(map& other)
 - [x] bool contains(const Key& key)
+- [x] std::pair<iterator, bool> insert_or_assign(const Key& key, const T& obj);
+- [x] void merge(map& other);
 - [ ] vector<std::pair<iterator,bool>> insert_many(Args&&... args)
-- [ ] iterator lower_bound(const Key& key) - Returns an iterator pointing to the first element that is not less than (i.e. greater or equal to) key.
-- [ ] iterator upper_bound(const Key& key) -   Returns an iterator pointing to the first element that is greater than key.
 
 # Set
 

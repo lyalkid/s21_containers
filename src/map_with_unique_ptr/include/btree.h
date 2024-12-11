@@ -8,6 +8,7 @@
 #include <memory>
 #include <string>
 
+#include "../../vector/vector.h"
 #include "btree_iterator.h"
 #include "btree_node.h"
 
@@ -38,10 +39,12 @@ class btree {
   using size_type = size_t;
   using sh_ptr_iterator = std::shared_ptr<btree_iterator<K, V>>;
   using node_ptr = std::shared_ptr<btree_node<K, V>>;
+  using insert_many_type = s21::vector<std::pair<iterator, bool>>;
+  using insert_type = std::pair<iterator, bool>;
 
   // todo: вынести реализации в .tpp файл
   btree() : bt_root_(std::make_shared<node_type>(K{}, V{})), bt_size_() {
-    int c = 1;
+    //    int c = 1;
   }
 
   // todo: вынести реализации в .tpp файл
@@ -85,8 +88,14 @@ class btree {
     return *this;
   }
 
-  void insert(K key, V value);
-  void insert(value_type data) { insert(data.first, data.second); }
+  insert_type insert(const K key, V value);
+  insert_type insert_yeah(value_type data) {
+    return insert(data.first, data.second);
+  }
+
+  template <typename... Args>
+  insert_many_type insert_many(Args &&...args);
+
   void remove(const key_type &key);
   void remove1(node_ptr remove_node);
   void remove2(node_ptr remove_node);
@@ -101,11 +110,11 @@ class btree {
   iterator search(reference value) const;
   bool contains(const key_type &key) const;
 
-  void clear();
+  void clear() noexcept;
 
-  void clear_node(node_ptr node);
+  void clear_node(node_ptr node) noexcept;
 
-  void swap(btree &other);
+  void swap(btree &other) noexcept;
 
   void merge(btree &other);
 

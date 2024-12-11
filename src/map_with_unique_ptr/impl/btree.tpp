@@ -20,11 +20,12 @@ std::shared_ptr<btree_node<K, V>> btree<K, V>::get_root() {
 
 // insert
 template <typename K, typename V>
-void btree<K, V>::insert(const K key, V value) {
+typename btree<K, V>::insert_type btree<K, V>::insert(const K key, V value) {
   if (bt_size_ == 0) {
     bt_root_ = std::make_shared<btree_node<K, V>>(key, value);
     bt_size_++;
-    return;
+    btree_iterator<K, V> it(bt_root_);
+    return std::make_pair(it, true);
   }
 
   bool is_inserted = false;
@@ -48,6 +49,19 @@ void btree<K, V>::insert(const K key, V value) {
     is_inserted = true;
   }
   if (is_inserted) bt_size_++;
+  btree_iterator<K, V> it(temp);
+  return std::make_pair(it, is_inserted);
+}
+
+template <typename K, typename T>
+template <typename... Args>
+typename btree<K, T>::insert_many_type btree<K, T>::insert_many(
+    Args &&...args) {
+  s21::vector<std::pair<iterator, bool>> result;
+  for (const auto &arg : {args...}) {
+    result.push_back(insert_yeah(arg));
+  }
+  return result;
 }
 
 template <typename K, typename V>
@@ -82,6 +96,7 @@ typename btree<K, V>::iterator btree<K, V>::search(reference value) const {
   }
   return end();
 }
+
 template <typename K, typename V>
 bool btree<K, V>::contains(const key_type &key) const {
   //  bool contains = false;
@@ -216,14 +231,16 @@ typename btree<K, V>::node_ptr btree<K, V>::tree_successor(
   }
   return successor;
 }
+
 template <typename K, typename V>
-void btree<K, V>::clear() {
+void btree<K, V>::clear() noexcept {
   clear_node(bt_root_);
   bt_root_.reset();
   bt_size_ = 0;
 }
+
 template <typename K, typename V>
-void btree<K, V>::clear_node(node_ptr node) {
+void btree<K, V>::clear_node(node_ptr node) noexcept {
   if (node == nullptr) return;
   clear_node(node->left);
   clear_node(node->right);
@@ -232,6 +249,7 @@ void btree<K, V>::clear_node(node_ptr node) {
   node->parent = nullptr;
   bt_size_--;
 }
+
 template <typename K, typename V>
 bool btree<K, V>::empty() {
   return bt_root_ == nullptr;
@@ -248,7 +266,7 @@ size_t btree<K, V>::max_size() const {
 }
 
 template <typename K, typename V>
-void btree<K, V>::swap(btree &other) {
+void btree<K, V>::swap(btree &other) noexcept {
   std::swap(bt_root_, other.bt_root_);
   std::swap(bt_size_, other.bt_size_);
 }
