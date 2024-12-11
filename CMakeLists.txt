@@ -13,6 +13,7 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(containers
         src/map_with_unique_ptr/main.cpp
         src/map_with_unique_ptr/include/btree_node.h
+        src/set/set.tpp
 )
 
  # Тесты
