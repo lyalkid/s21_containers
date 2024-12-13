@@ -9,7 +9,8 @@
 #include <string>
 
 namespace s21 {
-
+template <typename Key>
+class set;
 template <typename Key, typename T>
 class map;
 
@@ -19,6 +20,8 @@ class btree;
 template <typename K, typename V>
 class btree_iterator;
 
+template <typename K, typename V>
+class set_iterator;
 template <typename K, typename V>
 class btree_node {
  public:
@@ -85,8 +88,9 @@ class btree_node {
   //        template<template K, template  V>
   friend class btree<K, V>;  //<K, V>;
   friend class btree_iterator<K, V>;
-
+  friend class set_iterator<K, V>;
   friend class map<K, V>;
+  friend class set<K>;
 };
 }  // namespace s21
 #include "../impl/btree_node.tpp"

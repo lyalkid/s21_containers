@@ -11,10 +11,13 @@
 #include "../../vector/vector.h"
 #include "btree_iterator.h"
 #include "btree_node.h"
-
+#include "set_iterator.h"
 // todo: разбить функции по блокам
 
 namespace s21 {
+
+template <typename Key>
+class set;
 
 template <typename Key, typename T>
 class map;
@@ -24,6 +27,8 @@ class btree_node;
 
 template <typename K, typename V>
 class btree_iterator;
+template <typename K, typename V>
+class set_iterator;
 
 template <typename K, typename V>
 class btree {
@@ -36,6 +41,8 @@ class btree {
   using const_reference = const value_type &;
   using iterator = btree_iterator<K, V>;
   using const_iterator = const iterator;
+
+  using set_iterator_type = set_iterator<K, V>;
   using size_type = size_t;
   using sh_ptr_iterator = std::shared_ptr<btree_iterator<K, V>>;
   using node_ptr = std::shared_ptr<btree_node<K, V>>;
@@ -100,9 +107,13 @@ class btree {
   void remove1(node_ptr remove_node);
   void remove2(node_ptr remove_node);
   void remove3(node_ptr remove_node);
-    void remove4(node_ptr remove_node);
+  void remove4(node_ptr remove_node);
   iterator begin() const;
   iterator end() const;
+
+  set_iterator_type begin_si() const;
+  set_iterator_type end_si() const;
+
   node_ptr find_helper(node_ptr root, K key) const;
 
   // todo: написать тесты на эти методы
@@ -132,6 +143,8 @@ class btree {
   friend class btree_iterator<K, V>;
 
   friend class map<K, V>;
+
+  friend class set<K>;
 
  private:
   key_type root() const {

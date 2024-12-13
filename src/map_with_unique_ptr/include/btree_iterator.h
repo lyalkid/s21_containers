@@ -14,6 +14,8 @@ class btree_node;
 template <typename K, typename V>
 class btree;
 
+template <typename K>
+class set;
 template <typename K, typename V>
 class btree_iterator {
  public:
@@ -148,12 +150,11 @@ class btree_iterator {
 
   friend class btree_node<K, V>;
   friend class map<K, V>;
+  friend class set<K>;
 
  protected:
   node_ptr current_node_;
   node_ptr root_;
-
- private:
   std::pair<K, V> data_;
 };
 

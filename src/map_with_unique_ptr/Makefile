@@ -97,11 +97,11 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "is map finall, bro ?.. "
+GIT_MESSAGE = "azamat gay "
 
 git-push: clean style
 	@git pull
-	@git add .
+	@git add ../../src
 	@git commit -m $(GIT_MESSAGE)
 	@git push -u origin sionapae
 	@git status

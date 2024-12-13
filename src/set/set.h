@@ -3,128 +3,126 @@
 #define S21_SET_H
 
 #include "../map_with_unique_ptr/include/btree.h"
-
+#include "../vector/vector.h"
 namespace s21 {
-    template<typename Key, typename V>
-    class set {
-    public:
-        using key_type = Key;
-        using mapped_type = std::pair<key_type, bool>;;
-        using value_type = Key;
-        using node_type = btree_node<Key, V>;
-        using reference = value_type &;
-        using const_reference = const value_type &;
-        using iterator = btree_iterator<Key, V>;
-        using const_iterator = const iterator;
-        using size_type = size_t;
-        using insert_type = std::pair<iterator, bool>;
-        using insert_many_type = s21::vector<std::pair<iterator, bool>>;
-        using tree_type = btree<Key, V>;
+template <typename Key>
+class set {
+ public:
+  using key_type = Key;
+  using value_type = key_type;
+  using reference = value_type &;
+  using const_reference = const value_type &;
+  using iterator = set_iterator<key_type, key_type>;
+  using const_iterator = const iterator;
+  using size_type = size_t;
+  using insert_type = std::pair<iterator, bool>;
+  using insert_many_type = s21::vector<insert_type>;
 
-        set() {
-            tree_ = std::make_shared<tree_type>();
-            size_ = 0;
-        }
+  using mapped_type = std::pair<key_type, key_type>;
+  ;
+  using node_type = btree_node<key_type, key_type>;
+  using tree_type = btree<key_type, key_type>;
+  set() {
+    tree_ = std::make_shared<tree_type>();
+    size_ = 0;
+  }
 
-        set(std::initializer_list<value_type> const &items) : set() {
-            auto it = items.begin();
-            while (it != items.end()) {
-                // std::cout << "im in items"<< std::endl;
-                insert(*it++);
-            }
-        }
+  set(std::initializer_list<value_type> const &items) : set() {
+    auto it = items.begin();
+    while (it != items.end()) {
+      // std::cout << "im in items"<< std::endl;
+      insert(*it++);
+    }
+  }
 
-        set(const set &m) : tree_(m.tree_), size_(m.size_) {}
+  set(const set &m) : tree_(m.tree_), size_(m.size_) {}
 
-        set(set &&m) noexcept {
-            tree_ = std::move(m.tree_);
-            size_ = std::move(m.size_);
+  set(set &&m) noexcept {
+    tree_ = std::move(m.tree_);
+    size_ = std::move(m.size_);
 
-            // todo: во всех конструкторах перемещения сделать обнуление параметров
-            m.tree_ = nullptr;
-            m.size_ = 0;
-        }
+    // todo: во всех конструкторах перемещения сделать обнуление параметров
+    m.tree_ = nullptr;
+    m.size_ = 0;
+  }
 
-        set &operator=(const set &other) {
-            if (this != &other) {
-                tree_ = other.tree_;
-                size_ = other.size_;
-            }
-            return *this;
-        }
+  set &operator=(const set &other) {
+    if (this != &other) {
+      tree_ = other.tree_;
+      size_ = other.size_;
+    }
+    return *this;
+  }
 
-        set &operator=(set &&other) noexcept {
-            if (this != &other) {
-                tree_ = std::move(other.tree_);
-                size_ = std::move(other.size_);
+  set &operator=(set &&other) noexcept {
+    if (this != &other) {
+      tree_ = std::move(other.tree_);
+      size_ = std::move(other.size_);
 
-                // todo: во всех операторах перемещения сделать обнуление параметров
-                other.tree_ = nullptr;
-                other.size_ = 0;
-            }
-            return *this;
-        }
+      // todo: во всех операторах перемещения сделать обнуление параметров
+      other.tree_ = nullptr;
+      other.size_ = 0;
+    }
+    return *this;
+  }
 
-        ~set() = default;
+  ~set() = default;
 
+  iterator begin() { return tree_->begin_si(); }
+  iterator end() { return tree_->end_si(); }
+  bool empty() const { return size_ == 0 || tree_ == nullptr; }
+  size_type size() { return size_; }
+  size_type max_size() { return tree_->max_size(); }
 
-        iterator begin() { return tree_->begin(); }
+  void clear() {
+    tree_->clear();
+    size_ = 0;
+  }
+  insert_type insert(const value_type &value) {
+    bool flag = contains(value);
+    if (!flag) {
+      tree_->insert(value, value);
+      size_++;
+    }
+    iterator it(tree_->find_helper(tree_->bt_root_, value));
 
-        iterator end() { return tree_->end(); }
+    insert_type res = std::make_pair(it, !flag);
+    return res;
+  }
 
-        bool empty() const { return size_ == 0 || tree_ == nullptr; }
+  void erase(iterator pos) {
+    if (pos != end()) {
+      tree_->remove(pos->first);
+      size_ = tree_->size();
+    }
+  }
 
-        size_type size() const { return size_; }
+  void swap(set &other) {
+    std::swap(tree_, other.tree_);
+    std::swap(size_, other.size_);
+  }
 
-        size_type max_size() const { return tree_->max_size(); }
+  void merge(set &other) {
+    for (auto iter = other.begin(); !other.empty() && iter != other.end();
+         iter++) {
+      if (!contains(iter.current_node_->data.first)) {
+        insert(iter.current_node_->data.first, iter.current_node_->data.second);
+        other.erase(iter);
+      }
+    }
+  }
 
-        void clear() {
-            tree_->clear();
-            size_ = 0;
-        }
+  iterator find(const Key &key) { return tree_->search(key); }
+  bool contains(const Key &key) {
+    return (tree_ != nullptr && tree_->contains(key));
+  }
 
+  // s21::vector<std::pair<iterator,bool>> insert_many(Args&&... args){}
 
-        std::pair<iterator, bool> insert(const value_type &value);
-
-        void erase(iterator pos) {
-            if (pos != end()) {
-                tree_->remove(pos->first);
-                size_ = tree_->size();
-
-                //  pos.current_node_.reset();
-            }
-        }
-
-        void swap(set &other) {
-            std::swap(tree_, other.tree_);
-            std::swap(size_, other.size_);
-        }
-
-        void merge(set &other) {
-            for (auto iter = other.begin(); !other.empty() && iter != other.end();
-                 iter++) {
-                if (!contains(iter.current_node_->data.first)) {
-                    insert(iter.current_node_->data.first);
-                    other.erase(iter);
-                }
-            }
-        }
-
-
-        iterator find(const Key &key){
-            return tree_->search(key);
-        }
-
-        bool contains(const Key &key){
-            return (tree_ != nullptr && tree_->contains(key));
-        }
-
-    private:
-        size_type size_;
-        shared_ptr<tree_type> tree_;
-
-        insert_type insert_helper(const key_type &key, const V &obj);
-    };
+ private:
+  shared_ptr<tree_type> tree_;
+  size_type size_;
+};
 }  // namespace s21
 #include "set.tpp"
 

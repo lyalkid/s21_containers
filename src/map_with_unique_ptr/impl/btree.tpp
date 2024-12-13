@@ -116,74 +116,74 @@ void btree<K, V>::in_order_tree_walk(std::shared_ptr<btree_node<K, V>> node,
   if (space == 0) std::cout << "-----\n";
 }
 template <typename K, typename V>
-void btree<K, V>::remove1(node_ptr remove_node){ //case1 
+void btree<K, V>::remove1(node_ptr remove_node) {  // case1
   node_ptr parent = remove_node->parent;
   if (remove_node == bt_root_) {
-        bt_root_ = nullptr;
-        bt_size_--;
-      } else if (parent->left == remove_node) {
-        parent->left = nullptr;
-        bt_size_--;
-      } else if (parent->right == remove_node) {
-        parent->right = nullptr;
-        bt_size_--;
-      }
+    bt_root_ = nullptr;
+    bt_size_--;
+  } else if (parent->left == remove_node) {
+    parent->left = nullptr;
+    bt_size_--;
+  } else if (parent->right == remove_node) {
+    parent->right = nullptr;
+    bt_size_--;
+  }
 }
 template <typename K, typename V>
-void btree<K, V>::remove2(node_ptr remove_node){ //case2.1
+void btree<K, V>::remove2(node_ptr remove_node) {  // case2.1
   node_ptr parent = remove_node->parent;
   if (remove_node == bt_root_) {
-        bt_root_ = remove_node->left;
-        bt_size_--;
-      } else if (parent->left == remove_node) {
-        parent->left = remove_node->left;
-        parent->left->parent = parent;
-        bt_size_--;
-      } else if (parent->right == remove_node) {
-        parent->right = remove_node->left;
-        parent->right->parent = parent;
+    bt_root_ = remove_node->left;
+    bt_size_--;
+  } else if (parent->left == remove_node) {
+    parent->left = remove_node->left;
+    parent->left->parent = parent;
+    bt_size_--;
+  } else if (parent->right == remove_node) {
+    parent->right = remove_node->left;
+    parent->right->parent = parent;
 
-        bt_size_--;
-      }
+    bt_size_--;
+  }
 }
 template <typename K, typename V>
-void btree<K, V>::remove3(node_ptr remove_node){
+void btree<K, V>::remove3(node_ptr remove_node) {
   node_ptr parent = remove_node->parent;
-   if (remove_node == bt_root_) {
-        bt_root_ = remove_node->right;
-        bt_size_--;
-      } else if (parent->left == remove_node) {
-        parent->left = remove_node->right;
-        parent->left->parent = parent;
+  if (remove_node == bt_root_) {
+    bt_root_ = remove_node->right;
+    bt_size_--;
+  } else if (parent->left == remove_node) {
+    parent->left = remove_node->right;
+    parent->left->parent = parent;
 
-        bt_size_--;
-      } else if (parent->right == remove_node) {
-        parent->right = remove_node->right;
-        parent->right->parent = parent;
+    bt_size_--;
+  } else if (parent->right == remove_node) {
+    parent->right = remove_node->right;
+    parent->right->parent = parent;
 
-        bt_size_--;
-      }
+    bt_size_--;
+  }
 }
 template <typename K, typename V>
-void btree<K, V>::remove4(node_ptr remove_node){
-      node_ptr parent = remove_node->parent;
+void btree<K, V>::remove4(node_ptr remove_node) {
+  node_ptr parent = remove_node->parent;
   node_ptr successor = tree_successor(remove_node);
-      successor->parent = parent;
+  successor->parent = parent;
 
-      if (remove_node == bt_root_) {
-        bt_root_ = successor;
-        bt_root_->parent = nullptr;
-        bt_size_--;
-      } else if (parent->left == remove_node) {
-        parent->left = successor;
-        bt_size_--;
-      } else if (parent->right == remove_node) {
-        parent->right = successor;
+  if (remove_node == bt_root_) {
+    bt_root_ = successor;
+    bt_root_->parent = nullptr;
+    bt_size_--;
+  } else if (parent->left == remove_node) {
+    parent->left = successor;
+    bt_size_--;
+  } else if (parent->right == remove_node) {
+    parent->right = successor;
 
-        bt_size_--;
-      }
-      successor->left = remove_node->left;
-      successor->left->parent = successor;
+    bt_size_--;
+  }
+  successor->left = remove_node->left;
+  successor->left->parent = successor;
 }
 template <typename K, typename V>
 void btree<K, V>::remove(const key_type &key) {
@@ -200,7 +200,7 @@ void btree<K, V>::remove(const key_type &key) {
     }
     // cas2.2
     else if (remove_node->left == nullptr) {
-     remove3(remove_node);
+      remove3(remove_node);
     }
     // case 3
 
@@ -211,7 +211,7 @@ void btree<K, V>::remove(const key_type &key) {
     //      remove_node->parent.reset();
     remove_node.reset();
     //    parent.reset();
-  } //main if 
+  }  // main if
 }
 
 template <typename K, typename V>
@@ -286,6 +286,22 @@ template <typename K, typename V>
 typename btree<K, V>::iterator btree<K, V>::end() const {
   // node_type * end_node;
   iterator end(nullptr, bt_root_);
+  return end;
+}
+
+template <typename K, typename V>
+typename btree<K, V>::set_iterator_type btree<K, V>::begin_si() const {
+  if (bt_root_ != nullptr) {
+    node_ptr current_node_ = bt_root_->findMin(bt_root_);
+    set_iterator_type it(current_node_, bt_root_);
+    return it;
+  }
+  set_iterator_type tmp(nullptr, nullptr);
+  return tmp;
+}
+template <typename K, typename V>
+typename btree<K, V>::set_iterator_type btree<K, V>::end_si() const {
+  set_iterator_type end(nullptr, bt_root_);
   return end;
 }
 
