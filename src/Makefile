@@ -37,7 +37,7 @@ test:
 ifeq ($(OS), Darwin)
 	$(CC) $(CFLAGS) $(TEST_FILE) -g -o $(TEST_OUT) $(LIBS)
 else
-	$(CC) $(CFLAGS) $(TEST_FILE)  $(LIBS) $(LINUX)  -o $(TEST_OUT)
+	$(CC) $(CFLAGS) $(TEST_FILE)  $(LIBS) $(LINUX) -g  -o $(TEST_OUT)
 endif
 	./$(TEST_OUT)
 
@@ -78,3 +78,28 @@ endif
 	gcovr
 	gcovr --html-details -o ./report/report.html
 	open ./report/report.html
+
+v: test
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -s ./$(TEST_OUT)
+
+
+docker_build:
+	docker build -t vault:v1 .
+	docker create -it --name matrix_cpp vault:v1
+
+# Запускаем контейнер
+docker_start:
+	docker start -i matrix_cpp
+
+docker_delete:
+	docker rm matrix_cpp
+	docker image rm vault:v1
+
+GIT_MESSAGE = "pofig"
+
+git-push: clean style
+	@git pull
+	@git add ../../src
+	@git commit -m $(GIT_MESSAGE)
+	@git push -u origin fearowpi
+	@git status
