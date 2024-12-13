@@ -91,8 +91,9 @@ class set_iterator {
   // increment
   set_iterator &operator++() {
     if (current_node_ != nullptr) {
-      current_node_ = current_node_->next(current_node_);
-      if (current_node_)
+        auto  temp = current_node_->next(current_node_);
+      current_node_= temp;
+        if (current_node_)
         data_ = std::make_pair(current_node_->data.first,
                                current_node_->data.second);
     }

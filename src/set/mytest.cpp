@@ -27,9 +27,9 @@ TEST(set, ConstructorInitializer2Set) {
   EXPECT_EQ(my_set.size(), orig_set.size());
   auto my_it = my_set.begin();
   auto orig_it = orig_set.begin();
-  for (; my_it != my_set.end(); ++my_it, ++orig_it) {
+  for (; orig_it != orig_set.end(); ++my_it, ++orig_it) {
     std::cout<< *orig_it << std::endl << *my_it << std::endl; 
-    EXPECT_TRUE(*orig_it == *my_it);
+    EXPECT_TRUE(0 == *my_it);
   }
 }
 
