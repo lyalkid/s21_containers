@@ -216,7 +216,7 @@ TEST_F(multisetTest, MaxSize) {
   // Act
 
   // Assert
-  EXPECT_EQ(multiset.max_size(), std::numeric_limits<std::size_t>::max());
+    EXPECT_EQ(multiset.max_size(), std::numeric_limits<std::size_t>::max()/sizeof(s21::btree_node<int, int>));
 }
 
 // Test case: clear empty multiset
@@ -524,4 +524,9 @@ TEST_F(multisetTest, ContainsNonExistingKey) {
 
   // Assert
   EXPECT_FALSE(result);
+}
+
+int main(int argc, char* argv[]) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

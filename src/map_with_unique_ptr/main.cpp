@@ -6,6 +6,7 @@
 
 #include "include/btree.h"
 #include "include/s21_map.h"
+#include <set>
 
 using std::cout;
 using std::endl;
@@ -113,30 +114,30 @@ using std::string;
 //   irt = map.insert(5, 1);
 //   irt = map.insert(5, 3);
 // }
-bool compare(std::map<int, int> &std_map, s21::map<int, int> &my_map) {
-  bool res = true;
-  auto std_it = std_map.begin();
-  auto my_it = my_map.begin();
-  auto std_size = std_map.size();
-  auto my_size = my_map.size();
-  if (std_size != my_size)
-    res = false;
-  else {
-    while (std_size != 0) {
-      auto std_first = std_it->first;
-      auto my_first = my_it->first;
-      if (std_first != my_first) {
-        res = false;
-        break;
-      }
-      std_it++;
-      my_it++;
-
-      std_size--;
-    }
-  }
-  return res;
-}
+//bool compare(std::map<int, int> &std_map, s21::map<int, int> &my_map) {
+//  bool res = true;
+//  auto std_it = std_map.begin();
+//  auto my_it = my_map.begin();
+//  auto std_size = std_map.size();
+//  auto my_size = my_map.size();
+//  if (std_size != my_size)
+//    res = false;
+//  else {
+//    while (std_size != 0) {
+//      auto std_first = std_it->first;
+//      auto my_first = my_it->first;
+//      if (std_first != my_first) {
+//        res = false;
+//        break;
+//      }
+//      std_it++;
+//      my_it++;
+//
+//      std_size--;
+//    }
+//  }
+//  return res;
+//}
 
 int main() {
   //    s21::map<int, int> tree;
@@ -168,35 +169,43 @@ int main() {
   //    std::cout << "---------" << std::endl;
   //    std::cout << "---------" << std::endl;
 
-  std::map<int, int> map;
+//  std::map<int, int> map;
+//
+//  //   auto it = map.insert({2, 1});
+//  map.insert({2, 110});
+//
+//  map.insert({10, 100});
+//  map.insert({20, 200});
+//  map.insert({5, 1});
+//  map.insert({10, 1});
+//  map.insert({15, 1});
+//  map.insert({20, 1});
+//  map.insert({30, 1});
+//  map.insert({35, 1});
+//
+//  std::map<int, int> map1;
+//
+//  map1.insert({2, 1});
+//  //    map1.insert({2, 110});
+//
+//  map1.insert({11, 100});
+//  map1.insert({21, 200});
+//  map1.insert({6, 1});
+//  map1.insert({13, 1});
+//  map1.insert({15, 1});
+//  map1.insert({20, 1});
+//  map1.insert({30, 1});
+//  map1.insert({35, 1});
+//
+//  map.merge(map1);
 
-  //   auto it = map.insert({2, 1});
-  map.insert({2, 110});
 
-  map.insert({10, 100});
-  map.insert({20, 200});
-  map.insert({5, 1});
-  map.insert({10, 1});
-  map.insert({15, 1});
-  map.insert({20, 1});
-  map.insert({30, 1});
-  map.insert({35, 1});
-
-  std::map<int, int> map1;
-
-  map1.insert({2, 1});
-  //    map1.insert({2, 110});
-
-  map1.insert({11, 100});
-  map1.insert({21, 200});
-  map1.insert({6, 1});
-  map1.insert({13, 1});
-  map1.insert({15, 1});
-  map1.insert({20, 1});
-  map1.insert({30, 1});
-  map1.insert({35, 1});
-
-  map.merge(map1);
+  std::multimap<int, int> f;
+  auto it =  f.insert({1, 1});
+  it = f.insert({1, 1});
+  it = f.insert({2, 1});
+    it = f.insert({1, 1});
+    auto s = it->second;
 
   //  std::map<int, int> std_a;
   //  s21::map<int, int> a;

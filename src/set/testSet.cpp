@@ -694,7 +694,3 @@ TEST_F(SetTest, ContainsNonExistingKey) {
     // Assert
     EXPECT_FALSE(result);
 }
-//int main(int argc, char* argv[]) {
-//  ::testing::InitGoogleTest(&argc, argv);
-//  return RUN_ALL_TESTS();
-//}

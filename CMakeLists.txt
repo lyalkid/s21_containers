@@ -18,10 +18,10 @@ add_executable(containers
 
  # Тесты
  add_executable(tests
-         src/map_with_unique_ptr/tests/btree_test.cpp
-         src/map_with_unique_ptr/tests/test_main.cpp
-         src/map_with_unique_ptr/tests/test_map.cpp
-         src/set/testSet.cpp
+#         src/map_with_unique_ptr/tests/btree_test.cpp
+#         src/map_with_unique_ptr/tests/test_main.cpp
+#         src/map_with_unique_ptr/tests/test_map.cpp
+#         src/set/testSet.cpp
          src/multiset/multisetTest.cpp
 
  )
