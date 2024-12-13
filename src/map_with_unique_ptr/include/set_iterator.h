@@ -15,6 +15,12 @@ class btree;
 
 template <typename K>
 class set;
+
+
+template <typename K,typename V>
+class btree_iterator ;
+
+
 template <typename K, typename V>
 class set_iterator {
  public:
@@ -23,6 +29,12 @@ class set_iterator {
   using value_type = K;
   using reference = value_type &;
   using pointer = value_type *;
+
+  set_iterator(const btree_iterator<K, V> &iter){
+    current_node_ = iter.current_node_;
+    root_=iter.root_;
+    data_=iter.data_;
+  }
 
   // default constructor
   set_iterator()
@@ -152,6 +164,7 @@ class set_iterator {
   friend class btree_node<K, V>;
   friend class map<K, V>;
   friend class set<K>;
+  friend class btree_iterator<K, V> ;
 
  protected:
   node_ptr current_node_;
