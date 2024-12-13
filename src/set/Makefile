@@ -15,7 +15,7 @@ c:
 git-push: clean style
 	@git pull
 	@git add .
-	@git commit -m "set 5/6"
+	@git commit -m "set is done "
 	@git push -u origin fearowpi
 	@git status
 

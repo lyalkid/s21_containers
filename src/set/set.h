@@ -120,9 +120,15 @@ class set {
     return (tree_ != nullptr && tree_->contains(key));
   }
 
-  //   s21::vector<std::pair<iterator,bool>> insert_many(Args&&... args){
-
-  //   }
+  template <typename... Args>
+  s21::vector<std::pair<iterator, bool>> insert_many(Args &&...args) {
+    s21::vector<std::pair<iterator, bool>> res;
+    for (const auto &item : {args...}) {
+      std::pair<iterator, bool> r = insert(item);
+      res.push_back(r);
+    }
+    return res;
+  }
 
  private:
   shared_ptr<tree_type> tree_;
