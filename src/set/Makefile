@@ -9,14 +9,14 @@ A_OUT=main
 clang_file="---\nBasedOnStyle: Google\nIndentWidth: 4\nColumnLimit: 110\n"
 TEST_OUT=unit_tests
 GCOV_OUT=gcov_test
-TESTS=$(wildcard mytest.cpp)
+TESTS=$(wildcard testSet.cpp)
 c:
 	@g++  main.cpp 
 git-push: clean style
 	@git pull
 	@git add .
-	@git commit -m $(GIT_MESSAGE)
-	@git push -u origin sionapae
+	@git commit -m "set 5/6"
+	@git push -u origin fearowpi
 	@git status
 
 test:

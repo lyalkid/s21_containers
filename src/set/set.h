@@ -92,7 +92,7 @@ class set {
 
   void erase(iterator pos) {
     if (pos != end()) {
-      tree_->remove(pos->first);
+      tree_->remove(*pos);
       size_ = tree_->size();
     }
   }
@@ -105,19 +105,24 @@ class set {
   void merge(set &other) {
     for (auto iter = other.begin(); !other.empty() && iter != other.end();
          iter++) {
-      if (!contains(iter.current_node_->data.first)) {
-        insert(iter.current_node_->data.first, iter.current_node_->data.second);
+      if (!contains(*iter)) {
+        insert(*iter);
         other.erase(iter);
       }
     }
   }
 
-  iterator find(const Key &key) { return tree_->search(key); }
+  iterator find(const Key &key) {
+    set_iterator s_iter(tree_->search(key));
+    return s_iter;
+  }
   bool contains(const Key &key) {
     return (tree_ != nullptr && tree_->contains(key));
   }
 
-  // s21::vector<std::pair<iterator,bool>> insert_many(Args&&... args){}
+  //   s21::vector<std::pair<iterator,bool>> insert_many(Args&&... args){
+
+  //   }
 
  private:
   shared_ptr<tree_type> tree_;

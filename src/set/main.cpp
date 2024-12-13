@@ -3,6 +3,4 @@
 
 #include "set.h"
 
-int main() {
-
-}
+int main() {}
