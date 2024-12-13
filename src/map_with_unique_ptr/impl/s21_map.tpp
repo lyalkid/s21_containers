@@ -134,7 +134,7 @@ bool map<K, T>::contains(const key_type &key) const {
 
 template <typename K, typename T>
 typename map<K, T>::iterator map<K, T>::begin() {
-  return tree_->begin();
+  return size_ != 0 ? tree_->begin() : tree_->end();
 }
 
 template <typename K, typename T>

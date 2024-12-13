@@ -106,7 +106,7 @@ class btree_iterator {
 
   btree_iterator operator++(int) {
     btree_iterator temp = *this;
-    ++(*this);
+      if(*this != btree_iterator(nullptr)) ++(*this);
     return temp;
   }
 
@@ -130,11 +130,11 @@ class btree_iterator {
     //!= nullptr ? temp : *this;
   }
 
-  bool operator==(const btree_iterator &other) {
+  bool operator==(const btree_iterator &other) const {
     return current_node_ == other.current_node_;
   }
 
-  bool operator!=(const btree_iterator &other) {
+  bool operator!=(const btree_iterator &other) const {
     return current_node_ != other.current_node_;
   }
 

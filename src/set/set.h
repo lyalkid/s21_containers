@@ -68,8 +68,9 @@ class set {
 
   ~set() = default;
 
-  iterator begin() { return tree_->begin_si(); }
-  iterator end() { return tree_->end_si(); }
+  iterator begin() const {
+      return size_ != 0 ? tree_->begin_si() : tree_->end_si(); }
+  iterator end() const { return tree_->end_si(); }
   bool empty() const { return size_ == 0 || tree_ == nullptr; }
   size_type size() { return size_; }
   size_type max_size() { return tree_->max_size(); }

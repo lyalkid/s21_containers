@@ -274,7 +274,8 @@ void btree<K, V>::swap(btree &other) noexcept {
 template <typename K, typename V>
 typename btree<K, V>::iterator btree<K, V>::begin() const {
   if (bt_root_ != nullptr) {
-    node_ptr current_node_ = bt_root_->findMin(bt_root_);
+      node_ptr current_node_ = nullptr;
+      if(bt_size_ != 0) current_node_ = bt_root_->findMin(bt_root_);
     iterator it(current_node_, bt_root_);
     return it;
   }
@@ -292,7 +293,8 @@ typename btree<K, V>::iterator btree<K, V>::end() const {
 template <typename K, typename V>
 typename btree<K, V>::set_iterator_type btree<K, V>::begin_si() const {
   if (bt_root_ != nullptr) {
-    node_ptr current_node_ = bt_root_->findMin(bt_root_);
+    node_ptr current_node_ = nullptr;
+      if(bt_size_ != 0) current_node_ = bt_root_->findMin(bt_root_);
     set_iterator_type it(current_node_, bt_root_);
     return it;
   }

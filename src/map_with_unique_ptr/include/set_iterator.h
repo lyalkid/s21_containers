@@ -120,6 +120,7 @@ class set_iterator {
 
   // decrement
   set_iterator &operator--() {
+
     if (current_node_ == nullptr) {
       current_node_ = root_->findMax(root_);
     } else {
@@ -130,19 +131,21 @@ class set_iterator {
 
     return *this;
   }
-
+//bool check_root_is_empty(){
+//    return root_->left == nullptr && root_->right == nullptr
+//  }
   set_iterator operator--(int) {
     set_iterator temp = *this;
-    --(*this);
+   if(*this != set_iterator(nullptr)) --(*this);
     return temp;
-    //!= nullptr ? temp : *this;
+
   }
 
-  bool operator==(const set_iterator &other) {
+  bool operator==(const set_iterator &other) const {
     return current_node_ == other.current_node_;
   }
 
-  bool operator!=(const set_iterator &other) {
+  bool operator!=(const set_iterator &other) const {
     return current_node_ != other.current_node_;
   }
 
