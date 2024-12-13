@@ -79,7 +79,7 @@ class set {
     tree_->clear();
     size_ = 0;
   }
-  insert_type insert(const value_type &value) {
+  virtual insert_type insert(const value_type &value) {
     bool flag = contains(value);
     if (!flag) {
       tree_->insert(value, value);
@@ -131,7 +131,7 @@ class set {
     return res;
   }
 
- private:
+ protected:
   shared_ptr<tree_type> tree_;
   size_type size_;
 };
