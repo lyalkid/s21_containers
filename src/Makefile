@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-std=c++17 -Wall -Wextra -Werror -O2 -Wpedantic -pthread -lstdc++ -lm
+CFLAGS=-std=c++17 -Wall -Wextra -Werror -O2 -Wpedantic -pthread  -lm
 
 LIBS =  -lgtest -lgcov
 LINUX = -lrt -lpthread -lm -lsubunit
@@ -7,7 +7,7 @@ LFLAGS = -fprofile-arcs -ftest-coverage
 
 
 SOURCE=$(wildcard s21*/*.tpp)
-TEST_FILE=$(wildcard s21tests/test_main.cpp s21tests/test_list.cpp) #s21tests/test_map.cpp s21tests/test_set.cpp s21tests/test_multiset.cpp)
+TEST_FILE=$(wildcard s21tests/*.cpp) #s21tests/test_map.cpp s21tests/test_set.cpp s21tests/test_multiset.cpp)
 
 
 STATIC_LIB=s21_containers.a
@@ -33,8 +33,12 @@ $(STATIC_LIB):
 	ranlib $(STATIC_LIB)
 	rm -rf *.o
 
-test: clean style
-	$(CC) $(CFLAGS) $(TEST_FILE) $(LFLAGS) -g -o $(TEST_OUT)
+test:
+ifeq ($(OS), Darwin)
+	$(CC) $(CFLAGS) $(TEST_FILE) -g -o $(TEST_OUT) $(LIBS)
+else
+	$(CC) $(CFLAGS) $(TEST_FILE)  $(LIBS) $(LINUX)  -o $(TEST_OUT)
+endif
 	./$(TEST_OUT)
 
 
@@ -50,12 +54,27 @@ style_test:
 	@clang-format --style=Google -n $(SOURCE) $(TEST_FILE)
 	@echo "Don't panic! Clang is fine :)"
 
-gcov_report: clean style test
-	@( $(CC) $(CFLAGS) $(TEST_FILE) --coverage -o $(GCOV_OUT)  $(TESTFLAG))
-	@( chmod +x ./$(GCOV_OUT) )
-	@( ./$(GCOV_OUT) )
-	@  mkdir -p coverage_info
-	@( lcov --capture --directory . --rc lcov_branch_coverage=1 --output-file coverage_info/coverage.info )
-	@( lcov --list coverage_info/coverage.info )
-	@( genhtml coverage_info/coverage.info --output-directory --rc lcov_branch_coverage=1 coverage_report)
-	@( open coverage_report/index.html )
+#gcov_report: clean style test
+#	@( $(CC) $(CFLAGS) $(TEST_FILE) --coverage -o $(GCOV_OUT)  $(TESTFLAG))
+#	@( chmod +x ./$(GCOV_OUT) )
+#	@( ./$(GCOV_OUT) )
+#	@  mkdir -p coverage_info
+#	@( lcov --capture --directory . --rc lcov_branch_coverage=1 --output-file coverage_info/coverage.info )
+#	@( lcov --list coverage_info/coverage.info )
+#	@( genhtml coverage_info/coverage.info --output-directory --rc lcov_branch_coverage=1 coverage_report)
+#	@( open coverage_report/index.html )
+
+
+gcov_report: clean
+ifeq ($(OS), Darwin)
+	$(CC) $(CFLAGS) $(LFLAGS) $(TEST_FILE)  -o $(GCOV_OUT) $(LIBS)
+else
+	$(CC) $(CFLAGS) $(LFLAGS) $(TEST_FILE)   $(LIBS) $(LINUX) -o $(GCOV_OUT)
+endif
+	./$(GCOV_OUT)
+	mkdir report
+	gcovr *.gcda
+	gcovr -b
+	gcovr
+	gcovr --html-details -o ./report/report.html
+	open ./report/report.html
