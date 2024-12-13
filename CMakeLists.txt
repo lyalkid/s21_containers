@@ -11,18 +11,12 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Главный исполняемый файл проекта
 add_executable(containers
-        src/map_with_unique_ptr/main.cpp
-        src/map_with_unique_ptr/include/btree_node.h
-        src/set/set.tpp
+
 )
 
  # Тесты
  add_executable(tests
-#         src/map_with_unique_ptr/tests/btree_test.cpp
-#         src/map_with_unique_ptr/tests/test_main.cpp
-#         src/map_with_unique_ptr/tests/test_map.cpp
-#         src/set/testSet.cpp
-         src/multiset/multisetTest.cpp
+
 
  )
 
