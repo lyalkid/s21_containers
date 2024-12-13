@@ -103,6 +103,6 @@ git-push: clean style
 	@git pull
 	@git add ../../src
 	@git commit -m $(GIT_MESSAGE)
-	@git push -u origin sionapae
+	@git push -u origin fearowpi
 	@git status
 
