@@ -29,7 +29,8 @@ template <typename K, typename V>
 class btree_iterator;
 template <typename K, typename V>
 class set_iterator;
-
+template <typename Key>
+class multiset;
 template <typename K, typename V>
 class btree {
  public:
@@ -145,6 +146,7 @@ class btree {
   friend class map<K, V>;
 
   friend class set<K>;
+   friend class multiset<K>;
 
  private:
   key_type root() const {
