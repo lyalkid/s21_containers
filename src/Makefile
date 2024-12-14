@@ -6,7 +6,7 @@ LINUX = -lrt -lpthread -lm -lsubunit
 LFLAGS = -fprofile-arcs -ftest-coverage
 
 
-SOURCE=$(wildcard s21*/*.tpp s21*/*.h)
+SOURCE=$(wildcard s21*/*.tpp s21*/*.h *.h)
 TEST_FILE=$(wildcard s21tests/*.cpp)
 
 
@@ -31,13 +31,13 @@ clean:
 	rm -rf gcovr *.o coverage_info coverage_report *.a *.gcda *.gcno *.info *.gcov report $(GCOV_OUT) $(TEST_OUT) $(A_OUT) *.dSYM
 
 style:
-	@clang-format --style=Google -i  $(SOURCE) $(TEST_FILE) *.h
+	@clang-format --style=Google -i  $(SOURCE) $(TEST_FILE)
 	@echo "Don't panic! Clang is fine :)"
 	#clang-format -i $(SOURCE) $(TEST_FILE) *.h
 
 
 style_test:
-	@clang-format --style=Google -n $(SOURCE) $(TEST_FILE) *.h
+	@clang-format --style=Google -n $(SOURCE) $(TEST_FILE)
 	@echo "Don't panic! Clang is fine :)"
 
 
