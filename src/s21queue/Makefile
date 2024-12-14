@@ -3,7 +3,7 @@ CFLAGS = -std=c++17 -pedantic -Wall -Werror -Wextra -pthread -lstdc++
 
 OBJECT = $(subst .tpp,.o, queue.tpp)
 
-TEST_FILES = test_queue.cpp
+TEST_FILES = ../s21tests/test_queue.cpp
 TEST_OUT = test
 
 OS := $(shell uname -s)

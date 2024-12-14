@@ -56,3 +56,6 @@ clean:
 valgrind: test
 	@( valgrind --tool=memcheck --leak-check=yes ./$(TEST_OUT) )
 	@echo "Valgrind completed."
+
+ooo:
+	rm s21*/Makefile
