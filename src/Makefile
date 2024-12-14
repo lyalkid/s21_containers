@@ -71,11 +71,14 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "pofig"
+GIT_MESSAGE = "delete Makefile in folders"
 
 git-push: clean style
-	@git pull
-	@git add ../../src
+	@git pull origin develop
+	@git add .
 	@git commit -m $(GIT_MESSAGE)
-	@git push -u origin fearowpi
+	@git push -u origin develop
 	@git status
+
+ooo:
+	git rm s21*/Makefile
