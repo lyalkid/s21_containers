@@ -16,10 +16,8 @@ class btree;
 template <typename K>
 class set;
 
-
-template <typename K,typename V>
-class btree_iterator ;
-
+template <typename K, typename V>
+class btree_iterator;
 
 template <typename K, typename V>
 class set_iterator {
@@ -30,10 +28,10 @@ class set_iterator {
   using reference = value_type &;
   using pointer = value_type *;
 
-  set_iterator(const btree_iterator<K, V> &iter){
+  set_iterator(const btree_iterator<K, V> &iter) {
     current_node_ = iter.current_node_;
-    root_=iter.root_;
-    data_=iter.data_;
+    root_ = iter.root_;
+    data_ = iter.data_;
   }
 
   // default constructor
@@ -103,9 +101,9 @@ class set_iterator {
   // increment
   set_iterator &operator++() {
     if (current_node_ != nullptr) {
-        auto  temp = current_node_->next(current_node_);
-      current_node_= temp;
-        if (current_node_)
+      auto temp = current_node_->next(current_node_);
+      current_node_ = temp;
+      if (current_node_)
         data_ = std::make_pair(current_node_->data.first,
                                current_node_->data.second);
     }
@@ -120,7 +118,6 @@ class set_iterator {
 
   // decrement
   set_iterator &operator--() {
-
     if (current_node_ == nullptr) {
       current_node_ = root_->findMax(root_);
     } else {
@@ -131,14 +128,13 @@ class set_iterator {
 
     return *this;
   }
-//bool check_root_is_empty(){
-//    return root_->left == nullptr && root_->right == nullptr
-//  }
+  // bool check_root_is_empty(){
+  //     return root_->left == nullptr && root_->right == nullptr
+  //   }
   set_iterator operator--(int) {
     set_iterator temp = *this;
-   if(*this != set_iterator(nullptr)) --(*this);
+    if (*this != set_iterator(nullptr)) --(*this);
     return temp;
-
   }
 
   bool operator==(const set_iterator &other) const {
@@ -167,7 +163,7 @@ class set_iterator {
   friend class btree_node<K, V>;
   friend class map<K, V>;
   friend class set<K>;
-  friend class btree_iterator<K, V> ;
+  friend class btree_iterator<K, V>;
 
  protected:
   node_ptr current_node_;

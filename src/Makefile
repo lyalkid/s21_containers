@@ -6,7 +6,7 @@ LINUX = -lrt -lpthread -lm -lsubunit
 LFLAGS = -fprofile-arcs -ftest-coverage
 
 
-SOURCE=$(wildcard s21*/*.tpp)
+SOURCE=$(wildcard s21*/*.tpp s21*/*.h)
 TEST_FILE=$(wildcard s21tests/*.cpp)
 
 
@@ -33,6 +33,7 @@ clean:
 style:
 	@clang-format --style=Google -i  $(SOURCE) $(TEST_FILE) *.h
 	@echo "Don't panic! Clang is fine :)"
+	#clang-format -i $(SOURCE) $(TEST_FILE) *.h
 
 
 style_test:

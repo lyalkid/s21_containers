@@ -18,7 +18,7 @@ template <typename K>
 class set;
 
 template <typename K, typename V>
-class set_iterator ;
+class set_iterator;
 
 template <typename K, typename V>
 class btree_iterator {
@@ -106,7 +106,7 @@ class btree_iterator {
 
   btree_iterator operator++(int) {
     btree_iterator temp = *this;
-      if(*this != btree_iterator(nullptr)) ++(*this);
+    if (*this != btree_iterator(nullptr)) ++(*this);
     return temp;
   }
 
@@ -155,8 +155,7 @@ class btree_iterator {
   friend class btree_node<K, V>;
   friend class map<K, V>;
   friend class set<K>;
-  friend class set_iterator<K, V> ;
-
+  friend class set_iterator<K, V>;
 
  protected:
   node_ptr current_node_;

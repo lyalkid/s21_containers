@@ -143,7 +143,7 @@ class btree {
   friend class map<K, V>;
 
   friend class set<K>;
-   friend class multiset<K>;
+  friend class multiset<K>;
 
  private:
   key_type root() const {

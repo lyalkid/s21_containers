@@ -19,7 +19,7 @@ class set {
   using insert_many_type = s21::vector<insert_type>;
 
   using mapped_type = std::pair<key_type, key_type>;
-  
+
   using node_type = btree_node<key_type, key_type>;
   using tree_type = btree<key_type, key_type>;
   set() {
@@ -69,7 +69,8 @@ class set {
   ~set() = default;
 
   iterator begin() const {
-      return size_ != 0 ? tree_->begin_si() : tree_->end_si(); }
+    return size_ != 0 ? tree_->begin_si() : tree_->end_si();
+  }
   iterator end() const { return tree_->end_si(); }
   bool empty() const { return size_ == 0 || tree_ == nullptr; }
   size_type size() { return size_; }
@@ -136,6 +137,5 @@ class set {
   size_type size_;
 };
 }  // namespace s21
-
 
 #endif

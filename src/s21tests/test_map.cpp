@@ -148,15 +148,15 @@ TEST(Map, InitListPair) {
 struct CustomKey {
   int id;
   std::string name;
-  bool operator<(const CustomKey& other) const {
+  bool operator<(const CustomKey &other) const {
     if (id != other.id) return id < other.id;
     return name < other.name;
   }
 };
 
 // Определяем пользовательскую функцию сравнения
-bool compareCustomKeys(const std::pair<int, std::string>& k1,
-                       const std::pair<int, std::string>& k2) {
+bool compareCustomKeys(const std::pair<int, std::string> &k1,
+                       const std::pair<int, std::string> &k2) {
   return std::tie(k1.first, k1.second) == std::tie(k2.first, k2.second);
 }
 
@@ -168,7 +168,7 @@ TEST(Map, CustomKeyInitList) {
   std::pair<int, std::string> key1{1, "Alice"};
   std::pair<int, std::string> key2{2, "Bob"};
 
-  auto& value = m[key1];
+  auto &value = m[key1];
   EXPECT_EQ(value.first, 1);
   EXPECT_EQ(value.second, "Alice");
 
@@ -237,7 +237,7 @@ TEST(Map, MoveConstructorMixKeyType) {
   EXPECT_EQ(temp_map[2], "two");      // double и string
   EXPECT_EQ(temp_map['a'], "three");  // char и string
   EXPECT_EQ(temp_map[0127], "four");  // octal и string
-  EXPECT_EQ(temp_map.size(), 4);  // Убедимся, что все элементы перенесены
+  EXPECT_EQ(temp_map.size(), 4);      // Убедимся, что все элементы перенесены
 }
 
 TEST(Map, MoveAssignmentOperator) {
@@ -313,7 +313,7 @@ TEST(Map, AccessElement) {
 -->>   Map Lookup                                                            >>
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
-bool compare(std::map<int, int>& m, s21::map<int, int>& s) {
+bool compare(std::map<int, int> &m, s21::map<int, int> &s) {
   bool res = true;
   auto std_it = m.begin();
   auto my_it = s.begin();

@@ -30,18 +30,18 @@ TEST(Array, InitListConstructor) {
   }
   EXPECT_EQ(chr[1], 'b');
   // const
-  const s21::array<int, 10>& constArr = arr;
+  const s21::array<int, 10> &constArr = arr;
   for (size_t i = 0; i < constArr.size(); i++) {
     EXPECT_EQ(constArr[i], static_cast<int>(i) + 1);
   }
-  const s21::array<double, 3>& constDoubleArr = doubleArr;
+  const s21::array<double, 3> &constDoubleArr = doubleArr;
   for (size_t i = 0; i < constDoubleArr.size(); i++) {
     EXPECT_EQ(constDoubleArr[i], static_cast<double>(i) + 1.0);
   }
-  const s21::array<std::string, 2>& constStrArr = strArr;
+  const s21::array<std::string, 2> &constStrArr = strArr;
   EXPECT_EQ(constStrArr[0], "Hello");
   EXPECT_EQ(constStrArr[1], "World");
-  const s21::array<char, 5>& constCharArr = chr;
+  const s21::array<char, 5> &constCharArr = chr;
   EXPECT_EQ(constCharArr[2], 'c');
 }
 
@@ -128,18 +128,18 @@ TEST(Array, Begin) {
   s21::array<std::string, 2> strArr = {"Hey,", " you!"};
 
   int(*ptr)[3] = &ptrArr;
-  int* ptrElement = *ptr + 2;
+  int *ptrElement = *ptr + 2;
   EXPECT_EQ(*ptrElement, 3);
-  int* num = arr.begin();
+  int *num = arr.begin();
   EXPECT_EQ(*num, 1);
   EXPECT_EQ(octArr[0], 8);
-  char* chr = chrArr.begin();
+  char *chr = chrArr.begin();
   EXPECT_EQ(*chr, 'a');
-  unsigned* hexNum = hexArr.begin();
+  unsigned *hexNum = hexArr.begin();
   EXPECT_EQ(*hexNum, 0x1);
-  double* dbl = doubleArr.begin();
+  double *dbl = doubleArr.begin();
   EXPECT_EQ(*dbl, 1.0);
-  std::string* str = strArr.begin();
+  std::string *str = strArr.begin();
   EXPECT_EQ(*str, "Hey,");
 
   *num = 10;
@@ -162,37 +162,37 @@ TEST(Array, End) {
   s21::array<std::string, 2> strArr = {"Hey,", " you!"};
 
   int(*ptr)[3] = &ptrArr;
-  int* ptrElement = *ptr + 2;
+  int *ptrElement = *ptr + 2;
   EXPECT_EQ(*ptrElement, 3);
 
-  int* num = arr.begin();
+  int *num = arr.begin();
   EXPECT_EQ(*num, 1);
 
-  int* endNum = arr.end();
+  int *endNum = arr.end();
   EXPECT_EQ(endNum, num + arr.size());
 
   EXPECT_EQ(octArr[0], 8);  // Октальный 010 равен десятичному 8
-  int* endOct = octArr.end();
+  int *endOct = octArr.end();
   EXPECT_EQ(endOct, octArr.begin() + octArr.size());
 
-  char* chr = chrArr.begin();
+  char *chr = chrArr.begin();
   EXPECT_EQ(*chr, 'a');
-  char* endChr = chrArr.end();
+  char *endChr = chrArr.end();
   EXPECT_EQ(endChr, chrArr.begin() + chrArr.size());
 
-  unsigned* hexNum = hexArr.begin();
+  unsigned *hexNum = hexArr.begin();
   EXPECT_EQ(*hexNum, 0x1);
-  unsigned* endHex = hexArr.end();
+  unsigned *endHex = hexArr.end();
   EXPECT_EQ(endHex, hexNum + hexArr.size());
 
-  double* dbl = doubleArr.begin();
+  double *dbl = doubleArr.begin();
   EXPECT_EQ(*dbl, 1.0);
-  double* endDbl = doubleArr.end();
+  double *endDbl = doubleArr.end();
   EXPECT_EQ(endDbl, dbl + doubleArr.size());
 
-  std::string* str = strArr.begin();
+  std::string *str = strArr.begin();
   EXPECT_EQ(*str, "Hey,");
-  std::string* endStr = strArr.end();
+  std::string *endStr = strArr.end();
   EXPECT_EQ(endStr, strArr.begin() + strArr.size());
 }
 
@@ -257,13 +257,13 @@ TEST(Array, Data) {
   const s21::array<int, 3> constArr = {1, 2, 3};
   const std::array<int, 3> constClassicArr = {1, 2, 3};
 
-  int* num = arr.data();
-  int* classicNum = classicArr.data();
-  const int* constNum = constArr.data();
-  const int* constClassicNum = constClassicArr.data();
+  int *num = arr.data();
+  int *classicNum = classicArr.data();
+  const int *constNum = constArr.data();
+  const int *constClassicNum = constClassicArr.data();
   // change value with iterator
   s21::array<int, 3> arrChange = {1, 2, 3};
-  int* numChange = arrChange.data();
+  int *numChange = arrChange.data();
   *numChange = 10;
   EXPECT_EQ(arrChange[0], 10);
 

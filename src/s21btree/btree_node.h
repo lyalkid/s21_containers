@@ -26,7 +26,7 @@ template <typename K, typename V>
 class btree_node {
  public:
   using node_ptr = std::shared_ptr<btree_node>;
-    using weak_node_ptr =  std::weak_ptr<btree_node>;
+  using weak_node_ptr = std::weak_ptr<btree_node>;
   using node_type = btree_node<K, V>;
 
  private:
@@ -41,14 +41,14 @@ class btree_node {
   using value = std::pair<K, V>;
   btree_node()
       : data(std::make_pair(K{}, V{})),
-        //parent(nullptr),
+        // parent(nullptr),
         left(nullptr),
         right(nullptr),
         end_data(std::make_pair(K{}, V{})) {}
 
   btree_node(const K key, V value)
       : data(key, value),
-        //parent(nullptr),
+        // parent(nullptr),
         right(nullptr),
         left(nullptr),
         end_data(std::make_pair(K{}, V{})) {}
