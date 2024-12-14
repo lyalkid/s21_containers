@@ -7,7 +7,7 @@ LFLAGS = -fprofile-arcs -ftest-coverage
 
 
 SOURCE=$(wildcard s21*/*.tpp)
-TEST_FILE=$(wildcard s21tests/*.cpp) #s21tests/test_map.cpp s21tests/test_set.cpp s21tests/test_multiset.cpp)
+TEST_FILE=$(wildcard s21tests/*.cpp)
 
 
 A_OUT=main
@@ -31,12 +31,12 @@ clean:
 	rm -rf gcovr *.o coverage_info coverage_report *.a *.gcda *.gcno *.info *.gcov report $(GCOV_OUT) $(TEST_OUT) $(A_OUT) *.dSYM
 
 style:
-	@clang-format --style=Google -i  $(SOURCE) $(TEST_FILE)
+	@clang-format --style=Google -i  $(SOURCE) $(TEST_FILE) *.h *.cpp
 	@echo "Don't panic! Clang is fine :)"
 
 
 style_test:
-	@clang-format --style=Google -n $(SOURCE) $(TEST_FILE)
+	@clang-format --style=Google -n $(SOURCE) $(TEST_FILE) *.h *.cpp
 	@echo "Don't panic! Clang is fine :)"
 
 
@@ -74,7 +74,7 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "fix leaks"
+GIT_MESSAGE = "final"
 
 git-push: clean style
 	@git pull origin develop

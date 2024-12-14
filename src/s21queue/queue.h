@@ -1,39 +1,48 @@
 #ifndef CPP_S21_CONTAINERS_1_SRC_QUEUE_QUEUE_H_
 #define CPP_S21_CONTAINERS_1_SRC_QUEUE_QUEUE_H_
 
-
 #include <iostream>
+
 #include "../s21list/list.h"
 
-namespace s21{
-    template <typename T>
-class queue : public list<T>{
-    public:
-        using value_type = T;
-        using reference = T&;
-        using const_reference = const T&;
-        using size_type = size_t;
+namespace s21 {
+template <typename T>
+class Queue : protected List<T> {
+ public:
+  // Queue Member type
+  using ValueType = T;
+  using Reference = T &;
+  using ConstReference = const T &;
+  using SizeType = size_t;
 
-        queue();
-        queue(std::initializer_list<value_type> const &items);
-        queue(const queue &q);
-        queue(queue &&q);
-        ~queue();
+  // Queue Member functions
+  Queue();
+  Queue(std::initializer_list<ValueType> const &items);
+  Queue(const Queue &q);
+  Queue(Queue &&q);
+  ~Queue();
 
-        queue &operator=(queue &&q);
-        queue &operator=(const queue &q);
+  // Operators
+  Queue &operator=(Queue &&q);
+  Queue &operator=(const Queue &q);
 
-        using list<T>::front;
-        using list<T>::back;
+  // Queue Element access
+  using List<T>::Front;
+  using List<T>::Back;
 
-        using list<T>::empty;
-        using list<T>::size;
+  // Queue Capacity
+  using List<T>::Empty;
+  using List<T>::Size;
 
-        void push(const_reference value);
-        void pop();
-        using list<T>::swap;
-    };
-}
+  // Queue Modifiers
+  void Push(ConstReference value);
+  void Pop();
+  void Swap(Queue &other) noexcept;
+
+  // Insert mane
+  using List<T>::InsertManyBack;
+};
+}  // namespace s21
 
 #include "queue.tpp"
 #endif

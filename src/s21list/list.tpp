@@ -2,35 +2,35 @@
 
 namespace s21 {
 template <class T>
-s21::list<T>::list() : head_(nullptr), tail_(nullptr), size_(0) {}
+List<T>::List() : size_(0), head_(nullptr), tail_(nullptr) {}
 
 template <class T>
-s21::list<T>::list(SizeType n) : head_(nullptr), tail_(nullptr), size_(0) {
+List<T>::List(SizeType n) : size_(0), head_(nullptr), tail_(nullptr) {
   for (SizeType i = 0; i < n; ++i) {
-    push_back(T());
+    PushBack(T());
   }
 }
 
 template <class T>
-s21::list<T>::list(const std::initializer_list<ValueType> &items)
-    : head_(nullptr), tail_(nullptr), size_(0) {
+List<T>::List(const std::initializer_list<ValueType> &items)
+    : size_(0), head_(nullptr), tail_(nullptr) {
   for (const auto &item : items) {
-    push_back(item);
+    PushBack(item);
   }
 }
 
 template <class T>
-s21::list<T>::list(const list &l) noexcept
-    : head_(nullptr), tail_(nullptr), size_(0) {
+List<T>::List(const List &l) noexcept
+    : size_(0), head_(nullptr), tail_(nullptr) {
   Node *current = l.head_;
   while (current != nullptr) {
-    push_back(current->data_);
+    PushBack(current->data_);
     current = current->p_next_;
   }
 }
 
 template <class T>
-s21::list<T>::list(list &&l) noexcept
+List<T>::List(List &&l) noexcept
     : size_(l.size_), head_(l.head_), tail_(l.tail_) {
   l.size_ = 0;
   l.head_ = nullptr;
@@ -38,14 +38,14 @@ s21::list<T>::list(list &&l) noexcept
 }
 
 template <class T>
-s21::list<T>::~list() {
-  clear();
+List<T>::~List() {
+  Clear();
 }
 
 template <class T>
-s21::list<T> &s21::list<T>::operator=(list &&l) {
+List<T> &List<T>::operator=(List &&l) {
   if (this != &l) {
-    this->clear();
+    this->Clear();
 
     this->head_ = l.head_;
     this->tail_ = l.tail_;
@@ -59,13 +59,13 @@ s21::list<T> &s21::list<T>::operator=(list &&l) {
 }
 
 template <class T>
-s21::list<T> &s21::list<T>::operator=(const list &l) {
+List<T> &List<T>::operator=(const List &l) {
   if (this != &l) {
-    this->clear();
+    this->Clear();
 
     Node *current = l.head_;
     while (current != nullptr) {
-      this->push_back(current->data_);
+      this->PushBack(current->data_);
       current = current->p_next_;
     }
   }
@@ -73,7 +73,7 @@ s21::list<T> &s21::list<T>::operator=(const list &l) {
 }
 
 template <class T>
-bool s21::list<T>::operator==(const list<T> &l) {
+bool List<T>::operator==(const List<T> &l) {
   if (size_ != l.size_) return false;
 
   Node *current = head_;
@@ -90,7 +90,7 @@ bool s21::list<T>::operator==(const list<T> &l) {
 }
 
 template <class T>
-bool s21::list<T>::operator!=(const list<T> &l) {
+bool List<T>::operator!=(const List<T> &l) {
   if (size_ != l.size_) return true;
 
   Node *current = head_;
@@ -107,45 +107,44 @@ bool s21::list<T>::operator!=(const list<T> &l) {
 }
 
 template <class T>
-const T &s21::list<T>::front() const {
+const T &List<T>::Front() const {
   return head_->data_;
 }
 
 template <class T>
-const T &s21::list<T>::back() const {
+const T &List<T>::Back() const {
   return tail_->data_;
 }
 
 template <class T>
-typename s21::list<T>::iterator s21::list<T>::begin() {
-  return iterator(head_);
+typename List<T>::Iterator List<T>::Begin() const {
+  return Iterator(head_);
 }
 
 template <class T>
-typename s21::list<T>::iterator s21::list<T>::end() {
-  return iterator(nullptr);
+typename List<T>::Iterator List<T>::End() const {
+  return Iterator(nullptr);
 }
 
 template <class T>
-bool s21::list<T>::empty() const {
+bool List<T>::Empty() const {
   return size_ == 0 ? true : false;
 }
 
 template <class T>
-std::size_t s21::list<T>::size() const {
+std::size_t List<T>::Size() const {
   return size_;
 }
 
-// TODO: уточнить что должно выводиться
 template <class T>
-std::size_t s21::list<T>::max_size() const {
+std::size_t List<T>::MaxSize() const {
   constexpr auto max_size = std::numeric_limits<std::size_t>::max();
   return max_size / sizeof(T) / 2;
 }
 
-// list Modifiers
+// List Modifiers
 template <class T>
-void s21::list<T>::clear() {
+void List<T>::Clear() {
   Node *current = head_;
   while (current != nullptr) {
     Node *next = current->p_next_;
@@ -158,14 +157,13 @@ void s21::list<T>::clear() {
 }
 
 template <class T>
-typename s21::list<T>::iterator s21::list<T>::insert(iterator pos,
-                                                     ConstReference value) {
+typename List<T>::Iterator List<T>::Insert(Iterator pos, ConstReference value) {
   Node *current = pos.GetCurrent();
   if (current == head_) {
-    push_front(value);
+    PushFront(value);
     return (head_);
   } else if (current == nullptr) {
-    push_back(value);
+    PushBack(value);
     return (tail_);
   } else {
     Node *prev_node = current->p_prev_;
@@ -177,12 +175,12 @@ typename s21::list<T>::iterator s21::list<T>::insert(iterator pos,
     current->p_prev_ = new_node;
     new_node->p_prev_ = prev_node;
     size_++;
-    return iterator(new_node);
+    return Iterator(new_node);
   }
 }
 
 template <class T>
-void s21::list<T>::erase(iterator pos) {
+void List<T>::Erase(Iterator pos) {
   Node *delete_node = pos.GetCurrent();
   if (delete_node == nullptr) {
     return;
@@ -211,7 +209,7 @@ void s21::list<T>::erase(iterator pos) {
 }
 
 template <class T>
-void s21::list<T>::push_back(ConstReference value) {
+void List<T>::PushBack(ConstReference value) {
   Node *new_node = new Node(value, nullptr, tail_);
   if (head_ == nullptr) {
     head_ = new_node;
@@ -223,7 +221,7 @@ void s21::list<T>::push_back(ConstReference value) {
 }
 
 template <class T>
-void s21::list<T>::pop_back() {
+void List<T>::PopBack() {
   if (head_ == nullptr) {
     return;
   }
@@ -240,7 +238,7 @@ void s21::list<T>::pop_back() {
 }
 
 template <class T>
-void s21::list<T>::push_front(ConstReference value) {
+void List<T>::PushFront(ConstReference value) {
   Node *new_node = new Node(value, head_, nullptr);
   if (head_ == nullptr) {
     head_ = new_node;
@@ -252,7 +250,7 @@ void s21::list<T>::push_front(ConstReference value) {
 }
 
 template <class T>
-void s21::list<T>::pop_front() {
+void List<T>::PopFront() {
   if (head_ == nullptr) {
     return;
   }
@@ -269,14 +267,14 @@ void s21::list<T>::pop_front() {
 }
 
 template <class T>
-void s21::list<T>::swap(list &other) noexcept {
+void List<T>::Swap(List &other) noexcept {
   std::swap(head_, other.head_);
   std::swap(tail_, other.tail_);
   std::swap(size_, other.size_);
 }
 
 template <class T>
-void s21::list<T>::merge(list &other) noexcept {
+void List<T>::Merge(List &other) noexcept {
   if (this == &other) return;
   if (other.head_ == nullptr) return;
 
@@ -295,11 +293,11 @@ void s21::list<T>::merge(list &other) noexcept {
   other.tail_ = nullptr;
   other.size_ = 0;
 
-  this->sort();
+  this->Sort();
 }
 
 template <class T>
-void s21::list<T>::splice(ConstIterator pos, list &other) {
+void List<T>::Splice(ConstIterator pos, List &other) {
   if (head_ == nullptr) {
     *this = std::move(other);
     return;
@@ -328,11 +326,11 @@ void s21::list<T>::splice(ConstIterator pos, list &other) {
   }
 
   size_ += other.size_;
-  other.clear();
+  other.Clear();
 }
 
 template <class T>
-void s21::list<T>::reverse() noexcept {
+void List<T>::Reverse() noexcept {
   Node *current = head_;
   Node *tmp_ = nullptr;
 
@@ -346,7 +344,7 @@ void s21::list<T>::reverse() noexcept {
 }
 
 template <class T>
-void s21::list<T>::unique() {
+void List<T>::Unique() {
   Node *current = head_;
   while (current != nullptr) {
     Node *next = current->p_next_;
@@ -362,18 +360,47 @@ void s21::list<T>::unique() {
 }
 
 template <class T>
-void s21::list<T>::sort() {
+void List<T>::Sort() {
   if (size_ < 2) return;
 
-  for (iterator it = this->begin(); it != this->end(); ++it) {
-    for (iterator it_2 = this->begin(); it_2 != this->end(); ++it_2) {
-      iterator next = it_2;
+  for (Iterator it = this->Begin(); it != this->End(); ++it) {
+    for (Iterator it_2 = this->Begin(); it_2 != this->End(); ++it_2) {
+      Iterator next = it_2;
       ++next;
 
-      if (next != this->end() && *next < *it_2) {
+      if (next != this->End() && *next < *it_2) {
         std::swap(*it_2, *next);
       }
     }
+  }
+}
+
+template <class T>
+template <class... Args>
+typename List<T>::Iterator List<T>::InsertMany(ConstIterator pos,
+                                               Args &&...args) noexcept {
+  List<ValueType> tmp_list = {args...};
+  Splice(pos, tmp_list);
+  return pos;
+}
+
+template <class T>
+template <class... Args>
+void List<T>::InsertManyFront(Args &&...args) noexcept {
+  List<ValueType> tmp_list = {args...};
+  Iterator it = this->head_;
+  Splice(it, tmp_list);
+}
+
+template <class T>
+template <class... Args>
+void List<T>::InsertManyBack(Args &&...args) noexcept {
+  List<ValueType> tmp_list = {args...};
+  Node *tmp_node = tmp_list.head_;
+
+  while (tmp_node != nullptr) {
+    this->PushBack(tmp_node->data_);
+    tmp_node = tmp_node->p_next_;
   }
 }
 

@@ -5,182 +5,214 @@
 #include "../s21queue/queue.h"
 
 TEST(Queue, EmptyConsructor) {
-  s21::queue<int> queue_;
-  EXPECT_TRUE(queue_.empty());
-  EXPECT_EQ(queue_.size(), 0);
+  s21::Queue<int> queue_;
+  EXPECT_TRUE(queue_.Empty());
+  EXPECT_EQ(queue_.Size(), 0);
 }
 
 TEST(Queue, InitList) {
-  s21::queue<int> queue_ = {1, 2, 3};
-  EXPECT_FALSE(queue_.empty());
-  EXPECT_EQ(queue_.size(), 3);
+  s21::Queue<int> queue_ = {1, 2, 3};
+  EXPECT_FALSE(queue_.Empty());
+  EXPECT_EQ(queue_.Size(), 3);
 }
 
 TEST(Queue, CopyConstructor) {
-  s21::queue<int> queue_1_ = {1, 2, 3};
-  s21::queue<int> queue_2_(queue_1_);
+  s21::Queue<int> queue_1_ = {1, 2, 3};
+  s21::Queue<int> queue_2_(queue_1_);
 
-  EXPECT_FALSE(queue_2_.empty());
-  EXPECT_EQ(queue_2_.size(), 3);
+  EXPECT_FALSE(queue_2_.Empty());
+  EXPECT_EQ(queue_2_.Size(), 3);
 
-  EXPECT_EQ(queue_2_.front(), 1);
-  queue_2_.pop();
-  EXPECT_EQ(queue_2_.front(), 2);
-  queue_2_.pop();
-  EXPECT_EQ(queue_2_.front(), 3);
+  EXPECT_EQ(queue_2_.Front(), 1);
+  queue_2_.Pop();
+  EXPECT_EQ(queue_2_.Front(), 2);
+  queue_2_.Pop();
+  EXPECT_EQ(queue_2_.Front(), 3);
+}
+
+TEST(Queue, MoveConstructor) {
+  s21::Queue<int> queue_1_ = {1, 4, 18};
+  s21::Queue<int> queue_2_(std::move(queue_1_));
+
+  EXPECT_EQ(queue_2_.Size(), 3);
+
+  EXPECT_EQ(queue_2_.Front(), 1);
+  queue_2_.Pop();
+  EXPECT_EQ(queue_2_.Front(), 4);
+  queue_2_.Pop();
+  EXPECT_EQ(queue_2_.Front(), 18);
 }
 
 TEST(Queue, CopyAssigment) {
-  s21::queue<int> queue_1_ = {1, 2, 3};
-  s21::queue<int> queue_2_;
+  s21::Queue<int> queue_1_ = {1, 2, 3};
+  s21::Queue<int> queue_2_;
 
   queue_2_ = queue_1_;
 
-  EXPECT_EQ(queue_1_.size(), queue_2_.size());
+  EXPECT_EQ(queue_1_.Size(), queue_2_.Size());
 
-  while (!queue_1_.empty()) {
-    EXPECT_EQ(queue_1_.front(), queue_2_.front());
-    queue_1_.pop();
-    queue_2_.pop();
+  while (!queue_1_.Empty()) {
+    EXPECT_EQ(queue_1_.Front(), queue_2_.Front());
+    queue_1_.Pop();
+    queue_2_.Pop();
   }
 }
 
 TEST(Queue, MoveAssigment) {
-  s21::queue<int> queue_1_ = {1, 2, 3};
-  s21::queue<int> queue_2_;
+  s21::Queue<int> queue_1_ = {1, 2, 3};
+  s21::Queue<int> queue_2_;
 
   queue_2_ = std::move(queue_1_);
 
-  EXPECT_EQ(queue_2_.size(), 3);
-  EXPECT_TRUE(queue_1_.empty());
+  EXPECT_EQ(queue_2_.Size(), 3);
+  EXPECT_TRUE(queue_1_.Empty());
 
-  EXPECT_EQ(queue_2_.front(), 1);
-  queue_2_.pop();
-  EXPECT_EQ(queue_2_.front(), 2);
-  queue_2_.pop();
-  EXPECT_EQ(queue_2_.front(), 3);
+  EXPECT_EQ(queue_2_.Front(), 1);
+  queue_2_.Pop();
+  EXPECT_EQ(queue_2_.Front(), 2);
+  queue_2_.Pop();
+  EXPECT_EQ(queue_2_.Front(), 3);
 }
 
 TEST(Queue, SelfAssigment) {
-  s21::queue<int> queue_1_ = {1, 2, 3};
+  s21::Queue<int> queue_1_ = {1, 2, 3};
 
   queue_1_ = queue_1_;
 
-  EXPECT_EQ(queue_1_.front(), 1);
-  queue_1_.pop();
-  EXPECT_EQ(queue_1_.front(), 2);
-  queue_1_.pop();
-  EXPECT_EQ(queue_1_.front(), 3);
+  EXPECT_EQ(queue_1_.Front(), 1);
+  queue_1_.Pop();
+  EXPECT_EQ(queue_1_.Front(), 2);
+  queue_1_.Pop();
+  EXPECT_EQ(queue_1_.Front(), 3);
 }
 
 TEST(QueueElementAccess, Front) {
-  s21::queue<int> queue_ = {1, 2, 3};
+  s21::Queue<int> queue_ = {1, 2, 3};
   std::queue<int> org_queue;
   org_queue.push(1);
   org_queue.push(2);
   org_queue.push(3);
 
-  EXPECT_EQ(queue_.front(), org_queue.front());
+  EXPECT_EQ(queue_.Front(), org_queue.front());
 }
 
 TEST(QueueElementAccess, Back) {
-  s21::queue<int> queue_ = {1, 2, 3};
+  s21::Queue<int> queue_ = {1, 2, 3};
   std::queue<int> org_queue;
   org_queue.push(1);
   org_queue.push(2);
   org_queue.push(3);
 
-  EXPECT_EQ(queue_.back(), org_queue.back());
+  EXPECT_EQ(queue_.Back(), org_queue.back());
 }
 
 TEST(QueueCapacity, Empty) {
-  s21::queue<int> queue_;
+  s21::Queue<int> queue_;
   std::queue<int> org_queue_;
-  EXPECT_EQ(queue_.empty(), org_queue_.empty());
+  EXPECT_EQ(queue_.Empty(), org_queue_.empty());
 
-  s21::queue<int> stack_1_;
-  stack_1_.push(7);
+  s21::Queue<int> stack_1_;
+  stack_1_.Push(7);
   std::queue<int> org_stack_1_;
   org_stack_1_.push(4);
 
-  EXPECT_EQ(stack_1_.empty(), org_stack_1_.empty());
+  EXPECT_EQ(stack_1_.Empty(), org_stack_1_.empty());
 }
 
 TEST(QueueCapacity, Size) {
-  s21::queue<int> queue_;
+  s21::Queue<int> queue_;
   std::queue<int> org_queue_;
 
-  EXPECT_EQ(queue_.size(), org_queue_.size());
+  EXPECT_EQ(queue_.Size(), org_queue_.size());
 
-  s21::queue<int> queue_1_;
-  queue_1_.push(7);
-  queue_1_.push(5);
-  queue_1_.push(7);
+  s21::Queue<int> queue_1_;
+  queue_1_.Push(7);
+  queue_1_.Push(5);
+  queue_1_.Push(7);
 
   std::queue<int> org_queue_1_;
   org_queue_1_.push(4);
   org_queue_1_.push(4);
   org_queue_1_.push(4);
 
-  EXPECT_EQ(queue_1_.size(), org_queue_1_.size());
+  EXPECT_EQ(queue_1_.Size(), org_queue_1_.size());
 }
 
 TEST(QueueModifiers, Push) {
-  s21::queue<int> queue_;
-  queue_.push(2);
-  EXPECT_EQ(queue_.size(), 1);
-  EXPECT_EQ(queue_.empty(), 0);
-  EXPECT_EQ(queue_.front(), 2);
+  s21::Queue<int> queue_;
+  queue_.Push(2);
+  EXPECT_EQ(queue_.Size(), 1);
+  EXPECT_EQ(queue_.Empty(), 0);
+  EXPECT_EQ(queue_.Front(), 2);
 
-  queue_.push(3);
-  queue_.push(6);
-  EXPECT_EQ(queue_.size(), 3);
-  EXPECT_EQ(queue_.empty(), 0);
-  EXPECT_EQ(queue_.front(), 2);
-  EXPECT_EQ(queue_.back(), 6);
+  queue_.Push(3);
+  queue_.Push(6);
+  EXPECT_EQ(queue_.Size(), 3);
+  EXPECT_EQ(queue_.Empty(), 0);
+  EXPECT_EQ(queue_.Front(), 2);
+  EXPECT_EQ(queue_.Back(), 6);
 
   std::queue<int> org_queue_;
   org_queue_.push(2);
   org_queue_.push(3);
   org_queue_.push(6);
 
-  EXPECT_EQ(queue_.size(), org_queue_.size());
-  for (size_t i = 0; i < queue_.size(); ++i) {
-    EXPECT_EQ(queue_.front(), org_queue_.front());
-    queue_.pop();
+  EXPECT_EQ(queue_.Size(), org_queue_.size());
+  for (size_t i = 0; i < queue_.Size(); ++i) {
+    EXPECT_EQ(queue_.Front(), org_queue_.front());
+    queue_.Pop();
     org_queue_.pop();
   }
 }
 
 TEST(QueueModifiers, Pop) {
-  s21::queue<int> queue = {1, 3, 5};
+  s21::Queue<int> queue = {1, 3, 5};
 
   std::queue<int> org_queue_;
   org_queue_.push(1);
   org_queue_.push(3);
   org_queue_.push(5);
 
-  queue.pop();
+  queue.Pop();
   org_queue_.pop();
 
-  EXPECT_EQ(queue.size(), org_queue_.size());
-  EXPECT_EQ(queue.front(), org_queue_.front());
+  EXPECT_EQ(queue.Size(), org_queue_.size());
+  EXPECT_EQ(queue.Front(), org_queue_.front());
 }
 
 TEST(QueueModifiers, Swap) {
-  s21::queue<int> queue_ = {3, 5, 7};
-  s21::queue<int> queue_2_ = {6, 8, 10};
+  s21::Queue<int> queue_ = {3, 5, 7};
+  s21::Queue<int> queue_2_ = {6, 8, 10};
 
-  queue_.swap(queue_2_);
+  queue_.Swap(queue_2_);
 
-  EXPECT_EQ(queue_.front(), 6);
-  EXPECT_EQ(queue_2_.front(), 3);
-  EXPECT_EQ(queue_2_.size(), queue_.size());
+  EXPECT_EQ(queue_.Front(), 6);
+  EXPECT_EQ(queue_2_.Front(), 3);
+  EXPECT_EQ(queue_2_.Size(), queue_.Size());
 
-  queue_.pop();
-  queue_2_.pop();
+  queue_.Pop();
+  queue_2_.Pop();
 
-  EXPECT_EQ(queue_.front(), 8);
-  EXPECT_EQ(queue_2_.front(), 5);
-  EXPECT_EQ(queue_2_.size(), queue_.size());
+  EXPECT_EQ(queue_.Front(), 8);
+  EXPECT_EQ(queue_2_.Front(), 5);
+  EXPECT_EQ(queue_2_.Size(), queue_.Size());
+}
+
+TEST(QueueModifiers, InsertManyBack) {
+  s21::Queue<int> queue_ = {1, 4, 8, 9};
+  queue_.InsertManyBack(11, 18, 91);
+
+  EXPECT_EQ(queue_.Front(), 1);
+  queue_.Pop();
+  EXPECT_EQ(queue_.Front(), 4);
+  queue_.Pop();
+  EXPECT_EQ(queue_.Front(), 8);
+  queue_.Pop();
+  EXPECT_EQ(queue_.Front(), 9);
+  queue_.Pop();
+  EXPECT_EQ(queue_.Front(), 11);
+  queue_.Pop();
+  EXPECT_EQ(queue_.Front(), 18);
+  queue_.Pop();
+  EXPECT_EQ(queue_.Front(), 91);
 }

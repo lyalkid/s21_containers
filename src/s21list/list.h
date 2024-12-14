@@ -5,106 +5,117 @@
 #include <limits>
 
 namespace s21 {
-    template <typename T>
-class list {
-public:
+template <typename T>
+class List {
+ public:
+  // List Member type
+  using ValueType = T;
+  using Reference = T&;
+  using ConstReference = const T&;
+  using SizeType = std::size_t;
 
-    //list Member type
-    using ValueType = T;
-    using Reference = T&;
-    using ConstReference = const T&;
-    using SizeType = std::size_t;
+  // Iterator
+  class ListIterator;
+  using Iterator = List<T>::ListIterator;
+  using ConstIterator = const List<T>::ListIterator;
 
-    //iterator
-    class listIterator;
-    using iterator = list<T>::listIterator;
-    using ConstIterator = const list<T>::listIterator;
+  // List Functions
+  List();
+  List(SizeType n);
+  List(std::initializer_list<ValueType> const& items);
+  List(const List& l) noexcept;
+  List(List&& l) noexcept;
+  ~List();
 
-    //list Functions
-    list();
-    list(SizeType n);
-    list(std::initializer_list<ValueType> const& items);
-    list(const list& l) noexcept;
-    list(list&& l) noexcept;
-    ~list();
+  // Operators
+  List& operator=(const List& l);
+  List& operator=(List&& l);
+  bool operator==(List const& l);
+  bool operator!=(List const& l);
 
-    //Operators
-    list &operator=(const list& l);
-    list &operator=(list&& l);
-    bool operator==(list const& l);
-    bool operator!=(list const& l);
+  // List Element access
+  ConstReference Front() const;
+  ConstReference Back() const;
 
-    //list Element access
-    ConstReference front() const;
-    ConstReference back() const;
+  // List Iterators
+  Iterator Begin() const;
+  Iterator End() const;
 
-    //list Iterators
-    iterator begin();
-    iterator end();
+  // List Capacity
+  bool Empty() const;
+  SizeType Size() const;
+  SizeType MaxSize() const;
 
-    //list Capacity
-    bool empty() const;
-    SizeType size() const;
-    SizeType max_size() const;
+  // List Modifiers
+  void Clear();
+  Iterator Insert(Iterator pos, ConstReference value);
+  void Erase(Iterator pos);
+  void PushBack(ConstReference value);
+  void PopBack();
+  void PushFront(ConstReference value);
+  void PopFront();
+  void Swap(List& other) noexcept;
+  void Merge(List& other) noexcept;
+  void Splice(ConstIterator pos, List& other);
+  void Reverse() noexcept;
+  void Unique();
+  void Sort();
 
-    //list Modifiers
-    void clear();
-    iterator insert(iterator pos, ConstReference value);
-    void erase(iterator pos);
-    void push_back(ConstReference value);
-    void pop_back();
-    void push_front(ConstReference value);
-    void pop_front();
-    void swap(list & other) noexcept;
-    void merge(list & other) noexcept;
-    void splice(ConstIterator pos, list & other);
-    void reverse() noexcept;
-    void unique();
-    void sort();
+  // Insert many
+  template <typename... Args>
+  Iterator InsertMany(ConstIterator pos, Args&&... args) noexcept;
+  template <typename... Args>
+  void InsertManyBack(Args&&... args) noexcept;
+  template <typename... Args>
+  void InsertManyFront(Args&&... args) noexcept;
 
-protected:
-    //list' node
-    class Node{
-    public:
-        T data_;
-        Node* p_next_;
-        Node*p_prev_;
-        Node(const T& data = T(), Node *p_next = nullptr, Node *p_prev = nullptr)
-            : data_(data), p_next_(p_next), p_prev_(p_prev){}
-    };
-    Node *head_;
-    Node *tail_;
-    SizeType size_;
+ protected:
+  // List' node
+  class Node {
+   public:
+    T data_;
+    Node* p_next_;
+    Node* p_prev_;
+    Node(const T& data = T(), Node* p_next = nullptr, Node* p_prev = nullptr)
+        : data_(data), p_next_(p_next), p_prev_(p_prev) {}
+  };
+  SizeType size_;
+  Node* head_;
+  Node* tail_;
 
-public:
-    //iterator
-    class listIterator {
-    public:
-        listIterator(Node* node = nullptr) : current_(node) {};
+ public:
+  // Iterator
+  class ListIterator {
+   public:
+    ListIterator(Node* node = nullptr) : current_(node) {};
 
-        Reference operator *() const {return current_->data_;}
-//TODO:: добавить обработку на итерацию с последнего/первого элемента
-        listIterator& operator++(){
-        if(current_) current_ = current_->p_next_;
-        return *this;
+    Reference operator*() const { return current_->data_; }
+
+    ListIterator& operator++() {
+      if (current_) current_ = current_->p_next_;
+      return *this;
     }
 
-    listIterator& operator--(){
-        if(current_) current_ = current_->p_prev_;
-        return *this;
+    ListIterator& operator--() {
+      if (current_) current_ = current_->p_prev_;
+      return *this;
     }
 
-    Node* GetCurrent() const { return current_;}
+    Node* GetCurrent() const { return current_; }
 
-    bool operator==(const iterator& other) const {return current_ == other.current_;}
-    bool operator!=(const iterator& other) const {return current_ != other.current_;}
+    bool operator==(const Iterator& other) const {
+      return current_ == other.current_;
+    }
+    bool operator!=(const Iterator& other) const {
+      return current_ != other.current_;
+    }
 
-private:
-        Node*current_;
-    };
+   private:
+    Node* current_;
+  };
 };
-} // namespace s21
+}  // namespace s21
 
 #include "list.tpp"
 
-#endif // CPP_S21_CONTAINERS_1_SRC_LIST_LIST_H_
+#endif  // CPP_S21_CONTAINERS_1_SRC_LIST_LIST_H_

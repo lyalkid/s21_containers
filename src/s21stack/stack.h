@@ -3,46 +3,57 @@
 
 #include <iostream>
 
-namespace s21{
-    template <typename T>
-class stack{
-    public:
-        using value_type = T;
-        using reference = T&;
-        using const_reference = const T&;
-        using size_type = std::size_t;
+namespace s21 {
+template <typename T>
+class Stack {
+ public:
+  // Stack Member type
+  using ValueType = T;
+  using Reference = T &;
+  using ConstReference = const T &;
+  using SizeType = std::size_t;
 
-        stack();
-        stack(std::initializer_list<value_type> const &items);
-        stack(const stack &s);
-        stack(stack &&s);
-        ~stack();
-        stack &operator=(stack &&s);
-        stack &operator=(const stack &s);
+  // Stack Functions
+  Stack();
+  Stack(std::initializer_list<ValueType> const &items);
+  Stack(const Stack &s);
+  Stack(Stack &&s);
+  ~Stack();
 
-        const_reference top();
+  // Operators
+  Stack &operator=(Stack &&s);
+  Stack &operator=(const Stack &s);
 
-        bool empty();
-        size_type size();
+  // Stack Element access
+  ConstReference Top() const;
 
-        void push(const_reference value);
-        void pop();
-        void swap(stack& other);
-        void clear();
+  // Stack Capacity
+  bool Empty() const;
+  SizeType Size() const;
 
-    private:
-        size_type size_;
-        class Node{
-        public:
-         T data_;
-         Node *pNext;
-         Node(const T& data = T(), Node *pNext = nullptr):
-         data_(data), pNext(pNext){}
-        };
-        Node *head_;
-    };
-}
+  // Stack Modifiers
+  void Push(ConstReference value);
+  void Pop();
+  void Swap(Stack &other);
+  void Clear();
 
+  // Insert many
+  template <typename... Args>
+  void InsertManyBack(Args &&...args) noexcept;
+
+ private:
+  class Node {
+   public:
+    T data_;
+    Node *p_next_;
+    Node(const T &data = T(), Node *p_next = nullptr)
+        : data_(data), p_next_(p_next) {}
+  };
+  SizeType size_;
+  Node *head_;
+};
+}  // namespace s21
 
 #include "stack.tpp"
-#endif
+
+#endif  // CPP_S21_CONTAINERS_1_SRC_LIST_LIST_H_

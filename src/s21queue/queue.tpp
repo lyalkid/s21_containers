@@ -1,41 +1,46 @@
 #include "queue.h"
 
 template <class T>
-s21::queue<T>::queue() : list<T>() {}
+s21::Queue<T>::Queue() : List<T>() {}
 
 template <class T>
-s21::queue<T>::queue(const std::initializer_list<value_type> &items)
-    : list<T>(items) {}
+s21::Queue<T>::Queue(const std::initializer_list<ValueType>& items)
+    : List<T>(items) {}
 
 template <class T>
-s21::queue<T>::queue(const queue<T> &q) : list<T>(q) {}
+s21::Queue<T>::Queue(const Queue<T>& q) : List<T>(q) {}
 
 template <class T>
-s21::queue<T>::queue(queue<T> &&q) : list<T>(&q) {}
+s21::Queue<T>::Queue(Queue<T>&& q) : List<T>(q) {}
 
 template <class T>
-s21::queue<T>::~queue() {
-  list<T>::clear();
+s21::Queue<T>::~Queue() {
+  List<T>::Clear();
 }
 
 template <class T>
-s21::queue<T> &s21::queue<T>::operator=(queue &&q) {
-  list<T>::operator=(std::move(q));
+s21::Queue<T>& s21::Queue<T>::operator=(Queue&& q) {
+  List<T>::operator=(std::move(q));
   return *this;
 }
 
 template <class T>
-s21::queue<T> &s21::queue<T>::operator=(const queue &q) {
-  list<T>::operator=(std::move(q));
+s21::Queue<T>& s21::Queue<T>::operator=(const Queue& q) {
+  List<T>::operator=(std::move(q));
   return *this;
 }
 
 template <class T>
-void s21::queue<T>::push(const_reference value) {
-  list<T>::push_back(value);
+void s21::Queue<T>::Push(ConstReference value) {
+  List<T>::PushBack(value);
 }
 
 template <class T>
-void s21::queue<T>::pop() {
-  list<T>::pop_front();
+void s21::Queue<T>::Pop() {
+  List<T>::PopFront();
+}
+
+template <class T>
+void s21::Queue<T>::Swap(Queue& other) noexcept {
+  List<T>::Swap(other);
 }
