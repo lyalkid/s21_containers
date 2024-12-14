@@ -105,10 +105,7 @@ class btree {
   insert_many_type insert_many(Args &&...args);
 
   void remove(const key_type &key);
-  void remove1(node_ptr remove_node);
-  void remove2(node_ptr remove_node);
-  void remove3(node_ptr remove_node);
-  void remove4(node_ptr remove_node);
+
   iterator begin() const;
   iterator end() const;
 

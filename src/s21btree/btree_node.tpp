@@ -52,7 +52,7 @@ bool btree_node<K, V>::equals(const btree_node &other) const noexcept {
   if (this == &other) {
     return true;
   }
-  return (data == other.data && parent == other.parent &&
+  return (data == other.data && parent.lock() == other.parent.lock() &&
           right == other.right && left == other.left);
 }
 
@@ -61,10 +61,10 @@ typename btree_node<K, V>::node_ptr btree_node<K, V>::next(node_ptr node) {
   if (node->right != nullptr) {
     return findMin(node->right);
   }
-  node_ptr parent = node->parent;
+  node_ptr parent = node->parent.lock();
   while (parent != nullptr && node == parent->right) {
     node = parent;
-    parent = parent->parent;
+    parent = parent->parent.lock();
   }
   return parent;
 }
@@ -74,10 +74,12 @@ typename btree_node<K, V>::node_ptr btree_node<K, V>::prev(node_ptr node) {
   if (node->left != nullptr) {
     return findMax(node->left);
   }
-  node_ptr parent = node->parent;
+  node_ptr parent = node->parent.lock();
+  ;
   while (parent && node == parent->left) {
     node = parent;
-    parent = parent->parent;
+    parent = parent->parent.lock();
+    ;
   }
   return parent;
 }

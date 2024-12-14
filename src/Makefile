@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-std=c++17 -Wall -Wextra -Werror -O2 -Wpedantic -pthread  -lm
 
-LIBS =  -lgtest -lgcov
+LIBS =  -lgtest
 LINUX = -lrt -lpthread -lm -lsubunit
 LFLAGS = -fprofile-arcs -ftest-coverage
 
@@ -12,7 +12,7 @@ TEST_FILE=$(wildcard s21tests/*.cpp) #s21tests/test_map.cpp s21tests/test_set.cp
 
 A_OUT=main
 TEST_OUT=test
-GCOV_OUT=gcov_test
+GCOV_OUT=gcovr/gcov_test
 TESTFLAG = -lgtest -lgtest_main
 
 OS = $(shell uname -s)
@@ -28,7 +28,7 @@ endif
 
 
 clean:
-	rm -rf *.o coverage_info coverage_report *.a *.gcda *.gcno *.info *.gcov report $(GCOV_OUT) $(TEST_OUT) $(A_OUT) *.dSYM
+	rm -rf gcovr *.o coverage_info coverage_report *.a *.gcda *.gcno *.info *.gcov report $(GCOV_OUT) $(TEST_OUT) $(A_OUT) *.dSYM
 
 style:
 	@clang-format --style=Google -i  $(SOURCE) $(TEST_FILE)
@@ -42,18 +42,21 @@ style_test:
 
 
 gcov_report: clean
+	mkdir -p gcovr
 ifeq ($(OS), Darwin)
-	$(CC) $(CFLAGS) $(LFLAGS) $(TEST_FILE)  -o $(GCOV_OUT) $(LIBS)
+	$(CC) $(CFLAGS) --coverage  $(LFLAGS) $(TEST_FILE)  -o $(GCOV_OUT) $(LIBS)
 else
-	$(CC) $(CFLAGS) $(LFLAGS) $(TEST_FILE)   $(LIBS) $(LINUX) -o $(GCOV_OUT)
+	$(CC) $(CFLAGS) --coverage  $(LFLAGS) $(TEST_FILE)   $(LIBS) $(LINUX) -o $(GCOV_OUT)
 endif
+	#$(CC) --coverage $(CFLAGS) $(TEST_FLAGS) $(SOURCE) tests/test.cpp -o ./gcovr/gtest_test
+	chmod +x ./$(GCOV_OUT)
 	./$(GCOV_OUT)
-	mkdir report
-	gcovr *.gcda
-	gcovr -b
-	gcovr
-	gcovr --html-details -o ./report/report.html
-	open ./report/report.html
+	lcov --capture --branch-coverage --directory . --output-file ./gcovr/coverage.info --no-external --ignore-errors inconsistent,inconsistent,mismatch --exclude '*/s21tests/*'
+	lcov --list ./gcovr/coverage.info
+	genhtml ./gcovr/coverage.info --output-directory ./gcovr/coverage_report
+	open ./gcovr/coverage_report/index.html
+
+
 
 v: test
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all -s ./$(TEST_OUT)
@@ -71,7 +74,7 @@ docker_delete:
 	docker rm matrix_cpp
 	docker image rm vault:v1
 
-GIT_MESSAGE = "delete Makefile in folders"
+GIT_MESSAGE = "fix leaks"
 
 git-push: clean style
 	@git pull origin develop
