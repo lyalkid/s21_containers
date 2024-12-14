@@ -31,12 +31,12 @@ clean:
 	rm -rf gcovr *.o coverage_info coverage_report *.a *.gcda *.gcno *.info *.gcov report $(GCOV_OUT) $(TEST_OUT) $(A_OUT) *.dSYM
 
 style:
-	@clang-format --style=Google -i  $(SOURCE) $(TEST_FILE) *.h *.cpp
+	@clang-format --style=Google -i  $(SOURCE) $(TEST_FILE) *.h
 	@echo "Don't panic! Clang is fine :)"
 
 
 style_test:
-	@clang-format --style=Google -n $(SOURCE) $(TEST_FILE) *.h *.cpp
+	@clang-format --style=Google -n $(SOURCE) $(TEST_FILE) *.h
 	@echo "Don't panic! Clang is fine :)"
 
 
